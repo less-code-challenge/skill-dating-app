@@ -7,6 +7,17 @@ import {ValidationError} from './domain-model/validation';
 const app = express();
 // Enable JSON use
 app.use(express.json());
+// Enable CORS
+app.use(function (req: Request, res: Response, next: NextFunction) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS');
+  res.header('Access-Control-Allow-Headers', '*');
+  res.header('x-powered-by', 'serverless-express');
+  next();
+});
+app.options('*', (req: Request, res: Response) => {
+  res.status(200).send();
+});
 
 app.get('/user-profiles/:username', getOne);
 app.post('/user-profiles', createNewUserProfile);
