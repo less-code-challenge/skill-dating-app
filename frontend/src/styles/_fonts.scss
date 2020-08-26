@@ -1,0 +1,73 @@
+@import "variables";
+
+h1, .h1, .hero-title {
+  font-family: $cg-font-family;
+  font-size: 28px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+}
+
+h2, .h2 {
+  @extend h1, .h1;
+  line-height: 1.32;
+}
+
+h3, .h3 {
+  @extend h1, .h1;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.btn-text {
+  @extend h2, .h2;
+  font-size: 16px;
+  line-height: 1.63;
+}
+
+p, .paragraph {
+  @extend .btn-text;
+  font-weight: normal;
+}
+
+.paragraph-large {
+  font-family: $cg-font-family;
+  font-size: 22px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.59;
+  letter-spacing: normal;
+}
+
+.tab-title {
+  font-family: $cg-font-family;
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+}
+
+.card-title {
+  @extend .tab-title;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.paragraph-small {
+  @extend .paragraph;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.57;
+}
+
+.tag {
+  @extend p, .paragraph;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+}

@@ -1,0 +1,9 @@
+app: skill-dating-app
+component: website
+name: frontend
+
+inputs:
+  src:
+    src: ./
+    hook: npm run build
+    dist: dist/skill-dating-app-frontend
