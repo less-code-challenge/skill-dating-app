@@ -1,0 +1,100 @@
+{
+  "user-profile-table-loc": [
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#marek.matczak"},
+          "SK": {"S": "u#marek.matczak"},
+          "description": {"S":  "I am specializing in web solutions"},
+          "phoneNo": {"S": "+48 123 456 789"},
+          "office": {"M": {
+            "region": {"S": "Europe"},
+            "country": {"S": "Poland"},
+            "office": {"S": "Wrocław"}
+          }}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#marek.matczak"},
+          "SK": {"S": "s#X9FGYXP3L3TLC7"},
+          "name": {"S":  "JavaScript"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#marek.matczak"},
+          "SK": {"S": "s#RE2TNY9H0H5NSB"},
+          "name": {"S":  "Angular"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#marek.matczak"},
+          "SK": {"S": "s#ZE1ZO5TBLA341J"},
+          "name": {"S":  "Serverless"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#tomasz.wawrzyniak"},
+          "SK": {"S": "u#tomasz.wawrzyniak"},
+          "description": {"S":  "I am na Angular hero"},
+          "office": {"M": {
+            "region": {"S": "Europe"},
+            "country": {"S": "Poland"},
+            "office": {"S": "Wrocław"}
+          }}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#tomasz.wawrzyniak"},
+          "SK": {"S": "s#X9FGYXP3L3TLC7"},
+          "name": {"S":  "JavaScript"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#tomasz.wawrzyniak"},
+          "SK": {"S": "s#RE2TNY9H0H5NSB"},
+          "name": {"S":  "Angular"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#alicja.luszpinska"},
+          "SK": {"S": "u#alicja.luszpinska"},
+          "office": {"M": {
+            "region": {"S": "Europe"},
+            "country": {"S": "Poland"},
+            "office": {"S": "Wrocław"}
+          }}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {"S": "u#alicja.luszpinska"},
+          "SK": {"S": "s#G75YCN5I0MQZRS"},
+          "name": {"S":  "UX Design"}
+        }
+      }
+    }
+  ]
+}

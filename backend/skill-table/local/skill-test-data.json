@@ -1,0 +1,36 @@
+{
+  "skill-table-loc": [
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {"S": "X9FGYXP3L3TLC7"},
+          "name": {"S":  "JavaScript"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {"S": "RE2TNY9H0H5NSB"},
+          "name": {"S":  "Angular"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {"S": "ZE1ZO5TBLA341J"},
+          "name": {"S":  "Serverless"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {"S": "G75YCN5I0MQZRS"},
+          "name": {"S":  "UX Design"}
+        }
+      }
+    }
+  ]
+}

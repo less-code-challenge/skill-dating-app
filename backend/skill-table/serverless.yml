@@ -1,0 +1,23 @@
+app: skill-dating-app-backend
+component: aws-dynamodb
+name: skill-table
+
+inputs:
+  name: ${name}-${stage}
+  region: eu-central-1
+  deletionPolicy: delete
+  attributeDefinitions:
+    - AttributeName: id
+      AttributeType: S
+    - AttributeName: name
+      AttributeType: S
+  keySchema:
+    - AttributeName: id
+      KeyType: HASH
+  globalSecondaryIndexes:
+    - IndexName: SKILL_NAME_GSI
+      KeySchema:
+        - AttributeName: name
+          KeyType: HASH
+      Projection:
+        ProjectionType: ALL

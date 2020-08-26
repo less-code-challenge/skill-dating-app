@@ -1,0 +1,19 @@
+app: skill-dating-app-backend
+component: express
+name: core
+
+inputs:
+  region: eu-central-1
+  # Express application source code.
+  src:
+    src: ./
+    hook: npm run deploy
+    dist: dist
+  roleName: ${output:access-management-role.name}
+  # Environment variables
+  env:
+    # AWS DynamoDB Table name. Needed for the code to access it.
+    userProfileTable: ${output:user-profile-table.name}
+    skillGsi: ${output:user-profile-table.indexes.SKILL_GSI.name}
+    skillTable: ${output:skill-table.name}
+    skillNameGsi: ${output:skill-table.indexes.SKILL_NAME_GSI.name}
