@@ -4,7 +4,19 @@
 
 export const environment = {
   production: false,
-  backendUri: 'https://v7092hxk09.execute-api.eu-central-1.amazonaws.com'
+  backendUri: 'https://v7092hxk09.execute-api.eu-central-1.amazonaws.com',
+  authConfig: {
+    userPoolId: 'eu-central-1_Fst1zV7Ho',
+    userPoolWebClientId: '66ihqtvesmfk01jrl0ht4o48ob',
+    oauth: {
+      region: 'eu-central-1',
+      domain: 'skill-dating-app-users.auth.eu-central-1.amazoncognito.com',
+      scope: ['email', 'openid', 'aws.cognito.signin.user.admin'],
+      redirectSignIn: 'http://localhost:4200/after-sign-in-callback',
+      redirectSignOut: 'http://localhost:4200/',
+      responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+    }
+  }
 };
 
 /*

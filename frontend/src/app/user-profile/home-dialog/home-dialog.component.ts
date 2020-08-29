@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {SkillService} from '../skill.service';
 import {Observable} from 'rxjs';
 import {SkillTo} from '../model';
