@@ -126,6 +126,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "skill-dating-app-frontend"
+    }
+  },
+  "defaultProject": "skill-dating-app-frontend",
+  "cli": {
+    "analytics": false
+  }
 }
