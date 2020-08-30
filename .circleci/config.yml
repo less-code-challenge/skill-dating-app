@@ -1,16 +1,16 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/skill-dating-app/frontend
     docker:
       - image: circleci/node:lts-browsers
     steps:
       - checkout
       - restore_cache:
           key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm install
+      - run:
+        working_directory: frontend
+        command: npm install
       - save_cache:
           key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - "node_modules"
-      - run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeHeadless
