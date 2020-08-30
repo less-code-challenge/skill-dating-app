@@ -8,9 +8,14 @@ jobs:
       - restore_cache:
           key: AngularNodeModules-{{ .Branch }}-{{ checksum "frontend/package.json" }}
       - run:
+          name: Installing dependencies
           working_directory: frontend
           command: npm install
       - save_cache:
           key: AngularNodeModules-{{ .Branch }}-{{ checksum "frontend/package.json" }}
           paths:
             - "node_modules"
+      - run:
+          name: Running tests
+          working_directory: frontend
+          command: npm run test -- --single-run --no-progress --browser=ChromeHeadless
