@@ -6,11 +6,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
+          key: AngularNodeModules-{{ .Branch }}-{{ checksum "frontend/package.json" }}
       - run:
           working_directory: frontend
           command: npm install
       - save_cache:
-          key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
+          key: AngularNodeModules-{{ .Branch }}-{{ checksum "frontend/package.json" }}
           paths:
             - "node_modules"
