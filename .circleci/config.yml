@@ -29,3 +29,7 @@ jobs:
           name: Running frontend tests
           working_directory: frontend
           command: npm run test:ci
+      - run:
+          name: Running backend tests
+          working_directory: backend/core
+          command: npm run test:ci
