@@ -17,14 +17,14 @@ jobs:
             - "node_modules"
       - restore_cache:
           key: BackendNodeModules-{{ .Branch }}-{{ checksum "backend/core/package.json" }}
-            - run:
-                name: Installing backend dependencies
-                working_directory: backend/core
-                command: npm install
-            - save_cache:
-                key: BackendNodeModules-{{ .Branch }}-{{ checksum "backend/core/package.json" }}
-                paths:
-                  - "node_modules"
+      - run:
+          name: Installing backend dependencies
+          working_directory: backend/core
+          command: npm install
+      - save_cache:
+          key: BackendNodeModules-{{ .Branch }}-{{ checksum "backend/core/package.json" }}
+          paths:
+           - "node_modules"
       - run:
           name: Running frontend tests
           working_directory: frontend
