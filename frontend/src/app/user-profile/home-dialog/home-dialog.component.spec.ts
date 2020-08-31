@@ -1,6 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { HomeDialogComponent } from './home-dialog.component';
+import {HomeDialogComponent} from './home-dialog.component';
+import {SkillService} from '../skill.service';
+import {Observable, of} from 'rxjs';
+import {Skill} from '../../../../../backend/core/src/domain-model/skill';
 
 describe('HomeDialogComponent', () => {
   let component: HomeDialogComponent;
@@ -8,9 +11,16 @@ describe('HomeDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeDialogComponent ]
+      providers: [{
+        provide: SkillService, useValue: {
+          findAll(): Observable<Skill[]> {
+            return of([]);
+          }
+        }
+      }],
+      declarations: [HomeDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -10,6 +10,7 @@
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --fix",
     "install-node-modules-in-dist": "ts-node scripts/install-node-modules-in-dist.ts",
     "test": "jest --forceExit --coverage --verbose",
+    "test:ci": "jest --forceExit",
     "serve": "node dist/server-local.js",
     "serve-debug": "nodemon --inspect dist/server-local.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",

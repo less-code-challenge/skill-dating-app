@@ -130,6 +130,6 @@
   },
   "defaultProject": "skill-dating-app-frontend",
   "cli": {
-    "analytics": "1b7f7b13-cfc3-46db-9eb3-9622c26502f3"
+    "analytics": false
   }
 }
