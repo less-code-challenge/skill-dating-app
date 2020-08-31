@@ -4,9 +4,10 @@ import {SecurityService} from './security/security.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthHttpInterceptor} from './security/auth.http-interceptor';
 import {AuthGuard} from './security/auth.guard';
+import {AfterSignInCallbackComponent} from './security/after-sign-in-callback.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [AfterSignInCallbackComponent],
   imports: [
     CommonModule
   ]
