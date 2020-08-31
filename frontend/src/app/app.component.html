@@ -1,6 +1,6 @@
 <nav>
   <button type="button" (click)="goToUi()">SignIn</button>
   <button type="button" (click)="logOut()">Log Out</button>
-  <span>{{token$ | async}}</span>
+  <span>&nbsp;Current user:&nbsp;{{token$ | async}}</span>
 </nav>
 <router-outlet></router-outlet>

@@ -33,3 +33,10 @@ jobs:
           name: Running backend tests
           working_directory: backend/core
           command: npm run test:ci
+      - run:
+          name: Installing serverless CLI
+          command: sudo npm i -g serverless
+      - run:
+          name: Deploying frontend to AWS using serverless CLI
+          working_directory: frontend
+          command: serverless deploy
