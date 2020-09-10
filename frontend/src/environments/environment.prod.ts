@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  backendUri: 'https://v7092hxk09.execute-api.eu-central-1.amazonaws.com/',
+  backendUri: 'https://ad65c4iw0c.execute-api.eu-central-1.amazonaws.com',
   authConfig: {
     userPoolId: 'eu-central-1_Fst1zV7Ho',
     userPoolWebClientId: '66ihqtvesmfk01jrl0ht4o48ob',
