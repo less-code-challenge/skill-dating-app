@@ -47,4 +47,4 @@ jobs:
       - run:
           name: Deploying backend core to AWS using serverless CLI
           working_directory: backend/core
-          command: backend/core
+          command: serverless deploy
