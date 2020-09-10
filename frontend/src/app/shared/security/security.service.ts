@@ -64,7 +64,7 @@ export class SecurityService {
 function createUserContextFromCurrentSession(): Observable<SecurityContext> {
   return fromPromise(Auth.currentSession()
     .then(currentSession => ({
-        jwtAccessToken: currentSession.getAccessToken().getJwtToken(),
+        jwtAccessToken: currentSession.getIdToken().getJwtToken(),
         username: currentSession.getIdToken().payload.email
       }),
       () => ({})));
