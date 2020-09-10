@@ -1,19 +1,126 @@
-app: skill-dating-app-backend
-component: express
-name: core
+service: skill-dating-app-backend-core
 
-inputs:
+package:
+  exclude:
+    - ./**
+  include:
+    - dist/**
+
+custom:
+  userProfileTableName: 'user-profile-table-${self:provider.stage}'
+  skillTableName: 'skill-table-${self:provider.stage}'
+  skillGsi: 'SKILL_GSI'
+  skillNameGsi: 'SKILL_NAME_GSI'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
   region: eu-central-1
-  # Express application source code.
-  src:
-    src: ./
-    hook: npm run deploy
-    dist: dist
-  roleName: ${output:access-management-role.name}
-  # Environment variables
-  env:
-    # AWS DynamoDB Table name. Needed for the code to access it.
-    userProfileTable: ${output:user-profile-table.name}
-    skillGsi: ${output:user-profile-table.indexes.SKILL_GSI.name}
-    skillTable: ${output:skill-table.name}
-    skillNameGsi: ${output:skill-table.indexes.SKILL_NAME_GSI.name}
+
+  httpApi:
+    payload: '2.0'
+    cors: true
+    authorizers:
+      cognitoAuthorizer:
+        identitySource: $request.header.Authorization
+        issuerUrl: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_Fst1zV7Ho
+        # Audience for which access is intended
+        # In case of Cognito User Pools we need to list client ids
+        audience:
+          - 66ihqtvesmfk01jrl0ht4o48ob
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sts:AssumeRole
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:BatchGetItem
+        - dynamodb:TransactWriteItems
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": [ "UserProfileDynamoDBTable", "Arn" ] }
+        - Fn::Join:
+            - '/'
+            - - { "Fn::GetAtt": [ "UserProfileDynamoDBTable", "Arn" ] }
+              - 'index/*'
+        - { "Fn::GetAtt": [ "SkillDynamoDBTable", "Arn" ] }
+        - Fn::Join:
+            - '/'
+            - - { "Fn::GetAtt": [ "SkillDynamoDBTable", "Arn" ] }
+              - 'index/*'
+
+  environment:
+    userProfileTable: ${self:custom.userProfileTableName}
+    skillTable: ${self:custom.skillTableName}
+    skillGsi: ${self:custom.skillGsi}
+    skillNameGsi: ${self:custom.skillNameGsi}
+
+functions:
+  appPreflight: # allow unauthorized OPTIONS (preflight) requests
+    handler: dist/index.handler # after 'npm run deploy' index.ts is transpiled to dist/index.js
+    events:
+      - httpApi: OPTIONS /{proxy+}
+  app: # the default 'catch all' route only
+    handler: dist/index.handler # after 'npm run deploy' index.ts is transpiled to dist/index.js
+    events:
+      - httpApi:
+          method: '*'
+          path: '*'
+          authorizer: cognitoAuthorizer
+
+resources:
+  Resources:
+    UserProfileDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: ${self:custom.userProfileTableName}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:custom.skillGsi}
+            KeySchema:
+              - AttributeName: SK
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+    SkillDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: ${self:custom.skillTableName}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:custom.skillNameGsi}
+            KeySchema:
+              - AttributeName: name
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL

@@ -3,18 +3,12 @@ import {NextFunction, Request, Response} from 'express-serve-static-core';
 import {createNew as createNewUserProfile, getOne, update} from './adapter/rest/user-profile.rest';
 import {createNew as createNewSkill, findAll as findAllSkills} from './adapter/rest/skill.rest';
 import {ValidationError} from './domain-model/validation';
+import {getSecurityContextFrom} from './security-context';
 
 const app = express();
 // Enable JSON use
 app.use(express.json());
-// Enable CORS
-app.use(function (req: Request, res: Response, next: NextFunction) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS');
-  res.header('Access-Control-Allow-Headers', '*');
-  res.header('x-powered-by', 'serverless-express');
-  next();
-});
+// Handle 'preflight' requests (CORS)
 app.options('*', (req: Request, res: Response) => {
   res.status(200).send();
 });
@@ -28,7 +22,8 @@ app.get('/skills', findAllSkills);
 
 // Routes
 app.get('/*', (req, res) => {
-  res.send(`Request received: ${req.method} - ${req.path}`);
+  const context = {username: getSecurityContextFrom(req).currentUsername};
+  res.send(context);
 });
 
 // Global error handler. It must have exactly this signature, thus ignoring ESLint here
@@ -38,7 +33,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.name === ValidationError.NAME) {
     res.status(400).send(err.message);
   } else {
-    res.status(500).send('Internal Serverless Error');
+    res.status(500).send('Internal Serverless Error: ' + err);
   }
 });
 

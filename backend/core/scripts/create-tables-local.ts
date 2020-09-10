@@ -2,23 +2,26 @@
 // @ts-ignore
 import AWS from 'aws-sdk';
 import {
-  CreateTableInput,
-  KeySchema,
   AttributeDefinitions,
+  CreateTableInput,
   GlobalSecondaryIndexList,
+  KeySchema,
   LocalSecondaryIndexList
 } from 'aws-sdk/clients/dynamodb';
 // @ts-ignore
 import yaml from 'js-yaml';
 // @ts-ignore
 import fs from 'fs';
+import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client';
+import LocalSecondaryIndex = DocumentClient.LocalSecondaryIndex;
+import GlobalSecondaryIndex = DocumentClient.GlobalSecondaryIndex;
+
+type CustomValues = { [key: string]: string };
 
 interface ServerlessConfig {
-  inputs: {
-    attributeDefinitions: AttributeDefinitions;
-    keySchema: KeySchema;
-    localSecondaryIndexes?: LocalSecondaryIndexList;
-    globalSecondaryIndexes?: GlobalSecondaryIndexList;
+  custom: CustomValues;
+  resources: {
+    Resources: { [resourceName: string]: { Type: string, Properties: TableMetadata } }
   }
 }
 
@@ -34,48 +37,23 @@ const dynamodbService = new AWS.DynamoDB({
   endpoint: 'http://localhost:8000/'
 });
 
-createTableFromServerlessConfig('skill-table-loc', '../skill-table/serverless.yml')
-  .then(() => createTableFromServerlessConfig('user-profile-table-loc', '../user-profile-table/serverless.yml'));
+createTableFromServerlessConfig(
+  'skill-table-loc', 'serverless.yml', 'SkillDynamoDBTable')
+  .then(() => createTableFromServerlessConfig(
+    'user-profile-table-loc', 'serverless.yml', 'UserProfileDynamoDBTable'));
 
-function createTableFromServerlessConfig(tableName: string, serverlessConfigFilePath: string): Promise<void> {
-  return loadTableMetadataFrom(serverlessConfigFilePath)
-    .then(tableMetadata => deleteTableIfExists(tableName)
-      .then(() => createTable(tableName, tableMetadata))
+function createTableFromServerlessConfig(newTableName: string, serverlessConfigFilePath: string, resourceName: string): Promise<void> {
+  return loadTableMetadataFrom(serverlessConfigFilePath, resourceName)
+    .then(tableMetadata => deleteTableIfExists(newTableName)
+      .then(() => createTable(newTableName, tableMetadata))
     )
     .then(
-      () => console.log(`${tableName} table successfully created`),
+      () => console.log(`${newTableName} table successfully created`),
       error => {
-        console.log(`Creating ${tableName} table failed: ${error}`);
+        console.log(`Creating ${newTableName} table failed: ${error}`);
         return Promise.reject(error);
       }
     );
-}
-
-function loadTableMetadataFrom(serverlessYamlFilePath: string): Promise<TableMetadata> {
-  return new Promise<TableMetadata>((resolve, reject) => {
-    try {
-      const serverlessConfig = yaml.safeLoad(fs.readFileSync(serverlessYamlFilePath, 'utf8')) as ServerlessConfig;
-      const attributeDefinitions: AttributeDefinitions = serverlessConfig?.inputs?.attributeDefinitions;
-      const keySchema: KeySchema = serverlessConfig?.inputs?.keySchema;
-      if (attributeDefinitions && keySchema) {
-        const tableMetadata: TableMetadata = {AttributeDefinitions: attributeDefinitions, KeySchema: keySchema};
-        const localSecondaryIndices: LocalSecondaryIndexList | undefined = serverlessConfig?.inputs?.localSecondaryIndexes;
-        if (localSecondaryIndices) {
-          tableMetadata.LocalSecondaryIndexes = localSecondaryIndices;
-        }
-        const globalSecondaryIndices: GlobalSecondaryIndexList | undefined = serverlessConfig?.inputs?.globalSecondaryIndexes;
-        if (globalSecondaryIndices) {
-          tableMetadata.GlobalSecondaryIndexes = globalSecondaryIndices;
-        }
-        resolve(tableMetadata);
-      } else {
-        reject(`input.attributeDefinitions or input.keySchema could not be found in ${serverlessYamlFilePath}`);
-      }
-    } catch (e) {
-      console.error(e);
-      reject(`Serverless config could not be loaded from ${serverlessYamlFilePath}`);
-    }
-  });
 }
 
 function deleteTableIfExists(tableName: string): Promise<void> {
@@ -97,4 +75,60 @@ function createTable(tableName: string, tableMetadata: TableMetadata): Promise<v
     BillingMode: 'PAY_PER_REQUEST'
   };
   return dynamodbService.createTable(createTableInput).promise().then(() => undefined);
+}
+
+function loadTableMetadataFrom(serverlessYamlFilePath: string, resourceName: string): Promise<TableMetadata> {
+  return new Promise<TableMetadata>((resolve, reject) => {
+    try {
+      const serverlessConfig = yaml.safeLoad(fs.readFileSync(serverlessYamlFilePath, 'utf8')) as ServerlessConfig;
+
+      const resource = serverlessConfig.resources.Resources[resourceName];
+      if (resource.Type !== 'AWS::DynamoDB::Table') {
+        reject(`The requested resource ${resourceName} is not a Dynamodb Table`);
+      } else {
+        const tableMetadata = resource.Properties;
+        tableMetadata.GlobalSecondaryIndexes =
+          replaceIndexNames<GlobalSecondaryIndex>(tableMetadata.GlobalSecondaryIndexes).with(serverlessConfig.custom);
+        tableMetadata.LocalSecondaryIndexes =
+          replaceIndexNames<LocalSecondaryIndex>(tableMetadata.LocalSecondaryIndexes).with(serverlessConfig.custom);
+        resolve(tableMetadata);
+      }
+    } catch (e) {
+      reject(`Serverless config could not be loaded from ${serverlessYamlFilePath}`);
+    }
+  });
+
+  function replaceIndexNames<T extends LocalSecondaryIndex | GlobalSecondaryIndex>(indexes: T[] | undefined) {
+    return {
+      with(customValues: CustomValues) {
+        if (indexes) {
+          return indexes.map(index => {
+            if (index?.IndexName) {
+              const replacedValue = replace(index.IndexName).withOneOf(customValues);
+              if (replacedValue) {
+                return {...index, IndexName: replacedValue};
+              }
+            }
+            return index;
+          });
+        }
+        return indexes;
+      }
+    };
+
+    function replace(expression: string) {
+      return {
+        withOneOf(customValues: CustomValues): string | undefined {
+          const keysOfCustomValues = Object.keys(customValues);
+          for (let i = 0; i < keysOfCustomValues.length; i++) {
+            const key = keysOfCustomValues[i];
+            const newEvaluatedValue = expression.replace('${self:custom.' + key + '}', customValues[key]);
+            if (newEvaluatedValue !== expression) {
+              return newEvaluatedValue;
+            }
+          }
+        }
+      };
+    }
+  }
 }

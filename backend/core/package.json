@@ -4,18 +4,18 @@
   "description": "",
   "scripts": {
     "start": "npm run build && npm run serve",
-    "deploy": "npm run build && npm run install-node-modules-in-dist",
+    "package": "npm run build && npm run install-node-modules-in-dist",
     "build": "npm run build-ts && npm run lint",
     "build-ts": "tsc",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --fix",
     "install-node-modules-in-dist": "ts-node scripts/install-node-modules-in-dist.ts",
     "test": "jest --forceExit --coverage --verbose",
     "test:ci": "jest --forceExit",
-    "serve": "node dist/server-local.js",
-    "serve-debug": "nodemon --inspect dist/server-local.js",
+    "serve": "node dist/index-local.js",
+    "serve-debug": "nodemon --inspect dist/index-local.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
-    "watch-node": "nodemon dist/server-local.js",
+    "watch-node": "nodemon dist/index-local.js",
     "watch-test": "npm run test -- --watchAll",
     "watch-ts": "tsc -w",
     "create-tables-local": "ts-node scripts/create-tables-local.ts"
@@ -23,7 +23,8 @@
   "dependencies": {
     "aws-sdk": "^2.722.0",
     "express": "^4.17.1",
-    "nanoid": "^3.1.12"
+    "nanoid": "^3.1.12",
+    "serverless-http": "^2.5.0"
   },
   "devDependencies": {
     "@types/concurrently": "^5.2.1",

@@ -18,7 +18,7 @@ jobs:
       - restore_cache:
           key: BackendNodeModules-{{ .Branch }}-{{ checksum "backend/core/package.json" }}
       - run:
-          name: Installing backend dependencies
+          name: Installing backend core dependencies
           working_directory: backend/core
           command: npm install
       - save_cache:
@@ -30,7 +30,7 @@ jobs:
           working_directory: frontend
           command: npm run test:ci
       - run:
-          name: Running backend tests
+          name: Running backend core tests
           working_directory: backend/core
           command: npm run test:ci
       - run:
@@ -40,3 +40,11 @@ jobs:
           name: Deploying frontend to AWS using serverless CLI
           working_directory: frontend
           command: serverless deploy
+      - run:
+          name: Packaging backend core
+          working_directory: backend/core
+          command: npm run package
+      - run:
+          name: Deploying backend core to AWS using serverless CLI
+          working_directory: backend/core
+          command: backend/core
