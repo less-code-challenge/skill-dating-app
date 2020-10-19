@@ -1,0 +1,18 @@
+@import 'variables';
+:host {
+  .input-wrapper {
+    box-shadow: 5px 5px 0 0 rgba(43, 10, 61, 0.2);
+    display: flex;
+    align-items: center;
+    transition: all 0.5s ease;
+  }
+  .input {
+    padding: 8px 24px 8px 16px;
+    width: 100%;
+    transition: all 0.5s ease;
+    height: 59px;
+    color: $cg-very-dark-grey;
+    border-width: 1px;
+    font-size: 16px;
+  }
+}

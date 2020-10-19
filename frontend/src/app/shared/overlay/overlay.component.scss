@@ -1,0 +1,44 @@
+@import 'variables';
+
+:host {
+  .overlay {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100%;
+
+    .overlay__content {
+      position: relative;
+      width: 100%;
+      padding-top: 80px;
+      color: $cg-white;
+      height: 100%;
+      .section__text {
+        color: $cg-white;
+      }
+      .configure-profile {
+        .section__button {
+          color: $cg-deep-purple;
+          background: $cg-white;
+        }
+        padding-bottom: 21px;
+      }
+
+      .section__button {
+        color: $cg-white;
+        border-color: $cg-white;
+      }
+    }
+  }
+  @media (min-width: 900px) {
+    .overlay__content {
+      width: 900px!important;
+      margin: auto;
+    }
+  }
+  
+}

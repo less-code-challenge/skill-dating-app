@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="78" viewBox="0 0 100 78">
+<defs>
+  <style type="text/css">
+    @font-face {
+      font-family: KronaOne-Regular;
+      src: url('./fonts/KronaOne-Regular.ttf');
+    }
+  </style>
+</defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g font-family="KronaOne-Regular, Krona One" font-size="18">
+                        <g>
+                            <text fill="#0070AD" transform="translate(-15) translate(15) translate(0 20) translate(0 2)">
+                                <tspan x="0" y="18">skill</tspan>
+                            </text>
+                            <text fill="#2B0A3D"  transform="translate(-15) translate(15) translate(0 20) translate(0 2)">
+                                <tspan x="4.25" y="36">dating</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g>
+                        <path fill="#12B3DB" d="M16.442 15.39c2.5 0 4.529-2.004 4.538-4.483-.19-1.065-.564-3.034-3.347-3.034-3.037 0-4.047 4.218-6.523 6.926-.198 1.544-1.673 2.927-3.514 3.16.451.468 1.455.72 2.652.72 2.19 0 4.844-.655 6.24-2.013-1.852.023-3.044-1.155-3.163-2.792.733.972 1.893 1.536 3.117 1.516z" transform="translate(-15) translate(15) translate(0 20) translate(51)"/>
+                        <path fill="#0070AD" d="M20.96 10.73c-.054-2.812-1.418-5.21-3.502-7.114-1.612-1.418-3.456-2.552-5.454-3.352l-.48-.194C9.091 2.964.656 5.132.656 11.186c.022 2.402 1.49 4.559 3.73 5.477 1.235.481 2.603.509 3.857.08 1.11-.385 2.1-1.052 2.867-1.935 2.476-2.717 3.486-6.935 6.523-6.935 2.78 0 3.154 1.969 3.333 3.026 0 .006 0-.067-.006-.169z" transform="translate(-15) translate(15) translate(0 20) translate(51)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

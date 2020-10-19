@@ -1,0 +1,14 @@
+<div class="section">
+  <div class="row">
+    <div class="col-12">
+      <span class="section__title">Your recent searches</span>
+    </div>
+  </div>
+  <div class="row row--grow">
+    <div class="col-12 section__text">
+      <ul>
+        <li *ngFor="let search of searches">{{ search.name }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

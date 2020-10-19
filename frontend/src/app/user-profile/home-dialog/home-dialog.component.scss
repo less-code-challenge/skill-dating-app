@@ -1,0 +1,9 @@
+@import 'variables';
+
+:host {
+  hr {
+    border: 1px solid $cg-grey;
+    width: 96%;
+  }
+ 
+}

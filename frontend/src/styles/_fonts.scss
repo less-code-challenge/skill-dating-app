@@ -1,6 +1,6 @@
 @import "variables";
 
-h1, .h1, .hero-title {
+h1, .h1, .page-title {
   font-family: $cg-font-family;
   font-size: 28px;
   font-weight: bold;
@@ -8,6 +8,7 @@ h1, .h1, .hero-title {
   font-style: normal;
   line-height: 1.43;
   letter-spacing: normal;
+  padding-bottom:18px;
 }
 
 h2, .h2 {

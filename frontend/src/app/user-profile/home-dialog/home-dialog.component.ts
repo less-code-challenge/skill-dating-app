@@ -1,17 +1,18 @@
-import {Component} from '@angular/core';
-import {SkillService} from '../skill.service';
-import {Observable} from 'rxjs';
-import {SkillTo} from '../model';
+import { Component } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { SkillTo } from 'src/app/model/skill.to';
+import { RecentSearchTo } from 'src/app/model/recent-search.to';
 
 @Component({
   selector: 'sd-home-dialog',
   templateUrl: './home-dialog.component.html',
-  styleUrls: ['./home-dialog.component.scss']
+  styleUrls: ['./home-dialog.component.scss'],
 })
 export class HomeDialogComponent {
-  readonly skills$: Observable<SkillTo[]>;
-
-  constructor(skills: SkillService) {
-    this.skills$ = skills.findAll();
+  skills: SkillTo[];
+  searches: RecentSearchTo[];
+  constructor(activatedRoute : ActivatedRoute ) {
+    this.skills = activatedRoute.snapshot.data.skills;
+    this.searches = activatedRoute.snapshot.data.searches;
   }
 }
