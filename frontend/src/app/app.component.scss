@@ -1,0 +1,40 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  nav {
+    align-items: center;
+    height: 78px;
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .content {
+    flex-grow: 1;
+  }
+  footer {
+    height: 145px;
+    div {
+      height: 100%;
+      display: flex;
+      span {
+        display: block;
+        margin: auto;
+        width: 207px;
+        font-family: Ubuntu;
+        font-size: 14px;
+        line-height: 1.43;
+        text-align: center;
+        color: $cg-deep-purple;
+      }
+    }
+
+    background-color: $cg-very-light-pink;
+  }
+  .navbar-bg-xs {
+    width: 100px;
+    height: 78px;
+  }
+}

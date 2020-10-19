@@ -1,0 +1,30 @@
+@import 'variables';
+
+:host {
+  $avatar-size: 40px;
+  $avatar-big-size: 96px;
+
+  .avatar {
+    background-color: $cg-grey;
+    border-radius:  $avatar-size/2;
+    width:  $avatar-size;
+    height:  $avatar-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    .avatar__text {
+      font-size: 17px;
+      font-weight: 500;
+      color: $cg-very-dark-grey;
+    }
+  }
+  .avatar--big{
+    border-radius: $avatar-big-size/2;
+    width: $avatar-big-size;
+    height: $avatar-big-size;
+    .avatar__text {
+      font-size: 28.8px;
+    }
+  }
+}

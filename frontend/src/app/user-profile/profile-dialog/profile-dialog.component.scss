@@ -1,0 +1,25 @@
+@import 'variables';
+:host {
+  .section--heading {
+    background-color: $cg-blue;
+  }
+  .section__field {
+    font-family: Ubuntu;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.63;
+    letter-spacing: normal;
+    span {
+      display: block;
+    }
+  }
+  h4 {
+    color: $cg-blue;
+  }
+  hr {
+    border: 1px solid $cg-grey;
+    width: 96%;
+  }
+}

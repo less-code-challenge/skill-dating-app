@@ -1,0 +1,17 @@
+@import 'variables';
+
+:host {
+  display: block;
+  .log-in {
+    height: 360px;
+    .section__text {
+      span {
+        width: 230px;
+        display: inline-block;
+      }
+    }
+  }
+  .create-account {
+    height: 260px;
+  }
+}

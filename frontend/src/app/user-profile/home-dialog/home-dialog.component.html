@@ -1,4 +1,22 @@
-<p>Skills currently available:</p>
-<ul>
-  <li *ngFor="let skill of skills$ | async">{{skill.name}}</li>
-</ul>
+<div class="section section--heading hello">
+  <div class="row">
+    <div class="col-12">
+      <h1>Hi you!</h1>
+    </div>
+  </div>
+  <div class="row row--grow">
+    <div class="col-12 section__text">
+      <span>What are you looking for today?</span>
+    </div>
+  </div>
+</div>
+<div class="section search">
+  <div class="row">
+    <div class="col-12">
+      <ui-input placeholder="Enter skill, person or location..."></ui-input>
+    </div>
+  </div>
+</div>
+<sd-recent-searches [searches]="skills"></sd-recent-searches>
+<hr>
+<sd-popular-skills [skills]="skills"></sd-popular-skills>

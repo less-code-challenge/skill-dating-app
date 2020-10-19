@@ -1,5 +1,5 @@
-@import "variables";
-@import "fonts";
+@import 'variables';
+@import 'fonts';
 
 // Reboot
 //
@@ -28,8 +28,93 @@ body {
   font-family: $cg-font-family;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
+}
+
+///
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  &.row--grow {
+    flex-grow: 1;
+  }
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.section {
+  padding: 38px 16px;
+  display: flex;
+  flex-direction: column;
+  .section__title {
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    padding-bottom: 12px;
+    color: $cg-deep-purple;
+  }
+  .section__text {
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.63;
+    letter-spacing: normal;
+    color: $cg-black;
+  }
+  .section__button {
+    background-color: transparent;
+    border-radius: 28px;
+    border-style: solid;
+    border-width: 2px;
+    color: $cg-blue;
+    border-color: $cg-blue;
+    display: inline-block;
+    min-width: 195px;
+    transition: all 0.5s ease;
+    font-weight: bold;
+    padding: 0 20px;
+    line-height: 48px;
+    background: 0 0;
+    cursor: pointer;
+  }
+
+  &.section--heading {
+    background-color: $cg-deep-purple;
+    color: $cg-white;
+    .section__button {
+      color: $cg-zest-green;
+      border-color: $cg-zest-green;
+    }
+    .section__text {
+      color: $cg-white;
+    }
+  }
+}
+@media (max-width: 320px) {
+  .section {
+    .section__button {
+      width: 100%;
+    }
+  }
 }
 
 // Icon buttons
@@ -46,4 +131,24 @@ button.icon-btn {
   &:hover {
     cursor: pointer;
   }
+}
+
+@media (min-width: 900px) {
+  sd-root {
+    width: 900px;
+    margin: auto;
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  font-family: Ubuntu;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.63;
+  letter-spacing: normal;
+  color: $cg-blue;
 }
