@@ -41,6 +41,7 @@ provider:
     - Effect: Allow
       Action:
         - dynamodb:DescribeTable
+        - dynamodb:ListTables
         - dynamodb:Scan
         - dynamodb:Query
         - dynamodb:GetItem
@@ -49,6 +50,12 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - dynamodb:DescribeStream
+        - dynamodb:ListStreams
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:DescribeReservedCapacity
+        - dynamodb:DescribeReservedCapacityOfferings
       Resource:
         - { "Fn::GetAtt": [ "UserProfileDynamoDBTable", "Arn" ] }
         - Fn::Join:
@@ -80,7 +87,7 @@ functions:
           path: '*'
           authorizer: cognitoAuthorizer
   dynamodbStreamToElasticsearch:
-    handler: dist/dynamodb-stream-handler.js
+    handler: dist/dynamodb-stream-handler.handler
     events:
       - stream:
           type: dynamodb
