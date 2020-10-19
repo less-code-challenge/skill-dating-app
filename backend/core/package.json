@@ -18,7 +18,8 @@
     "watch-node": "nodemon dist/index-local.js",
     "watch-test": "npm run test -- --watchAll",
     "watch-ts": "tsc -w",
-    "create-tables-local": "ts-node scripts/create-tables-local.ts"
+    "create-tables-local": "ts-node scripts/create-tables-local.ts",
+    "test:integration": "ts-node src/dynamodb-stream-handler-local.ts"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.9.1",
