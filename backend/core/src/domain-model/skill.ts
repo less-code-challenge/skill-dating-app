@@ -9,11 +9,13 @@ export class SkillId {
   static readonly alphabetRegExp = new RegExp(`^[0-9A-Z]{${SkillId.size}}$`);
   private static readonly generateId = customAlphabet(SkillId.alphabet, SkillId.size);
 
-  static parse(value: string): SkillId {
+  static parse(value: string | undefined): SkillId {
     assert('skill ID').of(value)
       .isNotEmpty()
       .isNotLongerThan(SkillId.size)
       .matches(SkillId.alphabetRegExp);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore value at this point is not empty
     return new SkillId(value.trim());
   }
 
@@ -30,10 +32,12 @@ export class SkillName {
   static readonly maxLength = 40;
   static readonly notEmpty = true
 
-  static parse(value: string): SkillName {
+  static parse(value: string | undefined): SkillName {
     assert('skill name').of(value)
       .isNotEmpty()
       .isNotLongerThan(SkillName.maxLength);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore value at this point is not empty
     return new SkillName(value.trim());
   }
 
@@ -46,7 +50,7 @@ export class Skill {
     return new Skill(SkillId.generateNew(), name);
   }
 
-  static parse(id: string, name: string): Skill {
+  static parse(id: string | undefined, name: string | undefined): Skill {
     return new Skill(SkillId.parse(id), SkillName.parse(name));
   }
 

@@ -8,9 +8,9 @@ export class ValidationError extends Error {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function assert(attributeName: string) {
+export function assert(attributeName: string | undefined) {
   return {
-    of(value: string) {
+    of(value: string | undefined) {
       const trimmedValue = value && value.trim();
       return {
         isNotEmpty() {
