@@ -79,12 +79,22 @@ functions:
           method: '*'
           path: '*'
           authorizer: cognitoAuthorizer
+  dynamodbStreamToElasticsearch:
+    handler: dist/dynamodb-stream-handler.js
+    events:
+      - stream:
+          type: dynamodb
+          batchSize: 100
+          enabled: true
+          arn: { "Fn::GetAtt": [ "SkillDynamoDBTable", "StreamArn" ] }
 
 resources:
   Resources:
     UserProfileDynamoDBTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
         TableName: ${self:custom.userProfileTableName}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
@@ -107,6 +117,8 @@ resources:
     SkillDynamoDBTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
         TableName: ${self:custom.skillTableName}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
