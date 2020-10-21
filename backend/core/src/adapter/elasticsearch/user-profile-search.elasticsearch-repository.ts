@@ -12,10 +12,12 @@ export class UserProfileSearchElasticsearchRepository implements UserProfileSear
   }
 
   searchBySkills(skillNames: SkillName[]): Promise<UserProfile[]> {
+    console.log(skillNames);
     return Promise.resolve([]);
   }
 
   searchByUsername(usernameQuery?: string): Promise<UserProfile[]> {
+    console.log(usernameQuery);
     return Promise.resolve([]);
   }
 }
