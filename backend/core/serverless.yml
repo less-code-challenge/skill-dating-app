@@ -100,7 +100,6 @@ resources:
       Properties:
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
-          StreamEnabled: true
         TableName: ${self:custom.userProfileTableName}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
@@ -114,7 +113,6 @@ resources:
       Properties:
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
-          StreamEnabled: true
         TableName: ${self:custom.skillTableName}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
