@@ -7,7 +7,7 @@ package:
     - dist/**
 
 custom:
-  userProfileTableName: 'user-profile-table-${self:provider.stage}'
+  userProfileTableName: 'user-profile-${self:provider.stage}'
   skillTableName: 'skill-table-${self:provider.stage}'
   skillNameGsi: 'SKILL_NAME_GSI'
 
