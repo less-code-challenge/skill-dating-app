@@ -1,7 +1,7 @@
 import {assert} from './validation';
 import {AttributeMap} from './common';
 import {OfficeLocation} from './office-location';
-import {Skill, SkillId, SkillName, skillsAttributeName} from './skill';
+import {SkillName, skillsAttributeName} from './skill';
 
 export class Username {
   static readonly attributeName = 'username';
@@ -54,9 +54,7 @@ export class PhoneNo {
 }
 
 export interface UserProfileBuilder {
-  attributes(attributes: AttributeMap): UserProfileBuilder;
-
-  skill(skillAttributes: AttributeMap): UserProfileBuilder;
+  attributes(attributes: AttributeMap | undefined): UserProfileBuilder;
 
   build(): UserProfile;
 }
@@ -66,11 +64,11 @@ export class UserProfile {
     let description: UserProfileDescription;
     let phoneNo: PhoneNo;
     let officeLocation: OfficeLocation;
-    const skills: Skill[] = [];
+    let skills: SkillName[];
     const username = Username.parse(usernameValue);
 
     return {
-      attributes(attributes: AttributeMap): UserProfileBuilder {
+      attributes(attributes: AttributeMap | undefined): UserProfileBuilder {
         if (attributes) {
           const descriptionAttrValue = attributes[UserProfileDescription.attributeName];
           if (descriptionAttrValue) {
@@ -82,16 +80,12 @@ export class UserProfile {
           }
           const officeLocationAttrValue = attributes[OfficeLocation.attributeName];
           if (officeLocationAttrValue) {
-            OfficeLocation.parse(officeLocationAttrValue);
+            officeLocation = OfficeLocation.parse(officeLocationAttrValue);
           }
-        }
-        return this;
-      },
-      skill(skillAttributes: AttributeMap): UserProfileBuilder {
-        if (skillAttributes) {
-          const idAttrValue = skillAttributes[SkillId.attributeName];
-          const nameAttrValue = skillAttributes[SkillName.attributeName];
-          skills.push(Skill.parse(idAttrValue, nameAttrValue));
+          const skillsAttrValue = attributes[skillsAttributeName];
+          if (skillsAttrValue && Array.isArray(skillsAttrValue) && skillsAttrValue.length > 0) {
+            skills = skillsAttrValue.map(skillName => SkillName.parse(skillName));
+          }
         }
         return this;
       },
@@ -105,19 +99,11 @@ export class UserProfile {
                       public readonly description?: UserProfileDescription,
                       public readonly phoneNo?: PhoneNo,
                       public readonly officeLocation?: OfficeLocation,
-                      public readonly skills?: Skill[]
+                      public readonly skills?: SkillName[]
   ) {
   }
 
-  toPlainAttributesSkippingSkills(): AttributeMap {
-    return this.toPlainAttributesInternal(false);
-  }
-
   toPlainAttributes(): AttributeMap {
-    return this.toPlainAttributesInternal(true);
-  }
-
-  private toPlainAttributesInternal(includeSkills: boolean = false): AttributeMap {
     const userProfileAttributes: AttributeMap = {username: this.username.value};
     if (this.description) {
       userProfileAttributes[UserProfileDescription.attributeName] = this.description.value;
@@ -128,8 +114,8 @@ export class UserProfile {
     if (this.officeLocation) {
       userProfileAttributes[OfficeLocation.attributeName] = this.officeLocation.toPlainAttributes();
     }
-    if (includeSkills && this.skills) {
-      userProfileAttributes[skillsAttributeName] = this.skills.map(skill => skill.toPlainAttributes());
+    if (this.skills) {
+      userProfileAttributes[skillsAttributeName] = this.skills.map(skillName => skillName.value);
     }
     return userProfileAttributes;
   }

@@ -19,10 +19,12 @@ export function createNew(req: Request, res: Response, next: NextFunction): void
     );
 }
 
-export function findAll(req: Request, res: Response, next: NextFunction): void {
-  skillAppService.findAll()
+export function search(req: Request, res: Response, next: NextFunction): void {
+  let query = req?.query?.['query'];
+  query = typeof query === 'string' ? query : ''; // ignore arrays
+  skillAppService.search(query)
     .then(
-      skills => res.status(200).send(skills.map(skill => skill.toPlainAttributes())),
+      skillNames => res.status(200).send(skillNames.map(skillName => skillName.value)),
       error => next(error)
     );
 }

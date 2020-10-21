@@ -1,7 +1,10 @@
 import express from 'express';
 import {NextFunction, Request, Response} from 'express-serve-static-core';
-import {createNew as createNewUserProfile, getOne, update} from './adapter/rest/user-profile.rest';
-import {createNew as createNewSkill, findAll as findAllSkills} from './adapter/rest/skill.rest';
+import {
+  createNewOrUpdateExisting as createNewUserProfileOrUpdateExistingOne,
+  getOne as getUserProfile,
+} from './adapter/rest/user-profile.rest';
+import {createNew as createNewSkill, search as searchForSkills} from './adapter/rest/skill.rest';
 import {ValidationError} from './domain-model/validation';
 import {getSecurityContextFrom} from './security-context';
 
@@ -13,12 +16,12 @@ app.options('*', (req: Request, res: Response) => {
   res.status(200).send();
 });
 
-app.get('/user-profiles/:username', getOne);
-app.post('/user-profiles', createNewUserProfile);
-app.put('/user-profiles/:username', update);
+app.get('/user-profiles/:username', getUserProfile);
+app.post('/user-profiles', createNewUserProfileOrUpdateExistingOne);
+app.put('/user-profiles/:username', createNewUserProfileOrUpdateExistingOne);
 
 app.post('/skills', createNewSkill);
-app.get('/skills', findAllSkills);
+app.get('/skills', searchForSkills);
 
 // Routes
 app.get('/*', (req, res) => {

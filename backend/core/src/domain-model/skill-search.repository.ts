@@ -1,6 +1,9 @@
-import {Skill} from './skill';
+import {Skill, SkillId, SkillName} from './skill';
+import {DocumentUpdates} from './common';
+
+export type SkillUpdates = DocumentUpdates<Skill, SkillId>
 
 export interface SkillSearchRepository {
-  onNewSkillCreation(skill: Skill): Promise<void>;
-  search(): Promise<Skill[]>;
+  onSkillUpdates(skillUpdates: SkillUpdates): Promise<void>;
+  search(query?: string): Promise<SkillName[]>;
 }

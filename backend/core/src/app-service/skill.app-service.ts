@@ -1,5 +1,6 @@
 import {Skill, SkillName} from '../domain-model/skill';
 import {skillRepository} from '../adapter/dynamodb/skill.dynamodb-repository';
+import {skillSearchRepository} from '../adapter/elasticsearch/skill-search.elasticsearch-repository';
 
 class SkillAppService {
   createNewSkill(name: string): Promise<Skill> {
@@ -11,8 +12,8 @@ class SkillAppService {
     }
   }
 
-  findAll(): Promise<Skill[]> {
-    return skillRepository.findAll();
+  search(query?: string): Promise<SkillName[]> {
+    return skillSearchRepository.search(query);
   }
 }
 

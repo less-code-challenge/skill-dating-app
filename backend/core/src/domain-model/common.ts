@@ -18,3 +18,8 @@ export class DocumentNotExistsError extends Error {
     this.name = DocumentNotExistsError.NAME;
   }
 }
+
+export type DocumentUpdates<T, ID> = {
+  documentsToCreateOrUpdate: T[];
+  documentsToDelete: ID[];
+}

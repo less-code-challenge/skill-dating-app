@@ -1,68 +1,30 @@
-import {UserProfile} from '../domain-model/user-profile';
-import {AttributeMap, DocumentNotExistsError} from '../domain-model/common';
+import {Username, UserProfile} from '../domain-model/user-profile';
 import {userProfileRepository} from '../adapter/dynamodb/user-profile.dynamodb-repository';
-import {skillRepository} from '../adapter/dynamodb/skill.dynamodb-repository';
-import {createSkillIdsFromAttributes, SkillId, SkillUpdate} from '../domain-model/skill';
+import {AttributeMap} from '../domain-model/common';
 
 class UserProfileAppService {
   loadUserProfile(username: string): Promise<UserProfile | null> {
-    try {
-      const userProfile = UserProfile.builder(username).build();
-      return userProfileRepository.findByUsername(userProfile.username);
-    } catch (e) {
-      return Promise.reject(e);
-    }
+    return parseUsername(username)
+      .then(usernameValueObject => userProfileRepository.findByUsername(usernameValueObject));
   }
 
-  createNewUserProfile(username: string): Promise<UserProfile> {
-    try {
-      const userProfile = UserProfile.builder(username).build();
-      return userProfileRepository.createNew(userProfile);
-    } catch (e) {
-      return Promise.reject(e);
-    }
-  }
-
-  updateUserProfile(username: string, userProfileAttributes: AttributeMap): Promise<UserProfile> {
-    try {
-      const newUserProfile = UserProfile.builder(username)
-        .attributes(userProfileAttributes)
-        .build();
-      const newSkillIds = createSkillIdsFromAttributes(userProfileAttributes);
-      return userProfileRepository.findByUsername(newUserProfile.username)
-        .then(checkIfUserProfileExists)
-        .then(updateOldUserProfileWith(newUserProfile, newSkillIds));
-    } catch (e) {
-      return Promise.reject(e);
-    }
-
-    function checkIfUserProfileExists(oldUserProfile: UserProfile | null): Promise<UserProfile> {
-      return oldUserProfile ? Promise.resolve(oldUserProfile) : Promise.reject(new DocumentNotExistsError());
-    }
-
-    function updateOldUserProfileWith(newUserProfile: UserProfile, newSkillIds: SkillId[]) {
-      return function (oldUserProfile: UserProfile): Promise<UserProfile> {
-        const skillUpdate = SkillUpdate.builder()
-          .idsOfOldSkills(oldUserProfile.skills?.map(skill => skill.id))
-          .idsOfNewSkills(newSkillIds).build();
-
-        return enrichSkillsToPutBySkillNamesIfNecessary(skillUpdate)
-          .then(enrichedSkillUpdate => userProfileRepository.update(newUserProfile, enrichedSkillUpdate));
-      };
-
-      function enrichSkillsToPutBySkillNamesIfNecessary(skillUpdate: SkillUpdate): Promise<SkillUpdate> {
-        if (skillUpdate.hasSkillsToPut()) {
-          return skillRepository.findByIds(skillUpdate.idsOfSkillsToPut)
-            .then(skillMap => {
-              skillUpdate.enrichSkillsToPutBySkillNames(skillMap);
-              return skillUpdate;
-            });
-        } else {
-          return Promise.resolve(skillUpdate);
-        }
-      }
-    }
+  createNewUserProfileOrUpdateExistingOne(username: string, userProfileAttributes: AttributeMap | undefined): Promise<UserProfile> {
+    return buildUserProfile(username, userProfileAttributes)
+      .then(userProfile => userProfileRepository.createNewOrUpdate(userProfile));
   }
 }
 
 export = new UserProfileAppService();
+
+function parseUsername(username: string): Promise<Username> {
+  return new Promise<Username>(resolve => resolve(Username.parse(username)));
+}
+
+function buildUserProfile(username: string, userProfileAttributes: AttributeMap | undefined): Promise<UserProfile> {
+  return new Promise<UserProfile>(resolve => resolve(
+    UserProfile.builder(username)
+      .attributes(userProfileAttributes)
+      .build()
+    )
+  );
+}
