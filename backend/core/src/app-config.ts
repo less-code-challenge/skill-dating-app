@@ -7,4 +7,6 @@ export const appConfig = {
   elasticsearchUrl: process.env.elasticsearchUrl || 'https://search-user-profiles-folbu7t6tixn2vdcu5zn4vfupq.eu-central-1.es.amazonaws.com/',
   elasticsearchUsername: process.env.elasticsearchUsername || 'elastic',
   elasticsearchPassword: process.env.elasticsearchPassword || '',
+  elasticsearchSkillIndex: process.env.elasticsearchSkillIndex || 'skills',
+  elasticsearchUserProfileIndex: process.env.elasticsearchUserProfileIndex || 'profiles',
 };

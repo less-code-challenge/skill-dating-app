@@ -3,8 +3,9 @@ import {Skill, SkillName} from '../../domain-model/skill';
 import {RequestParams} from '@elastic/elasticsearch';
 import {DocumentUpdates} from '../../domain-model/common';
 import {bulk, createClient} from './common';
+import {appConfig} from '../../app-config';
 
-const skillElasticsearchIndex = 'skills';
+const skillElasticsearchIndex = appConfig.elasticsearchSkillIndex;
 
 export class SkillSearchElasticsearchRepository implements SkillSearchRepository {
   onSkillUpdates(skillUpdates: DocumentUpdates<Skill>): Promise<void> {

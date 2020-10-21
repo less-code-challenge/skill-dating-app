@@ -84,7 +84,7 @@ functions:
           method: '*'
           path: '*'
           authorizer: cognitoAuthorizer
-  skillDynamodbStreamToElasticsearch:
+  skillStreamToEs:
     handler: dist/dynamodb-stream-handler.handleSkills
     events:
       - stream:
@@ -92,7 +92,7 @@ functions:
           batchSize: 100
           enabled: true
           arn: { "Fn::GetAtt": [ "SkillDynamoDBTable", "StreamArn" ] }
-  userProfileDynamodbStreamToElasticsearch:
+  userProfileStreamToEs:
     handler: dist/dynamodb-stream-handler.handleUserProfiles
     events:
       - stream:

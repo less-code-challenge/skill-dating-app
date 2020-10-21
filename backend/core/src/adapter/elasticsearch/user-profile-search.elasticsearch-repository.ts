@@ -3,8 +3,9 @@ import {SkillName} from '../../domain-model/skill';
 import {UserProfile} from '../../domain-model/user-profile';
 import {bulk} from './common';
 import {DocumentUpdates} from '../../domain-model/common';
+import {appConfig} from '../../app-config';
 
-const userProfileElasticsearchIndex = 'skills';
+const userProfileElasticsearchIndex = appConfig.elasticsearchUserProfileIndex;
 
 export class UserProfileSearchElasticsearchRepository implements UserProfileSearchRepository {
   onUserProfileUpdates(userProfileUpdates: DocumentUpdates<UserProfile>): Promise<void> {
