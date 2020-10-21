@@ -14,6 +14,6 @@ export class SkillService {
   }
 
   findAll(): Observable<SkillTo[]> {
-    return this.http.get<SkillTo[]>(`${this.backendUri}/skills`);
+    return this.http.get<SkillTo[]>(`${this.backendUri}/search/skills`);
   }
 }
