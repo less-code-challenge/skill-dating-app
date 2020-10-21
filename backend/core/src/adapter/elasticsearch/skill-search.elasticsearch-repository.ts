@@ -16,6 +16,7 @@ export class SkillSearchElasticsearchRepository implements SkillSearchRepository
   }
 
   onSkillUpdates(skillUpdates: SkillUpdates): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const bulkOperations: Record<string, any>[] = [];
     const skillsToDelete = skillUpdates?.documentsToDelete;
     if (skillsToDelete) {

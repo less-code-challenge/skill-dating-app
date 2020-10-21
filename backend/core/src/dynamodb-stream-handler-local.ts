@@ -1,5 +1,4 @@
 import {skillSearchRepository} from './adapter/elasticsearch/skill-search.elasticsearch-repository';
-import {Skill} from './domain-model/skill';
 
 skillSearchRepository.search('Jav')
   .catch(error => console.error(error));
