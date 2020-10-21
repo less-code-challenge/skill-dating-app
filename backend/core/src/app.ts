@@ -21,7 +21,7 @@ app.post('/user-profiles', createNewUserProfileOrUpdateExistingOne);
 app.put('/user-profiles/:username', createNewUserProfileOrUpdateExistingOne);
 
 app.post('/skills', createNewSkill);
-app.get('/skills', searchForSkills);
+app.get('/search/skills', searchForSkills);
 
 // Routes
 app.get('/*', (req, res) => {

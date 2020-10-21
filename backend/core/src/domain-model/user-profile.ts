@@ -1,5 +1,5 @@
 import {assert} from './validation';
-import {AttributeMap} from './common';
+import {AttributeMap, HavingPrimaryKey, SerializableAsAttributeMap} from './common';
 import {OfficeLocation} from './office-location';
 import {SkillName, skillsAttributeName} from './skill';
 
@@ -7,12 +7,15 @@ export class Username {
   static readonly attributeName = 'username';
   static readonly emailRegExp = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-  static parse(value: string): Username {
+  static parse(value: string | undefined): Username {
     assert('user profile username').of(value)
       .isNotEmpty();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore value at this point is not empty
     assert('user profile username').of(`${value.trim()}@example.com`)
       .matches(Username.emailRegExp);
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore value at this point is not empty and is a valid email
     return new Username(value);
   }
 
@@ -59,8 +62,8 @@ export interface UserProfileBuilder {
   build(): UserProfile;
 }
 
-export class UserProfile {
-  static builder(usernameValue: string): UserProfileBuilder {
+export class UserProfile implements HavingPrimaryKey, SerializableAsAttributeMap {
+  static builder(usernameValue: string | undefined): UserProfileBuilder {
     let description: UserProfileDescription;
     let phoneNo: PhoneNo;
     let officeLocation: OfficeLocation;
@@ -101,6 +104,10 @@ export class UserProfile {
                       public readonly officeLocation?: OfficeLocation,
                       public readonly skills?: SkillName[]
   ) {
+  }
+
+  getPrimaryKeyAsString(): string {
+    return this.username.value;
   }
 
   toPlainAttributes(): AttributeMap {

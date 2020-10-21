@@ -1,6 +1,6 @@
 import {customAlphabet} from 'nanoid';
 import {assert} from './validation';
-import {AttributeMap} from './common';
+import {AttributeMap, HavingPrimaryKey, SerializableAsAttributeMap} from './common';
 
 export class SkillId {
   static readonly attributeName = 'id';
@@ -45,7 +45,7 @@ export class SkillName {
   }
 }
 
-export class Skill {
+export class Skill implements HavingPrimaryKey, SerializableAsAttributeMap {
   static createNew(name: SkillName): Skill {
     return new Skill(SkillId.generateNew(), name);
   }
@@ -62,6 +62,10 @@ export class Skill {
     skillAttributes[SkillId.attributeName] = this.id.value;
     skillAttributes[SkillName.attributeName] = this.name.value;
     return skillAttributes;
+  }
+
+  getPrimaryKeyAsString(): string {
+    return this.id.value;
   }
 }
 

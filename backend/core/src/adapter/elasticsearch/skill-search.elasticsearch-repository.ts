@@ -1,47 +1,14 @@
-import {SkillSearchRepository, SkillUpdates} from '../../domain-model/skill-search.repository';
-import {SkillName} from '../../domain-model/skill';
-import {Client, RequestParams} from '@elastic/elasticsearch';
+import {SkillSearchRepository} from '../../domain-model/skill-search.repository';
+import {Skill, SkillName} from '../../domain-model/skill';
+import {RequestParams} from '@elastic/elasticsearch';
+import {DocumentUpdates} from '../../domain-model/common';
+import {bulk, createClient} from './common';
 
 const skillElasticsearchIndex = 'skills';
 
 export class SkillSearchElasticsearchRepository implements SkillSearchRepository {
-  private static get client() {
-    return new Client({
-      node: 'https://search-user-profiles-folbu7t6tixn2vdcu5zn4vfupq.eu-central-1.es.amazonaws.com/',
-      auth: {
-        username: 'elastic',
-        password: '!Miszcz79!'
-      }
-    });
-  }
-
-  onSkillUpdates(skillUpdates: SkillUpdates): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const bulkOperations: Record<string, any>[] = [];
-    const skillsToDelete = skillUpdates?.documentsToDelete;
-    if (skillsToDelete) {
-      skillsToDelete.forEach(skillId => {
-        bulkOperations.push({delete: {_index: skillElasticsearchIndex, _id: skillId.value}});
-      });
-    }
-
-    const skillsToCreateOrUpdate = skillUpdates?.documentsToCreateOrUpdate;
-    if (skillsToCreateOrUpdate) {
-      skillsToCreateOrUpdate.forEach(skill => {
-        bulkOperations.push({index: {_index: skillElasticsearchIndex, _id: skill.id.value}});
-        bulkOperations.push(skill.toPlainAttributes());
-      });
-    }
-
-    if (bulkOperations.length > 0) {
-      return SkillSearchElasticsearchRepository.client.bulk({refresh: true, body: bulkOperations})
-        .then(({body}) => {
-          if (body.errors) {
-            console.warn('Some skills have not been processed correctly', body.items);
-          }
-        });
-    }
-    return Promise.resolve();
+  onSkillUpdates(skillUpdates: DocumentUpdates<Skill>): Promise<void> {
+    return bulk(skillUpdates, skillElasticsearchIndex);
   }
 
   search(query?: string): Promise<SkillName[]> {
@@ -59,7 +26,7 @@ export class SkillSearchElasticsearchRepository implements SkillSearchRepository
       };
     }
 
-    return SkillSearchElasticsearchRepository.client.search(searchParams)
+    return createClient().search(searchParams)
       .then(({body}) => {
           const matchingSkills = body?.hits?.hits;
           if (matchingSkills && matchingSkills.length > 0) {
