@@ -1,17 +1,23 @@
-import {async, TestBed} from '@angular/core/testing';
-import {AppComponent} from './app.component';
-import {SecurityService} from './shared/security/security.service';
-import {of} from 'rxjs';
-import {RouterTestingModule} from '@angular/router/testing';
+import { async, TestBed } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+import { SecurityService } from './shared/security/security.service';
+import { empty, of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        AppComponent
+      declarations: [AppComponent],
+      providers: [
+        {
+          provide: SecurityService,
+          useValue: {
+            username$: empty(),
+            $names: of('some-user@example.com'),
+          },
+        },
       ],
-      providers: [{provide: SecurityService, useValue: {$names: of('some-user@example.com')}}],
     }).compileComponents();
   }));
 
