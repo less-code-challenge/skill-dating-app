@@ -8,6 +8,7 @@ import {createNew as createNewSkill, search as searchForSkills} from './adapter/
 import {ValidationError} from './domain-model/validation';
 import {getSecurityContextFrom} from './security-context';
 import {searchForSkillsAndUserProfilesByNames} from './adapter/rest/top-search.rest';
+import {getAllOfficeLocation} from './adapter/rest/office-location.rest';
 
 const app = express();
 // Enable JSON use
@@ -16,6 +17,8 @@ app.use(express.json());
 app.options('*', (req: Request, res: Response) => {
   res.status(200).send();
 });
+
+app.get('/office-locations', getAllOfficeLocation);
 
 app.get('/user-profiles/:username', getUserProfile);
 app.post('/user-profiles', createNewUserProfileOrUpdateExistingOne);

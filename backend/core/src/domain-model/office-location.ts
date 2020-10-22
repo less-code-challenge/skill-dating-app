@@ -61,13 +61,34 @@ export class OfficeLocation {
     },
     'Middle East': {'Saudi Arabia': ['Riyadh'], 'United Arab Emirates': ['Abu Dhabi', 'Dubai']}
   };
-
   static readonly regions = Object.keys(OfficeLocation.officeLocationMap);
   static readonly attributeName = 'officeLocation';
 
+  static all(): OfficeLocation[] {
+    const allOfficeLocations: OfficeLocation[] = [];
+
+    this.regions.forEach(region => {
+      const currentRegion = Region.parse(region);
+      const countriesAndOfficesInRegion = OfficeLocation.officeLocationMap[region];
+      const countriesInRegion = Object.keys(countriesAndOfficesInRegion);
+
+      countriesInRegion.forEach(country => {
+        const currentCountry = Country.parse(country);
+        const officesInCountry = countriesAndOfficesInRegion[country];
+
+        officesInCountry.forEach(office => {
+          const currentOffice = Office.parse(office);
+          allOfficeLocations.push(new OfficeLocation(currentRegion, currentCountry, currentOffice));
+        });
+      });
+    });
+
+    return allOfficeLocations;
+  }
+
   static parse(officeLocationAttributes: AttributeMap): OfficeLocation {
     const regionValue = officeLocationAttributes[Region.attributeName];
-    const region = Region.parse(regionValue, OfficeLocation.regions);
+    const region = Region.parse(regionValue);
 
     const countryValue = officeLocationAttributes[Country.attributeName];
     const regionCountryMap = OfficeLocation.officeLocationMap[region.value];
@@ -97,10 +118,10 @@ export class OfficeLocation {
 export class Region {
   static readonly attributeName = 'region';
 
-  static parse(value: string, allowedValues: string[]): Region {
+  static parse(value: string): Region {
     assert(Region.attributeName).of(value)
       .isNotEmpty()
-      .isOneOf(allowedValues);
+      .isOneOf(OfficeLocation.regions);
 
     return new Region(value);
   }
@@ -112,10 +133,11 @@ export class Region {
 export class Country {
   static readonly attributeName = 'country';
 
-  static parse(value: string, allowedValues: string[]): Region {
-    assert(Country.attributeName).of(value)
-      .isNotEmpty()
-      .isOneOf(allowedValues);
+  static parse(value: string, allowedValues?: string[]): Region {
+    const assertion = assert(Country.attributeName).of(value).isNotEmpty();
+    if (allowedValues) {
+      assertion.isOneOf(allowedValues);
+    }
 
     return new Country(value);
   }
@@ -127,10 +149,11 @@ export class Country {
 export class Office {
   static readonly attributeName = 'office';
 
-  static parse(value: string, allowedValues: string[]): Region {
-    assert(Office.attributeName).of(value)
-      .isNotEmpty()
-      .isOneOf(allowedValues);
+  static parse(value: string, allowedValues?: string[]): Region {
+    const assertion = assert(Office.attributeName).of(value).isNotEmpty();
+    if (allowedValues) {
+      assertion.isOneOf(allowedValues);
+    }
 
     return new Office(value);
   }
