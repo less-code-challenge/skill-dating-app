@@ -25,6 +25,28 @@ export class UserProfileSearchElasticsearchRepository implements UserProfileSear
       };
     }
 
+    return this.searchUsing(searchParams);
+  }
+
+  searchByUsername(usernameQuery?: string): Promise<UserProfile[]> {
+    const trimmedQuery = usernameQuery?.trim();
+    const searchParams: RequestParams.Search = {index: userProfileElasticsearchIndex};
+    if (trimmedQuery) {
+      searchParams.body = {
+        query: {
+          wildcard: {
+            username: {
+              value: `*${trimmedQuery}*`
+            }
+          }
+        }
+      };
+    }
+
+    return this.searchUsing(searchParams);
+  }
+
+  private searchUsing(searchParams: RequestParams.Search): Promise<UserProfile[]> {
     return createClient().search(searchParams)
       .then(({body}) => {
           const matchingUserProfiles = body?.hits?.hits;
@@ -35,11 +57,6 @@ export class UserProfileSearchElasticsearchRepository implements UserProfileSear
           return [];
         }
       );
-  }
-
-  searchByUsername(usernameQuery?: string): Promise<UserProfile[]> {
-    console.log(usernameQuery);
-    return Promise.resolve([]);
   }
 }
 

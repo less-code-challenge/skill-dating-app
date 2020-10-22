@@ -7,6 +7,7 @@ import {
 import {createNew as createNewSkill, search as searchForSkills} from './adapter/rest/skill.rest';
 import {ValidationError} from './domain-model/validation';
 import {getSecurityContextFrom} from './security-context';
+import {searchForSkillsAndUserProfilesByNames} from './adapter/rest/top-search.rest';
 
 const app = express();
 // Enable JSON use
@@ -24,7 +25,7 @@ app.get('/search/user-profiles', searchForUserProfilesBySkills);
 app.post('/skills', createNewSkill);
 app.get('/search/skills', searchForSkills);
 
-// app.get('/search/top', searchForSkillsAndUserProfilesByNames);
+app.get('/search/top', searchForSkillsAndUserProfilesByNames);
 
 // Routes
 app.get('/*', (req, res) => {
