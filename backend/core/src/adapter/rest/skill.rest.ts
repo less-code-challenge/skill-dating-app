@@ -23,8 +23,6 @@ export function search(req: Request, res: Response, next: NextFunction): void {
   let query = req?.query?.['query'];
   query = typeof query === 'string' ? query : ''; // ignore arrays
   skillAppService.search(query)
-    .then(
-      skillNames => res.status(200).send(skillNames.map(skillName => skillName.value)),
-      error => next(error)
-    );
+    .then(skillNames => res.status(200).send(skillNames.map(skillName => skillName.value)))
+    .catch(next); // handle globally
 }
