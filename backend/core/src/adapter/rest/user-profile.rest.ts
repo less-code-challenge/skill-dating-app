@@ -19,3 +19,15 @@ export function createNewOrUpdateExisting(req: Request, res: Response, next: Nex
     .then(userProfile => res.status(201).send(userProfile.toPlainAttributes()))
     .catch(next); // handle globally
 }
+
+export function searchForUserProfilesBySkills(req: Request, res: Response, next: NextFunction): void {
+  let commaSeparatedSkills = req.query?.['skills'];
+  commaSeparatedSkills = typeof commaSeparatedSkills === 'string' ? commaSeparatedSkills : ''; // ignore arrays
+  const skills = commaSeparatedSkills?.split(',');
+
+  userProfileAppService.searchBySkills(skills)
+    .then(matchingUserProfiles => res.status(200).send(
+      matchingUserProfiles.map(userProfile => userProfile.toPlainAttributes())))
+    .catch(next); // handle globally
+
+}

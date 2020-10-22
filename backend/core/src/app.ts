@@ -2,7 +2,7 @@ import express from 'express';
 import {NextFunction, Request, Response} from 'express-serve-static-core';
 import {
   createNewOrUpdateExisting as createNewUserProfileOrUpdateExistingOne,
-  getOne as getUserProfile,
+  getOne as getUserProfile, searchForUserProfilesBySkills,
 } from './adapter/rest/user-profile.rest';
 import {createNew as createNewSkill, search as searchForSkills} from './adapter/rest/skill.rest';
 import {ValidationError} from './domain-model/validation';
@@ -19,9 +19,12 @@ app.options('*', (req: Request, res: Response) => {
 app.get('/user-profiles/:username', getUserProfile);
 app.post('/user-profiles', createNewUserProfileOrUpdateExistingOne);
 app.put('/user-profiles/:username', createNewUserProfileOrUpdateExistingOne);
+app.get('/search/user-profiles', searchForUserProfilesBySkills);
 
 app.post('/skills', createNewSkill);
 app.get('/search/skills', searchForSkills);
+
+// app.get('/search/top', searchForSkillsAndUserProfilesByNames);
 
 // Routes
 app.get('/*', (req, res) => {
