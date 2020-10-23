@@ -1,20 +1,3 @@
-<nav>
-  <object
-    class="navbar-bg-xs"
-    data="assets/navbar-bg-xs.svg"
-    type="image/svg+xml"
-  >
-  </object>
-
-  <div *ngIf="userInitial$ | async as initial" (click)="logOut()">
-    <span>Logout</span>
-  </div>
-  <ui-avatar
-    *ngIf="userInitial$ | async as initial"
-    [initial]="initial"
-    (click)="goToProfile()"
-  ></ui-avatar>
-</nav>
 <div class="content">
   <router-outlet></router-outlet>
 </div>

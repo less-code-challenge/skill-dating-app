@@ -4,13 +4,6 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  nav {
-    align-items: center;
-    height: 78px;
-    padding: 0 16px;
-    display: flex;
-    justify-content: space-between;
-  }
   .content {
     flex-grow: 1;
   }
@@ -32,9 +25,5 @@
     }
 
     background-color: $cg-very-light-pink;
-  }
-  .navbar-bg-xs {
-    width: 100px;
-    height: 78px;
   }
 }

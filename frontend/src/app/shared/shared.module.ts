@@ -11,6 +11,7 @@ import { OverlayComponent } from './overlay/overlay.component';
 
 import { InputComponent } from './forms/input/input.component';
 import { AvatarComponent } from './avatar/avatar.component';
+import { AppHeaderComponent } from './app-header/app-header.component';
 
 const exportedComponents = [
   OverlayComponent,
@@ -19,9 +20,9 @@ const exportedComponents = [
   AvatarComponent,
 ];
 @NgModule({
-  declarations: [AfterSignInCallbackComponent, ...exportedComponents],
+  declarations: [AfterSignInCallbackComponent, ...exportedComponents, AppHeaderComponent],
   imports: [CommonModule],
-  exports: [...exportedComponents],
+  exports: [...exportedComponents, AppHeaderComponent],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

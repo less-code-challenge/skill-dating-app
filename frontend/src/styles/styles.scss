@@ -43,6 +43,7 @@ p {
 .row {
   display: flex;
   flex-wrap: wrap;
+
   &.row--grow {
     flex-grow: 1;
   }
@@ -61,6 +62,7 @@ p {
   padding: 38px 16px;
   display: flex;
   flex-direction: column;
+
   .section__title {
     font-size: 20px;
     font-weight: bold;
@@ -71,6 +73,7 @@ p {
     padding-bottom: 12px;
     color: $cg-deep-purple;
   }
+
   .section__text {
     font-size: 16px;
     font-weight: normal;
@@ -80,6 +83,7 @@ p {
     letter-spacing: normal;
     color: $cg-black;
   }
+
   .section__button {
     background-color: transparent;
     border-radius: 28px;
@@ -100,15 +104,18 @@ p {
   &.section--heading {
     background-color: $cg-deep-purple;
     color: $cg-white;
+
     .section__button {
       color: $cg-zest-green;
       border-color: $cg-zest-green;
     }
+
     .section__text {
       color: $cg-white;
     }
   }
 }
+
 @media (max-width: 320px) {
   .section {
     .section__button {
