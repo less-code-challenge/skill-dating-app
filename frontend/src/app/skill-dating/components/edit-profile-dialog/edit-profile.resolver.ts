@@ -4,7 +4,7 @@ import { empty, Observable } from 'rxjs';
 
 import { UserProfileTo } from '../../model/user-profile.to';
 
-import { SkillClientService } from '../skill.client';
+import { SkillClientService } from '../../services/skill.client';
 @Injectable({ providedIn: 'root' })
 export class EditProfileResolverService
   implements Resolve<Observable<UserProfileTo>> {

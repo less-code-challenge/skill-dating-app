@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeDialogComponent } from './home-dialog.component';
-import { SkillService } from '../skill.service';
+import { SkillService } from '../../services/skill.service';
 import { Observable, of } from 'rxjs';
-import { Skill } from '../../../../../backend/core/src/domain-model/skill';
+import { Skill } from '../../../../../../backend/core/src/domain-model/skill';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HomeDialogComponent', () => {

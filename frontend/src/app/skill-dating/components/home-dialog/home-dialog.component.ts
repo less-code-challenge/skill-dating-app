@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {SkillTo} from 'src/app/model/skill.to';
-import {RecentSearchTo} from 'src/app/model/recent-search.to';
-import {SkillService} from '../skill.service';
+import {SkillService} from '../../services/skill.service';
+import {PopularSkillsTo} from '../../model/popular-skills.to';
 
 @Component({
   selector: 'sd-home-dialog',
@@ -10,12 +9,10 @@ import {SkillService} from '../skill.service';
   styleUrls: ['./home-dialog.component.scss'],
 })
 export class HomeDialogComponent {
-  skills: SkillTo[];
-  searches: RecentSearchTo[];
+  skills: PopularSkillsTo;
 
   constructor(activatedRoute: ActivatedRoute, skills: SkillService) {
     this.skills = activatedRoute.snapshot.data.skills;
-    this.searches = activatedRoute.snapshot.data.searches;
     skills.findAll().subscribe(allSkills => console.log(allSkills));
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { SecurityService } from '../shared/security/security.service';
+import { SecurityService } from '../../../shared/security/security.service';
 
 @Component({
   selector: 'ui-landing-page',

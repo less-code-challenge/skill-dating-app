@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {SkillTo} from './model';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environments/environment';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class SkillService {
   constructor(private readonly http: HttpClient) {
   }
 
-  findAll(): Observable<SkillTo[]> {
-    return this.http.get<SkillTo[]>(`${this.backendUri}/search/skills`);
+  findAll(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.backendUri}/search/skills`);
   }
 }
