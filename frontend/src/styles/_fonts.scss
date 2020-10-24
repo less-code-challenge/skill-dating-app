@@ -53,6 +53,13 @@ p, .paragraph {
   letter-spacing: normal;
 }
 
+.item-title {
+  @extend .tab-title;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.63;
+}
+
 .card-title {
   @extend .tab-title;
   font-size: 20px;
@@ -67,8 +74,8 @@ p, .paragraph {
 }
 
 .tag {
-  @extend p, .paragraph;
+  @extend .tab-title;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: normal;
   line-height: 1;
 }

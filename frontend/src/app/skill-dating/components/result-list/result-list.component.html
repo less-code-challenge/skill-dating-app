@@ -1,8 +1,11 @@
 <ul>
   <ng-container *ngIf="showSkills()" >
-    <li *ngFor="let skill of skills">{{skill}}</li>
+    <li *ngFor="let skill of skills" (click)="notifyOnSkillClick(skill)">{{skill}}</li>
   </ng-container>
   <ng-container *ngIf="showUserProfiles()">
-    <li *ngFor="let profile of userProfiles">{{profile.username}}</li>
+    <li *ngFor="let profile of userProfiles"
+        (click)="notifyOnUserProfileClick(profile)">
+      <sd-user-profile-item [value]="profile"></sd-user-profile-item>
+    </li>
   </ng-container>
 </ul>

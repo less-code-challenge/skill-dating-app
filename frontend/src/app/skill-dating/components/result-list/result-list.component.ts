@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {UserProfileTo} from '../../model/user-profile.to';
 import {PopularSkillsTo} from '../../model/popular-skills.to';
 import {ResultViewType} from '../search-all-dialog/search-all-dialog.component';
@@ -21,11 +21,25 @@ export class ResultListComponent {
   @Input()
   userProfiles: UserProfileTo[];
 
+  @Output()
+  userProfileClick = new EventEmitter<UserProfileTo>();
+
+  @Output()
+  skillClick = new EventEmitter<string>();
+
   showSkills(): boolean {
     return this.skills?.length > 0 && (this.show === ResultViewType.All || this.show === ResultViewType.Skills);
   }
 
   showUserProfiles(): boolean {
     return this.userProfiles?.length > 0 && (this.show === ResultViewType.All || this.show === ResultViewType.People);
+  }
+
+  notifyOnUserProfileClick(profile: UserProfileTo): void {
+    this.userProfileClick.emit(profile);
+  }
+
+  notifyOnSkillClick(skill: string): void {
+    this.skillClick.emit(skill);
   }
 }

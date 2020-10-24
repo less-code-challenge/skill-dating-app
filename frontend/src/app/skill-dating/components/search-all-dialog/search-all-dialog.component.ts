@@ -3,6 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {map, pluck, switchMap, tap} from 'rxjs/operators';
 import {SearchService, UserProfilesAndSkills} from '../../services/search.service';
+import {UserProfileTo} from '../../model/user-profile.to';
 
 const queryParam = 'query';
 
@@ -52,5 +53,10 @@ export class SearchAllDialogComponent {
   updateUrlFragment(resultViewType: ResultViewType): Promise<boolean> {
     return this.router.navigate(['.'],
       {relativeTo: this.route, fragment: ResultViewType[resultViewType]});
+  }
+
+  goToProfileDialogOf(userProfile: UserProfileTo): Promise<boolean> {
+    console.log(userProfile);
+    return this.router.navigate(['/profile']);
   }
 }

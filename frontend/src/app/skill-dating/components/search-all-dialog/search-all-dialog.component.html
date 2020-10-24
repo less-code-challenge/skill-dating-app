@@ -8,5 +8,6 @@
   <sd-result-list *ngIf="matchingResults$ | async as results"
                   [skills]="results.skills"
                   [userProfiles]="results.userProfiles"
-                  [show]="resultViewType$ | async"></sd-result-list>
+                  [show]="resultViewType$ | async"
+                  (userProfileClick)="goToProfileDialogOf($event)"></sd-result-list>
 </section>
