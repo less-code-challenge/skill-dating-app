@@ -7,6 +7,9 @@ import {RouterModule} from '@angular/router';
 import {EditProfileDialogComponent} from './components/edit-profile-dialog/edit-profile-dialog.component';
 import {ProfileDialogComponent} from './components/profile-dialog/profile-dialog.component';
 import {LandingPageComponent} from './components/landing-page/landing-page.component';
+import { SearchAllDialogComponent } from './components/search-all-dialog/search-all-dialog.component';
+import { SearchSkillsDialogComponent } from './components/search-skills-dialog/search-skills-dialog.component';
+import { SearchProfilesDialogComponent } from './components/search-profiles-dialog/search-profiles-dialog.component';
 
 const dialogs = [
   LandingPageComponent,
@@ -16,7 +19,7 @@ const dialogs = [
 ];
 
 @NgModule({
-  declarations: [...dialogs, PopularSkillsComponent],
+  declarations: [...dialogs, PopularSkillsComponent, SearchAllDialogComponent, SearchSkillsDialogComponent, SearchProfilesDialogComponent],
   imports: [CommonModule, RouterModule, SharedModule],
   exports: [...dialogs],
 })

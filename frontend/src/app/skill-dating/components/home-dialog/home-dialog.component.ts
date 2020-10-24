@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SkillService} from '../../services/skill.service';
 import {PopularSkillsTo} from '../../model/popular-skills.to';
 
@@ -10,9 +10,19 @@ import {PopularSkillsTo} from '../../model/popular-skills.to';
 })
 export class HomeDialogComponent {
   skills: PopularSkillsTo;
+  movingTop = false;
 
-  constructor(activatedRoute: ActivatedRoute, skills: SkillService) {
+  constructor(activatedRoute: ActivatedRoute,
+              skills: SkillService,
+              private readonly router: Router) {
     this.skills = activatedRoute.snapshot.data.skills;
     skills.findAll().subscribe(allSkills => console.log(allSkills));
+  }
+
+  goToTopSearch(): void {
+    this.movingTop = true;
+    setTimeout(() => {
+      this.router.navigateByUrl('/search');
+    }, 500);
   }
 }

@@ -11,11 +11,13 @@
     </div>
   </div>
 </div>
-<div class="section search">
-  <div class="row">
-    <div class="col-12">
-      <ui-input placeholder="Enter skill, person or location..."></ui-input>
+<section [class.moving-top]="movingTop">
+  <div class="section search">
+    <div class="row">
+      <div class="col-12">
+        <ui-input placeholder="Enter skill, person or location..." (click)="goToTopSearch()"></ui-input>
+      </div>
     </div>
   </div>
-</div>
-<sd-popular-skills [value]="skills"></sd-popular-skills>
+  <sd-popular-skills [value]="skills"></sd-popular-skills>
+</section>

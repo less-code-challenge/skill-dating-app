@@ -12,6 +12,8 @@ import { OverlayComponent } from './overlay/overlay.component';
 import { InputComponent } from './forms/input/input.component';
 import { AvatarComponent } from './avatar/avatar.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
+import { SearchInputComponent } from './search/search-input/search-input.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 const exportedComponents = [
   OverlayComponent,
@@ -20,9 +22,9 @@ const exportedComponents = [
   AvatarComponent,
 ];
 @NgModule({
-  declarations: [AfterSignInCallbackComponent, ...exportedComponents, AppHeaderComponent],
-  imports: [CommonModule],
-  exports: [...exportedComponents, AppHeaderComponent],
+  declarations: [AfterSignInCallbackComponent, ...exportedComponents, AppHeaderComponent, SearchInputComponent],
+  imports: [CommonModule, ReactiveFormsModule],
+  exports: [...exportedComponents, AppHeaderComponent, SearchInputComponent],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

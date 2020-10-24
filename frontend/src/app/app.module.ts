@@ -16,6 +16,9 @@ import {ProfileDialogComponent} from './skill-dating/components/profile-dialog/p
 import {EditProfileDialogComponent} from './skill-dating/components/edit-profile-dialog/edit-profile-dialog.component';
 import {ProfileResolverService} from './skill-dating/components/profile-dialog/profile.resolver';
 import {EditProfileResolverService} from './skill-dating/components/edit-profile-dialog/edit-profile.resolver';
+import {SearchAllDialogComponent} from './skill-dating/components/search-all-dialog/search-all-dialog.component';
+import {SearchProfilesDialogComponent} from './skill-dating/components/search-profiles-dialog/search-profiles-dialog.component';
+import {SearchSkillsDialogComponent} from './skill-dating/components/search-skills-dialog/search-skills-dialog.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -54,6 +57,18 @@ import {EditProfileResolverService} from './skill-dating/components/edit-profile
               component: ProfileDialogComponent,
               resolve: {profile: ProfileResolverService},
             },
+            {
+              path: 'search',
+              component: SearchAllDialogComponent
+            },
+            {
+              path: 'search/profiles',
+              component: SearchProfilesDialogComponent
+            },
+            {
+              path: 'search/skills',
+              component: SearchSkillsDialogComponent
+            }
           ],
         },
       ],

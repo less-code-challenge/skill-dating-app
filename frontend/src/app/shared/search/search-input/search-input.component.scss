@@ -1,0 +1,27 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding: .5rem 1rem;
+
+  span {
+    cursor: pointer;
+    padding-right: 1rem;
+    font-size: 2rem;
+  }
+
+  ui-input {
+    width: 100%;
+  }
+}
+
+:host(.dark-theme) {
+  background-color: $cg-deep-purple;
+
+  span {
+    color: $cg-white;
+  }
+}

@@ -1,9 +1,23 @@
 @import 'variables';
 
 :host {
+  position: relative;
+
   hr {
     border: 1px solid $cg-grey;
     width: 96%;
   }
- 
+
+  section {
+    background-color: $cg-white;
+    transition: top .5s ease 0s;
+    top: 240px;
+
+    &.moving-top {
+      position: absolute;
+      width: 100vw;
+      top: 0;
+      z-index: 100;
+    }
+  }
 }

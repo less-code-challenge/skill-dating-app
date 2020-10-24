@@ -163,3 +163,7 @@ ul {
 html, body {
   height: 100%;
 }
+
+*:focus {
+  outline: 1px dotted;
+}
