@@ -1,0 +1,24 @@
+@import "variables";
+
+:host {
+  display: flex;
+
+  ul {
+    color: $cg-deep-purple;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+
+    li {
+      cursor: pointer;
+
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+      &.selected {
+        border-bottom: $cg-deep-purple solid 2px;
+      }
+    }
+  }
+}

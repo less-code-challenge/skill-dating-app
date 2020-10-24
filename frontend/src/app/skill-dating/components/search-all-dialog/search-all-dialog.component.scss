@@ -1,0 +1,11 @@
+:host {
+  display: block;
+
+  section.results {
+    padding: .75rem 1rem;
+
+    sd-result-list {
+      margin-top: 1.25rem;
+    }
+  }
+}

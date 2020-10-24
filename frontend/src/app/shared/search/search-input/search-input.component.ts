@@ -1,19 +1,44 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {Subject, Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'sd-search-input',
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss']
 })
-export class SearchInputComponent implements OnInit {
+export class SearchInputComponent implements OnDestroy {
+  @Input()
+  query: string;
+
+  @Output()
+  queryChange = new EventEmitter<string>();
+
+  @Output()
+  backClick = new EventEmitter<void>();
+
+  private throttler = new Subject<string>();
+  private throttlerSubscription: Subscription;
 
   constructor() {
+    this.throttlerSubscription = this.throttler
+      .asObservable()
+      .pipe(
+        debounceTime(700),
+        distinctUntilChanged()
+      )
+      .subscribe(newQuery => this.queryChange.emit(newQuery));
   }
 
-  ngOnInit(): void {
+  notifyOnQueryChange(newQuery: string): void {
+    this.throttler.next(newQuery);
   }
 
-  onQueryChange(newQuery: string): void {
-    console.log(newQuery);
+  notifyOnBackClick(): void {
+    this.backClick.emit();
+  }
+
+  ngOnDestroy(): void {
+    this.throttlerSubscription.unsubscribe();
   }
 }

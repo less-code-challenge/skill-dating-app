@@ -1,0 +1,8 @@
+<ul>
+  <ng-container *ngIf="showSkills()" >
+    <li *ngFor="let skill of skills">{{skill}}</li>
+  </ng-container>
+  <ng-container *ngIf="showUserProfiles()">
+    <li *ngFor="let profile of userProfiles">{{profile.username}}</li>
+  </ng-container>
+</ul>

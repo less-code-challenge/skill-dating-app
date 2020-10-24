@@ -1,0 +1,7 @@
+<ul>
+  <li role="tab" class="tab-title"
+      (click)="selectResultViewType(resultView.type)"
+      [attr.aria-selected]="isResultViewTypeSelected(resultView.type)"
+      [class.selected]="isResultViewTypeSelected(resultView.type)"
+      *ngFor="let resultView of resultViews">{{resultView.label}}</li>
+</ul>

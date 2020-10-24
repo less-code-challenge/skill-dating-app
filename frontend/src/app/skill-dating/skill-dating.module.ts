@@ -8,6 +8,10 @@ import {LandingPageComponent} from './components/landing-page/landing-page.compo
 import {SearchAllDialogComponent} from './components/search-all-dialog/search-all-dialog.component';
 import {SearchSkillsDialogComponent} from './components/search-skills-dialog/search-skills-dialog.component';
 import {SearchProfilesDialogComponent} from './components/search-profiles-dialog/search-profiles-dialog.component';
+import {ResultViewTypesComponent} from './components/search-all-dialog/result-view-types/result-view-types.component';
+import {ResultListComponent} from './components/result-list/result-list.component';
+import {SkillItemComponent} from './components/result-list/skill-item/skill-item.component';
+import {UserProfileItemComponent} from './components/result-list/user-profile-item/user-profile-item.component';
 
 const dialogs = [
   LandingPageComponent,
@@ -20,7 +24,8 @@ const dialogs = [
 ];
 
 @NgModule({
-  declarations: [...dialogs, PopularSkillsComponent],
+  declarations: [...dialogs, PopularSkillsComponent, ResultViewTypesComponent, ResultListComponent, SkillItemComponent,
+    UserProfileItemComponent],
   imports: [SharedModule],
   exports: [...dialogs],
 })

@@ -72,7 +72,7 @@ import {SearchSkillsDialogComponent} from './skill-dating/components/search-skil
           ],
         },
       ],
-      {enableTracing: true}
+      {enableTracing: false}
     ),
     SharedModule.forRoot(),
     SkillDatingModule,
