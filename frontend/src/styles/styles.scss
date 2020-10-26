@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'fonts';
+@import "variables";
+@import "fonts";
 
 // Reboot
 //
@@ -59,28 +59,21 @@ p {
 }
 
 .section {
-  padding: 38px 16px;
+  padding: 24px 16px;
   display: flex;
   flex-direction: column;
 
   .section__title {
     font-size: 20px;
     font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.5;
-    letter-spacing: normal;
     padding-bottom: 12px;
     color: $cg-deep-purple;
   }
 
   .section__text {
     font-size: 16px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.63;
-    letter-spacing: normal;
     color: $cg-black;
   }
 
@@ -160,10 +153,21 @@ ul {
   color: $cg-blue;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
 *:focus {
   outline: 1px dotted;
+}
+
+hr {
+  border: 1px solid $cg-grey;
+  width: 100%;
+}
+small{
+  font-size: 12px;
+  line-height: 1;
+  color: #666666;
 }

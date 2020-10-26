@@ -27,6 +27,11 @@ export class HomeDialogComponent {
     private readonly router: Router
   ) {
     this.skills = activatedRoute.snapshot.data.skills;
+    const profile = activatedRoute.snapshot.data.profile;
+    if (!profile) {
+      this.overlayShown = true;
+    }
+
     skills.findAll().subscribe((allSkills) => console.log(allSkills));
   }
 
@@ -40,8 +45,9 @@ export class HomeDialogComponent {
   configureLater(): void {
     this.security.username$.pipe().subscribe((email) => {
       const initialProfile = initialUserProfileOf(email);
-      this.userProfileClientService.createUserProfile(initialProfile);
-      this.overlayShown = false;
+      this.userProfileClientService
+        .createUserProfile(initialProfile)
+        .subscribe(() => (this.overlayShown = false));
     });
   }
 

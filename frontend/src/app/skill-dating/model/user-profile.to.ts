@@ -30,6 +30,17 @@ export function initialUserProfileOf(email: string): UserProfileTo {
   };
 }
 
+export function userMyProfileOf(userProfile: UserProfileTo) {
+  return {
+    ...userProfile,
+    ...userProfileOf(userProfile),
+
+    getEmail(): string {
+      return `${userProfile.username}@capgemini.com`;
+    },
+  };
+}
+
 export function userProfileOf(userProfile: UserProfileTo): UserProfileMethods {
   const nameParts = userProfile?.username.split('.');
   const firstName = nameParts?.length > 0 ? capitalize(nameParts[0]) : '';

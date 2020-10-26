@@ -1,1 +1,58 @@
-<p>user-profile-search-dialog works!</p>
+<div class="profile-menu">
+  <span class="profile-menu__close"><a routerLink="../"><</a></span
+  ><span class="profile-menu__filler">Edit Profile</span
+  ><span class="profile-menu__edit"><a (click)="save()"> Save</a></span>
+</div>
+
+<div class="section" [formGroup]="formGroup">
+  <div class="row">
+    <div class="col-12 text-center">
+      <ui-avatar
+        class="text-center"
+        initial="{{ profile.getInitials() }}"
+        big="true"
+      ></ui-avatar>
+    </div>
+    <div class="col-12 text-center">
+      <span> <ui-input label="Name and surname" required="true" formGroupName="username"></ui-input></span>
+      <small>Use your real name, so people know who’s who.</small>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="section"  [formGroup]="formGroup">
+  <div class="row">
+    <div class="col-12">
+      <h4>Your skills</h4>
+      <div class="section__field">
+        <span *ngFor="let skill of profile.skills">{{ skill }}</span>
+        <span *ngIf="!profile.skills?.length"> -</span>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-12 section__text">
+      <h4>Contact</h4>
+      <div class="section__field">
+        <span> <ui-input label="Phone number" formGroupName="phoneNo"></ui-input></span>
+      </div>
+      <div class="section__field">
+        <span> <ui-input label="Location"  placeholder="Select city" formGroupName="officeLocation"></ui-input></span>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+  <div class="row">
+    <div class="col-12 section__text">
+      <h4>About you</h4>
+      <div class="section__field">
+        <span> <ui-input label="Position" placeholder="Your position at Capgemini" formGroupName="position"></ui-input></span>
+      </div>
+      <div class="section__field">
+        <span> <ui-input label="Summary"  placeholder="Write a few sentences about you so that people can get to know you better."  formGroupName="description"></ui-input></span>
+      </div>
+    </div>
+  </div>
+</div>

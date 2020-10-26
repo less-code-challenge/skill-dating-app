@@ -1,18 +1,17 @@
+@import "variables";
 :host {
   display: block;
-}
 
-nav {
-  align-items: center;
-  height: 78px;
-  padding: 0 16px;
-  display: flex;
-  justify-content: space-between;
+  nav {
+    align-items: center;
+    height: $navigation-height;
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
 
-  .navbar-bg-xs {
-    width: 100px;
-    height: 78px;
+    .navbar-bg-xs {
+      width: 100px;
+      height: $navigation-height;
+    }
   }
 }
-
-

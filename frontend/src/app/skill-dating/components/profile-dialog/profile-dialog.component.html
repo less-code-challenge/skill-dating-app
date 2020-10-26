@@ -1,18 +1,25 @@
+<div class="profile-menu">
+  <span class="profile-menu__close"><a routerLink="../">X</a></span
+  ><span class="profile-menu__filler"></span
+  ><span class="profile-menu__edit"><a routerLink="./edit"> Edit</a></span>
+</div>
+
 <div class="section section--heading log-in">
   <div class="row">
     <div class="col-12 text-center">
-      <ui-avatar class="text-center"
-        initial="SS"
+      <ui-avatar
+        class="text-center"
+        initial="{{ profile.getInitials() }}"
         big="true"
       ></ui-avatar>
     </div>
     <div class="col-12 text-center">
-      <h3>Marek Matczak</h3>
+      <h3>{{ profile.getFullName() }}</h3>
     </div>
   </div>
   <div class="row row--grow">
     <div class="col-12 section__text text-center">
-      <span>marek.matczak@capgemini.com</span>
+      <span>{{ profile.getEmail() }}</span>
     </div>
   </div>
 </div>
@@ -21,7 +28,8 @@
     <div class="col-12">
       <h4>Your skills</h4>
       <div class="section__field">
-        <span>-</span>
+        <span *ngFor="let skill of profile.skills">{{ skill }}</span>
+        <span *ngIf="!profile.skills?.length"> -</span>
       </div>
     </div>
   </div>
@@ -31,11 +39,11 @@
       <h4>Contact</h4>
       <div class="section__field">
         <span>Phone number</span>
-        <span>-</span>
+        <span>{{ profile.phoneNo || "-" }}</span>
       </div>
       <div class="section__field">
         <span>Location</span>
-        <span>-</span>
+        <span>{{ profile.getOfficeLocation() || "-" }}</span>
       </div>
     </div>
   </div>
@@ -46,11 +54,11 @@
       <h4>About you</h4>
       <div class="section__field">
         <span>Position</span>
-        <span>-</span>
+        <span>{{ profile.description || "-" }}</span>
       </div>
       <div class="section__field">
         <span>Summary</span>
-        <span>-</span>
+        <span>{{ profile.description || "-" }}</span>
       </div>
     </div>
   </div>

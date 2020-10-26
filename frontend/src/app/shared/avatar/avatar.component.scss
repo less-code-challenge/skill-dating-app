@@ -1,6 +1,8 @@
 @import 'variables';
 
 :host {
+  
+  cursor: pointer;
   $avatar-size: 40px;
   $avatar-big-size: 96px;
 

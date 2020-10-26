@@ -1,7 +1,36 @@
-@import 'variables';
+@import "variables";
 :host {
+  .profile-menu {
+    display: flex;
+    height: $navigation-height;
+    width: 100%;
+    padding: 28px 20px;
+    background-color: #0070ad;
+    .profile-menu__filler {
+      flex-grow: 1;
+    }
+    .profile-menu__close {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      line-height: 20px;
+      font-family: cursive;
+    }
+    .profile-menu__edit {
+      justify-content: flex-end;
+      font-size: 16px;
+      letter-spacing: normal;
+      align-content: flex-end;
+    }
+    a {
+      color: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
   .section--heading {
     background-color: $cg-blue;
+    padding-top: 0;
   }
   .section__field {
     font-family: Ubuntu;
@@ -17,9 +46,5 @@
   }
   h4 {
     color: $cg-blue;
-  }
-  hr {
-    border: 1px solid $cg-grey;
-    width: 96%;
   }
 }
