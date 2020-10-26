@@ -10,19 +10,5 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  overlayShown = this.security.username$.pipe(map((email) => !email));
 
-  constructor(
-    private readonly security: SecurityService,
-    private readonly router: Router
-  ) {
-  }
-
-  configureLater(): void {
-    this.overlayShown = of(false);
-  }
-
-  goToConfigureProfile(): void {
-    this.router.navigate(['profile']);
-  }
 }

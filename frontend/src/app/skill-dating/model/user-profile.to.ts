@@ -1,6 +1,8 @@
-import {OfficeLocationTo} from './office-location.to';
+import { OfficeLocationTo } from './office-location.to';
 
 export interface UserProfileTo {
+  firstname: string;
+  lastname: string;
   username: string;
   description?: string;
   phoneNo?: string;
@@ -18,10 +20,21 @@ export interface UserProfileMethods {
   getOfficeLocation(): string;
 }
 
+export function initialUserProfileOf(email: string): UserProfileTo {
+  const [username] = email.split('@');
+  const [firstname, lastname] = username.split('.');
+  return {
+    username,
+    firstname: capitalize(firstname),
+    lastname: capitalize(lastname),
+  };
+}
+
 export function userProfileOf(userProfile: UserProfileTo): UserProfileMethods {
   const nameParts = userProfile?.username.split('.');
   const firstName = nameParts?.length > 0 ? capitalize(nameParts[0]) : '';
-  const lastName = nameParts?.length > 1 ? capitalize(nameParts[nameParts?.length - 1]) : '';
+  const lastName =
+    nameParts?.length > 1 ? capitalize(nameParts[nameParts?.length - 1]) : '';
 
   return {
     getInitials(): string {
@@ -34,7 +47,6 @@ export function userProfileOf(userProfile: UserProfileTo): UserProfileMethods {
     },
     getFullName(): string {
       return `${firstName} ${lastName}`;
-
     },
     getFirstName(): string {
       return firstName;
@@ -46,13 +58,12 @@ export function userProfileOf(userProfile: UserProfileTo): UserProfileMethods {
         return `${office}, ${country}`;
       }
       return '';
-    }
+    },
   };
-
-  function capitalize(text: string): string {
-    if (text?.length > 0) {
-      return text[0].toUpperCase() + text.slice(1);
-    }
-    return text;
+}
+function capitalize(text: string): string {
+  if (text?.length > 0) {
+    return text[0].toUpperCase() + text.slice(1);
   }
+  return text;
 }

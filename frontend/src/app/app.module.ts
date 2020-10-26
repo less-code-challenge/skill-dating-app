@@ -14,7 +14,7 @@ import {RedirectToHomeGuard} from './shared/security/redirect-to-home.guard';
 import {PopularSkillsResolver} from './skill-dating/components/home-dialog/popular-skills.resolver';
 import {ProfileDialogComponent} from './skill-dating/components/profile-dialog/profile-dialog.component';
 import {EditProfileDialogComponent} from './skill-dating/components/edit-profile-dialog/edit-profile-dialog.component';
-import {ProfileResolverService} from './skill-dating/components/profile-dialog/profile.resolver';
+import {UserProfileResolverService} from './shared/user-profile.resolver';
 import {EditProfileResolverService} from './skill-dating/components/edit-profile-dialog/edit-profile.resolver';
 import {SearchAllDialogComponent} from './skill-dating/components/search-all-dialog/search-all-dialog.component';
 import {SearchProfilesDialogComponent} from './skill-dating/components/search-profiles-dialog/search-profiles-dialog.component';
@@ -48,14 +48,19 @@ import {SearchSkillsDialogComponent} from './skill-dating/components/search-skil
           canActivate: [AuthGuard],
           children: [
             {
-              path: 'profile/edit',
+              path: 'my-profile/edit',
               component: EditProfileDialogComponent,
               resolve: {profile: EditProfileResolverService},
             },
             {
-              path: 'profile',
+              path: 'my-profile',
               component: ProfileDialogComponent,
-              resolve: {profile: ProfileResolverService},
+              resolve: {profile: UserProfileResolverService},
+            },
+            {
+              path: 'profile/:username',
+              component: ProfileDialogComponent,
+              resolve: {profile: UserProfileResolverService},
             },
             {
               path: 'search',

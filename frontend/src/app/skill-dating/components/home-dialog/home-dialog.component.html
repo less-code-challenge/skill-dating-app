@@ -21,3 +21,8 @@
   </div>
   <sd-popular-skills [value]="skills"></sd-popular-skills>
 </section>
+<ui-overlay
+  *ngIf="overlayShown | async"
+  (configureLater)="configureLater()"
+  (configureProfile)="goToConfigureProfile()"
+></ui-overlay>

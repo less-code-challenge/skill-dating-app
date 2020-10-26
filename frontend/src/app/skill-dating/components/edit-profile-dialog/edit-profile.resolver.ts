@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { empty, Observable } from 'rxjs';
-
+import { Observable, of } from 'rxjs';
 import { UserProfileTo } from '../../model/user-profile.to';
+import { UserProfileClientService } from '../../services/user-profile.client';
 
-import { SkillClientService } from '../../services/skill.client';
 @Injectable({ providedIn: 'root' })
 export class EditProfileResolverService
   implements Resolve<Observable<UserProfileTo>> {
-  constructor(private readonly skillClientService: SkillClientService) {}
+  constructor(private readonly userProfileService: UserProfileClientService) {}
 
   resolve(): Observable<UserProfileTo> {
-    // return this.skillClientService.findAll();
-    return empty();
+    // return this.userProfileService.getUserProfile();
+    return of(undefined) as any;
   }
 }

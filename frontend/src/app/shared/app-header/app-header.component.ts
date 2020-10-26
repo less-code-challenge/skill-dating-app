@@ -1,12 +1,13 @@
-import {Component} from '@angular/core';
-import {SecurityService} from '../security/security.service';
-import {Observable} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { SecurityService } from '../security/security.service';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sd-app-header',
   templateUrl: './app-header.component.html',
-  styleUrls: ['./app-header.component.scss']
+  styleUrls: ['./app-header.component.scss'],
 })
 export class AppHeaderComponent {
   token$: Observable<string> = this.security.username$;
@@ -18,14 +19,16 @@ export class AppHeaderComponent {
     })
   );
 
-  constructor(private readonly security: SecurityService) {
-  }
+  constructor(
+    private readonly security: SecurityService,
+    private readonly router: Router
+  ) {}
 
   logOut(): void {
     this.security.signOut();
   }
 
   goToProfile(): void {
-    // this.router.navigate(['profile']);
+    this.router.navigate(['my-profile']);
   }
 }
