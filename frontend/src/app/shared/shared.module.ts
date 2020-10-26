@@ -13,7 +13,7 @@ import { InputComponent } from './forms/input/input.component';
 import { AvatarComponent } from './avatar/avatar.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { SearchInputComponent } from './search/search-input/search-input.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserContextService } from './user-context.service';
 
@@ -22,11 +22,14 @@ const exportedComponents = [
   NavigationComponent,
   InputComponent,
   AvatarComponent,
+  AppHeaderComponent,
+  SearchInputComponent,
 ];
 
 const usedAndExportedModules = [
   CommonModule,
   ReactiveFormsModule,
+  FormsModule,
   RouterModule,
 ];
 
@@ -34,15 +37,11 @@ const usedAndExportedModules = [
   declarations: [
     AfterSignInCallbackComponent,
     ...exportedComponents,
-    AppHeaderComponent,
-    SearchInputComponent,
   ],
   imports: [...usedAndExportedModules],
   exports: [
     ...exportedComponents,
     ...usedAndExportedModules,
-    AppHeaderComponent,
-    SearchInputComponent,
   ],
 })
 export class SharedModule {

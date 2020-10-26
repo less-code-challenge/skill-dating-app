@@ -2,9 +2,13 @@
   <input
     class="input"
     type="text"
+    [disabled]="disabled"
     autocomplete="off"
+    [value]="_value"
     [placeholder]="placeholder"
     [attr.aria-label]="placeholder"
-    [formControl]="inputControl"
+    (input)="onUserInput($event)"
+    (change)="onChanged($event)"
+    (blur)="onTouched($event)"
   />
 </div>
