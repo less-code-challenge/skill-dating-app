@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {UserProfileTo} from '../../model/user-profile.to';
 import {PopularSkillsTo} from '../../model/popular-skills.to';
-import {ResultViewType} from '../search-all-dialog/search-all-dialog.component';
+import {ResultViewType} from '../search-all-dialog/result-view-types/result-view-types.component';
 
 @Component({
   selector: 'sd-result-list',

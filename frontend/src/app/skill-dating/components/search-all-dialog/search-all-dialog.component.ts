@@ -4,14 +4,9 @@ import {Observable, of} from 'rxjs';
 import {map, pluck, switchMap, tap} from 'rxjs/operators';
 import {SearchService, UserProfilesAndSkills} from '../../services/search.service';
 import {UserProfileTo} from '../../model/user-profile.to';
+import {ResultViewType} from './result-view-types/result-view-types.component';
 
 const queryParam = 'query';
-
-export enum ResultViewType {
-  All,
-  Skills,
-  People
-}
 
 @Component({
   selector: 'sd-search-all-dialog',
@@ -19,9 +14,9 @@ export enum ResultViewType {
   styleUrls: ['./search-all-dialog.component.scss']
 })
 export class SearchAllDialogComponent {
-  query$: Observable<string>;
-  resultViewType$: Observable<ResultViewType>;
-  matchingResults$: Observable<UserProfilesAndSkills>;
+  readonly query$: Observable<string>;
+  readonly resultViewType$: Observable<ResultViewType>;
+  readonly matchingResults$: Observable<UserProfilesAndSkills>;
 
   constructor(private readonly route: ActivatedRoute,
               private readonly router: Router,
@@ -32,7 +27,7 @@ export class SearchAllDialogComponent {
     );
     this.matchingResults$ = this.query$.pipe(
       switchMap(query => query?.length > 2 ? search.all(query) : of({userProfiles: [], skills: []})),
-      tap(() => console.log(route.snapshot.fragment))
+      tap(results => console.log(results))
     );
     this.resultViewType$ = this.route.fragment
       .pipe(map((resultViewType: string) => {
