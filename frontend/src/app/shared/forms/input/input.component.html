@@ -1,4 +1,7 @@
 <div class="input-wrapper">
+  <span *ngIf="label" class="label" 
+    >{{ label }}<span *ngIf="required" class="label__required"> * </span></span
+  >
   <input
     class="input"
     type="text"

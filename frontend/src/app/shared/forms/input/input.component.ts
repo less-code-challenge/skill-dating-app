@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -24,6 +23,12 @@ export class InputComponent implements OnDestroy, ControlValueAccessor {
   constructor() {}
   public disabled: boolean;
   public _value: string = '';
+
+  @Input()
+  label: string;
+  
+  @Input()
+  required: boolean;
 
   @Input()
   placeholder: string;
