@@ -49,8 +49,7 @@ export class SearchAllDialogComponent {
   }
 
   goToProfileDialogOf(userProfile: UserProfileTo): Promise<boolean> {
-    console.log(userProfile);
-    return this.router.navigate(['/profile']);
+    return this.router.navigate(['/profile', userProfile.username]);
   }
 
   goToSearchProfilesDialog(skill: string): Promise<boolean> {

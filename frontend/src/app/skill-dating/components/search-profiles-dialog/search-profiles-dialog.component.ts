@@ -47,4 +47,8 @@ export class SearchProfilesDialogComponent {
     const skippedSkills = this.route.snapshot.paramMap.get(skillsParam) || '';
     return this.router.navigate(['/search/skills', {skippedSkills}]);
   }
+
+  goToProfileDialogOf(userProfile: UserProfileTo): Promise<boolean> {
+    return this.router.navigate(['/profile', userProfile.username]);
+  }
 }

@@ -4,5 +4,6 @@
                  (backClick)="goToPreviousDialog()"
                  (skillAddClick)="goToSearchSkillsDialog()"></sd-skill-filter>
 <section class="results">
-  <sd-result-list [userProfiles]="matchingUserProfiles$ | async"></sd-result-list>
+  <sd-result-list [userProfiles]="matchingUserProfiles$ | async"
+                  (userProfileClick)="goToProfileDialogOf($event)"></sd-result-list>
 </section>
