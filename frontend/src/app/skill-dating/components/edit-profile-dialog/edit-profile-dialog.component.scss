@@ -1,5 +1,6 @@
 @import "variables";
 :host {
+  .section{    display: flex;}
   .profile-menu {
     display: flex;
     height: $navigation-height;

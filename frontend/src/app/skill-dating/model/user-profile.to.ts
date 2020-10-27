@@ -1,8 +1,6 @@
 import { OfficeLocationTo } from './office-location.to';
 
 export interface UserProfileTo {
-  firstname: string;
-  lastname: string;
   username: string;
   description?: string;
   phoneNo?: string;
@@ -22,11 +20,8 @@ export interface UserProfileMethods {
 
 export function initialUserProfileOf(email: string): UserProfileTo {
   const [username] = email.split('@');
-  const [firstname, lastname] = username.split('.');
   return {
-    username,
-    firstname: capitalize(firstname),
-    lastname: capitalize(lastname),
+    username
   };
 }
 

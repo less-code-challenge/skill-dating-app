@@ -43,6 +43,9 @@
     span {
       display: block;
     }
+    &.section__field__skills {
+      display: flex;
+    }
   }
   h4 {
     color: $cg-blue;

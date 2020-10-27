@@ -1,0 +1,51 @@
+@import "variables";
+:host {
+  padding: 10px 0;
+  display: block;
+  &.ng-invalid.ng-touched {
+    .input {
+      border-bottom: 2px solid #ff304d !important;
+      box-shadow: 5px 5px 0 0 rgba(255, 48, 77, 0.2) !important;
+    }
+    .label{
+      color: #ff304d !important;
+    }
+  }
+
+  .input-wrapper {
+    box-shadow: 5px 5px 0 0 rgba(43, 10, 61, 0.2);
+    display: flex;
+    align-items: center;
+    transition: all 0.5s ease;
+    position: relative;
+  }
+  .label {
+    margin: 0 0 5px;
+    top: -8px;
+    font: 0.75rem/1.33 "ubuntu", Verdana, Arial, sans-serif;
+    letter-spacing: 0.2px;
+    position: absolute;
+    z-index: 1;
+    left: 8px;
+    color: #666;
+    padding: 0 8px;
+    background: #fff;
+    .label__required {
+      content: "*";
+      display: inline-block;
+      position: relative;
+      color: #e80000 !important;
+      order: 2;
+      left: 2px;
+    }
+  }
+  .input {
+    padding: 8px 24px 8px 16px;
+    width: 100%;
+    transition: all 0.5s ease;
+    height: 59px;
+    color: $cg-very-dark-grey;
+    border-width: 1px;
+    font-size: 16px;
+  }
+}

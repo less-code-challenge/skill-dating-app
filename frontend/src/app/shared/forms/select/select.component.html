@@ -1,0 +1,15 @@
+<div class="input-wrapper">
+  <span *ngIf="label" class="label" 
+    >{{ label }}<span *ngIf="required" class="label__required"> * </span></span
+  >
+  <select 
+  class="input"
+  [disabled]="disabled"
+  autocomplete="off"
+  [value]="_value"
+  (input)="onUserInput($event)"
+  (change)="onUserInput($event)"
+  (blur)="onTouched($event)">
+    <option *ngFor="let option of _options" [value]="option|json"> {{option.country}}, {{option.office}}</option>
+  </select>
+</div>

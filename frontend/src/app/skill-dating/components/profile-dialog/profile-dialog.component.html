@@ -1,5 +1,5 @@
 <div class="profile-menu">
-  <span class="profile-menu__close"><a routerLink="../">X</a></span
+  <span class="profile-menu__close"><a (click)="goToPrevPage()">X</a></span
   ><span class="profile-menu__filler"></span
   ><span class="profile-menu__edit"><a routerLink="./edit"> Edit</a></span>
 </div>
@@ -27,8 +27,13 @@
   <div class="row">
     <div class="col-12">
       <h4>Your skills</h4>
-      <div class="section__field">
-        <span *ngFor="let skill of profile.skills">{{ skill }}</span>
+      <div class="section__field section__field__skills">
+        <sd-chip
+          *ngFor="let skillControl of profile.skills"
+          disabled="true"
+          [value]="skillControl"
+          dark="true"
+        ></sd-chip>
         <span *ngIf="!profile.skills?.length"> -</span>
       </div>
     </div>
@@ -52,10 +57,6 @@
   <div class="row">
     <div class="col-12 section__text">
       <h4>About you</h4>
-      <div class="section__field">
-        <span>Position</span>
-        <span>{{ profile.description || "-" }}</span>
-      </div>
       <div class="section__field">
         <span>Summary</span>
         <span>{{ profile.description || "-" }}</span>

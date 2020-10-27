@@ -8,30 +8,33 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'ui-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
+  selector: 'ui-select',
+  templateUrl: './select.component.html',
+  styleUrls: ['./select.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: InputComponent,
+      useExisting: SelectComponent,
       multi: true,
     },
   ],
 })
-export class InputComponent implements OnDestroy, ControlValueAccessor {
+export class SelectComponent implements OnDestroy, ControlValueAccessor {
   constructor() {}
   public disabled: boolean;
   public _value = '';
+  public valueObject: number;
 
   @Input()
   label: string;
 
   @Input()
   required: boolean;
-
+  _options:any;
   @Input()
-  placeholder = '';
+  set options(val: any) {
+    this._options = val;
+  }
 
   @Input()
   set value(newValue: string) {
@@ -48,12 +51,13 @@ export class InputComponent implements OnDestroy, ControlValueAccessor {
   onUserInput(event: any) {
     const newValue = event.target.value;
     this._value = newValue;
-    this.valueChange.emit(this._value);
-    this.onChanged(this._value);
+    const js = JSON.parse(this._value);
+    this.valueChange.emit(js);
+    this.onChanged(js);
   }
   writeValue(val: string): void {
-    this._value = val || '';
-    this.valueChange.emit(this._value);
+    this._value = JSON.stringify(val) || '';
+    this.valueChange.emit(val);
     this.onChanged();
   }
 

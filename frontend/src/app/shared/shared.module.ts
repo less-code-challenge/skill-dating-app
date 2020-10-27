@@ -17,12 +17,14 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {UserContextService} from './user-context.service';
 import {ChipComponent} from './forms/chip/chip.component';
+import { SelectComponent } from './forms/select/select.component';
 import {NavigationService} from './navigation/navigation.service';
 
 const exportedComponents = [
   OverlayComponent,
   NavigationComponent,
   InputComponent,
+  SelectComponent,
   AvatarComponent,
   AppHeaderComponent,
   SearchInputComponent,

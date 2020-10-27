@@ -1,1 +1,1 @@
-<span class="item-title">{{value}}</span><button class="icon-btn" (click)="close()">x</button>
+<span class="item-title">{{_value}}</span><button class="icon-btn" *ngIf="!disabled" (click)="close()">x</button>

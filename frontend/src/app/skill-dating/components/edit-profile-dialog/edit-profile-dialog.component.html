@@ -14,7 +14,7 @@
       ></ui-avatar>
     </div>
     <div class="col-12 text-center">
-      <span> <ui-input label="Name and surname" required="true" formGroupName="username"></ui-input></span>
+      <span> <ui-input label="Name and surname" required="true" formControlName="username"></ui-input></span>
       <small>Use your real name, so people know who’s who.</small>
     </div>
   </div>
@@ -25,7 +25,9 @@
     <div class="col-12">
       <h4>Your skills</h4>
       <div class="section__field">
-        <span *ngFor="let skill of profile.skills">{{ skill }}</span>
+        <section> 
+          <span *ngFor="let skill of profile.skills">{{ skill }}</span>
+        </section>
         <span *ngIf="!profile.skills?.length"> -</span>
       </div>
     </div>
@@ -35,10 +37,10 @@
     <div class="col-12 section__text">
       <h4>Contact</h4>
       <div class="section__field">
-        <span> <ui-input label="Phone number" formGroupName="phoneNo"></ui-input></span>
+        <span> <ui-input label="Phone number" formControlName="phoneNo"></ui-input></span>
       </div>
       <div class="section__field">
-        <span> <ui-input label="Location"  placeholder="Select city" formGroupName="officeLocation"></ui-input></span>
+        <span> <ui-select label="Location"  [options]="locations" formControlName="officeLocation"></ui-select></span>
       </div>
     </div>
   </div>
@@ -48,10 +50,7 @@
     <div class="col-12 section__text">
       <h4>About you</h4>
       <div class="section__field">
-        <span> <ui-input label="Position" placeholder="Your position at Capgemini" formGroupName="position"></ui-input></span>
-      </div>
-      <div class="section__field">
-        <span> <ui-input label="Summary"  placeholder="Write a few sentences about you so that people can get to know you better."  formGroupName="description"></ui-input></span>
+        <span> <ui-input label="Summary"  placeholder="Write a few sentences about you so that people can get to know you better."  formControlName="description"></ui-input></span>
       </div>
     </div>
   </div>

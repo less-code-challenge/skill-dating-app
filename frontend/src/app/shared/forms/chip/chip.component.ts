@@ -1,5 +1,6 @@
-import {Component, Output, EventEmitter} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { Component, Output, EventEmitter, Input, HostBinding } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 // tslint:disable-next-line:no-any
 type OnChangeFn = (newValue: any) => void;
@@ -9,14 +10,27 @@ type OnTouchedFn = () => void;
   selector: 'sd-chip',
   templateUrl: './chip.component.html',
   styleUrls: ['./chip.component.scss'],
-  providers: [{provide: NG_VALUE_ACCESSOR, multi: true, useExisting: ChipComponent}]
+  providers: [
+    { provide: NG_VALUE_ACCESSOR, multi: true, useExisting: ChipComponent },
+  ],
 })
 export class ChipComponent implements ControlValueAccessor {
   @Output()
   closeClick = new EventEmitter<string>();
+  @HostBinding('class.dark-theme') darkMode = false;
 
-  value: string;
+  _value: string;
+  @Input()
+  set value(val: string) {
+    this._value = val;
+  }
 
+  @Input()
+  disabled: boolean;
+  @Input()
+  set dark(dark: boolean) {
+    this.darkMode = dark;
+  }
   private onChangeFn: OnChangeFn;
   private onTouchedFn: OnTouchedFn;
 
@@ -30,10 +44,10 @@ export class ChipComponent implements ControlValueAccessor {
 
   // tslint:disable-next-line:no-any
   writeValue(obj: any): void {
-    this.value = obj;
+    this._value = obj;
   }
 
   close(): void {
-    this.closeClick.emit(this.value);
+    this.closeClick.emit(this._value);
   }
 }
