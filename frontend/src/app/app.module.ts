@@ -38,16 +38,15 @@ import { OfficeLocationsResolverService } from './skill-dating/components/edit-p
           component: LandingPageComponent,
           canActivate: [RedirectToHomeGuard],
         },
-
-        {
-          path: 'after-sign-in-callback',
-          component: AfterSignInCallbackComponent,
-        },
         {
           path: '',
           canActivate: [AuthGuard],
           resolve: { profile: MyProfileResolverService },
           children: [
+            {
+              path: 'after-sign-in-callback',
+              component: AfterSignInCallbackComponent,
+            },
             {
               path: 'home',
               component: HomeDialogComponent,
