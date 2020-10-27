@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
@@ -20,12 +21,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class InputComponent implements OnDestroy, ControlValueAccessor {
-  constructor() {}
   public disabled: boolean;
   public _value = '';
 
   @Input()
   label: string;
+
+  @Input()
+  autofocus: boolean;
 
   @Input()
   required: boolean;
@@ -45,6 +48,7 @@ export class InputComponent implements OnDestroy, ControlValueAccessor {
   onChanged: any = () => {};
   onTouched: any = () => {};
 
+  constructor(private element: ElementRef<HTMLInputElement>) {}
   onUserInput(event: any) {
     const newValue = event.target.value;
     this._value = newValue;
@@ -67,6 +71,10 @@ export class InputComponent implements OnDestroy, ControlValueAccessor {
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
-
+  ngAfterContentChecked(): void {
+    if (this.autofocus) {
+      this.element.nativeElement.querySelector('input')?.focus();
+    }
+  }
   ngOnDestroy(): void {}
 }
