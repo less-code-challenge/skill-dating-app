@@ -1,7 +1,7 @@
 <sd-skill-filter class="dark-theme"
                  [skills]="skills$ | async"
                  (skillsChange)="updateUrlParam($event)"
-                 (backClick)="goToPreviousDialog()"
+                 (backClick)="goToSearchAllDialog()"
                  (skillAddClick)="goToSearchSkillsDialog()"></sd-skill-filter>
 <section class="results">
   <sd-result-list [userProfiles]="matchingUserProfiles$ | async"

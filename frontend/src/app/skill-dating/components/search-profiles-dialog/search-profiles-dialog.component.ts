@@ -5,6 +5,7 @@ import {Observable, of} from 'rxjs';
 import {SearchService} from '../../services/search.service';
 import {UserProfileTo} from '../../model/user-profile.to';
 import {Location} from '@angular/common';
+import {NavigationService} from '../../../shared/navigation/navigation.service';
 
 const skillsParam = 'skills';
 
@@ -20,7 +21,7 @@ export class SearchProfilesDialogComponent {
   constructor(private readonly route: ActivatedRoute,
               private readonly router: Router,
               private readonly search: SearchService,
-              private readonly location: Location) {
+              private readonly navigation: NavigationService) {
     this.skills$ = route.params.pipe(
       pluck(skillsParam),
       map(commaSeparatedSkills => (commaSeparatedSkills && commaSeparatedSkills.split(',')) || []));
@@ -39,8 +40,8 @@ export class SearchProfilesDialogComponent {
       {relativeTo: this.route, replaceUrl: true});
   }
 
-  goToPreviousDialog(): void {
-    this.location.back();
+  goToSearchAllDialog(): Promise<boolean> {
+    return this.navigation.goToLastUrlOfDialog('searchAll');
   }
 
   goToSearchSkillsDialog(): Promise<boolean> {

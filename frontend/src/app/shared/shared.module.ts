@@ -17,6 +17,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {UserContextService} from './user-context.service';
 import {ChipComponent} from './forms/chip/chip.component';
+import {NavigationService} from './navigation/navigation.service';
 
 const exportedComponents = [
   OverlayComponent,
@@ -58,6 +59,7 @@ export class SharedModule {
           multi: true,
         },
         UserContextService,
+        NavigationService,
         AuthGuard,
         RedirectToHomeGuard,
       ],
