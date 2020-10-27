@@ -1,0 +1,32 @@
+@import "variables";
+
+:host {
+  display: flex;
+  flex-direction: row;
+
+  border-radius: 1.375rem;
+  background-color: $cg-white;
+  color: $cg-blue;
+
+  button {
+    color: $cg-blue;
+  }
+
+  padding: .5rem .25rem .5rem 1rem;
+
+  span {
+    font-weight: bold;
+    margin-right: .5rem;
+  }
+
+
+}
+
+:host(.dark-theme) {
+  background-color: $cg-blue;
+  color: $cg-white;
+
+  button {
+    color: $cg-white;
+  }
+}

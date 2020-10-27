@@ -16,6 +16,7 @@ import { SearchInputComponent } from './search/search-input/search-input.compone
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserContextService } from './user-context.service';
+import { ChipComponent } from './forms/chip/chip.component';
 
 const exportedComponents = [
   OverlayComponent,
@@ -24,6 +25,7 @@ const exportedComponents = [
   AvatarComponent,
   AppHeaderComponent,
   SearchInputComponent,
+  ChipComponent
 ];
 
 const usedAndExportedModules = [

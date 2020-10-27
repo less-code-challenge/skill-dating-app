@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'sd-skill-item',
@@ -8,4 +8,14 @@ import {Component, Input} from '@angular/core';
 export class SkillItemComponent {
   @Input()
   value: string;
+
+  @Input()
+  addButton = false;
+
+  @Output()
+  addButtonClick = new EventEmitter<string>();
+
+  notifyOnAddButtonClick(): void {
+    this.addButtonClick.emit(this.value);
+  }
 }

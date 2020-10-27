@@ -9,5 +9,6 @@
                   [skills]="results.skills"
                   [userProfiles]="results.userProfiles"
                   [show]="resultViewType$ | async"
-                  (userProfileClick)="goToProfileDialogOf($event)"></sd-result-list>
+                  (userProfileClick)="goToProfileDialogOf($event)"
+                  (skillClick)="goToSearchProfilesDialog($event)"></sd-result-list>
 </section>

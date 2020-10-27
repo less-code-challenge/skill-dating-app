@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {UserProfileTo} from '../../model/user-profile.to';
 import {PopularSkillsTo} from '../../model/popular-skills.to';
 import {ResultViewType} from '../search-all-dialog/result-view-types/result-view-types.component';
@@ -11,6 +11,9 @@ import {ResultViewType} from '../search-all-dialog/result-view-types/result-view
 export class ResultListComponent {
   @Input()
   show: ResultViewType = ResultViewType.All;
+
+  @Input()
+  addSkillButton = false;
 
   @Input()
   skills: string[];
@@ -27,6 +30,9 @@ export class ResultListComponent {
   @Output()
   skillClick = new EventEmitter<string>();
 
+  @Output()
+  addSkillButtonClick = new EventEmitter<string>();
+
   showSkills(): boolean {
     return this.skills?.length > 0 && (this.show === ResultViewType.All || this.show === ResultViewType.Skills);
   }
@@ -41,5 +47,9 @@ export class ResultListComponent {
 
   notifyOnSkillClick(skill: string): void {
     this.skillClick.emit(skill);
+  }
+
+  notifyOnSkillButtonClick(skill: string): void {
+    this.addSkillButtonClick.emit(skill);
   }
 }

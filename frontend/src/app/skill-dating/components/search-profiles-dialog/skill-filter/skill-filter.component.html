@@ -1,0 +1,6 @@
+<button class="back icon-btn item-title" (click)="notifyOnBackClick()">&lt;</button>
+<section>
+    <sd-chip *ngFor="let skillControl of skillControls"
+             [formControl]="skillControl" (closeClick)="removeSkill($event)"></sd-chip>
+</section>
+<button class="icon-btn item-title" (click)="notifyOnSkillAddClick()">Add&nbsp;skill</button>

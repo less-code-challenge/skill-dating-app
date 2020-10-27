@@ -1,0 +1,36 @@
+@import "variables";
+
+:host {
+  display: flex;
+  min-height: 4rem;
+  flex-direction: row;
+  align-items: center;
+
+  padding: .5rem 1rem;
+
+  section {
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    sd-chip {
+      margin: .5rem;
+    }
+  }
+
+
+  //button.back {
+  //  padding-right: 1rem;
+  //  font-size: 2rem;
+  //}
+}
+
+:host(.dark-theme) {
+  background-color: $cg-deep-purple;
+
+  section, button {
+    color: $cg-white;
+  }
+}

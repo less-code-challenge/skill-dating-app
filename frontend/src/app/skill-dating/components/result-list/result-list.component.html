@@ -1,7 +1,9 @@
 <ul>
-  <ng-container *ngIf="showSkills()" >
+  <ng-container *ngIf="showSkills()">
     <li *ngFor="let skill of skills" (click)="notifyOnSkillClick(skill)">
-      <sd-skill-item [value]="skill"></sd-skill-item>
+      <sd-skill-item [value]="skill"
+                     [addButton]="addSkillButton"
+                     (addButtonClick)="notifyOnSkillButtonClick($event)"></sd-skill-item>
     </li>
   </ng-container>
   <ng-container *ngIf="showUserProfiles()">

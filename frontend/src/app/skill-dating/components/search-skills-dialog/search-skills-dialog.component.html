@@ -1,1 +1,9 @@
-<p>search-skills-dialog works!</p>
+<sd-search-input class="dark-theme"
+                 [query]="query$ | async"
+                 (queryChange)="updateUrlParam($event)"
+                 (backClick)="goToPreviousDialog()"></sd-search-input>
+<section class="results">
+  <sd-result-list [skills]="matchingSkills$ | async"
+                  [addSkillButton]="true"
+                  (addSkillButtonClick)="goToSearchProfilesDialog($event)"></sd-result-list>
+</section>

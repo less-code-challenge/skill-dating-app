@@ -3,3 +3,7 @@
   <span class="name item-title">{{value}}</span>
   <span class="office tag">234 People</span>
 </section>
+<ng-container *ngIf="addButton">
+  <span class="placeholder"></span>
+  <button class="icon-btn item-title" (click)="notifyOnAddButtonClick()">Add</button>
+</ng-container>

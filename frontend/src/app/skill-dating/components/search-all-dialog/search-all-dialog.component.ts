@@ -22,12 +22,10 @@ export class SearchAllDialogComponent {
               private readonly router: Router,
               private readonly search: SearchService) {
     this.query$ = route.params.pipe(
-      pluck(queryParam),
-      tap(query => console.log(query))
+      pluck(queryParam)
     );
     this.matchingResults$ = this.query$.pipe(
-      switchMap(query => query?.length > 2 ? search.all(query) : of({userProfiles: [], skills: []})),
-      tap(results => console.log(results))
+      switchMap(query => query?.length > 2 ? search.all(query) : of({userProfiles: [], skills: []}))
     );
     this.resultViewType$ = this.route.fragment
       .pipe(map((resultViewType: string) => {
@@ -35,23 +33,27 @@ export class SearchAllDialogComponent {
       }));
   }
 
-  updateUrlParam(newQuery: string): void {
+  updateUrlParam(newQuery: string): Promise<boolean> {
     const params: Params = {};
     params[queryParam] = newQuery;
-    this.router.navigate([params], {relativeTo: this.route, preserveFragment: true});
+    return this.router.navigate([params], {relativeTo: this.route, preserveFragment: true, replaceUrl: true});
   }
 
-  goToHomeDialog(): void {
-    this.router.navigateByUrl('/home');
+  goToHomeDialog(): Promise<boolean> {
+    return this.router.navigateByUrl('/home');
   }
 
   updateUrlFragment(resultViewType: ResultViewType): Promise<boolean> {
     return this.router.navigate(['.'],
-      {relativeTo: this.route, fragment: ResultViewType[resultViewType]});
+      {relativeTo: this.route, fragment: ResultViewType[resultViewType], replaceUrl: true});
   }
 
   goToProfileDialogOf(userProfile: UserProfileTo): Promise<boolean> {
     console.log(userProfile);
     return this.router.navigate(['/profile']);
+  }
+
+  goToSearchProfilesDialog(skill: string): Promise<boolean> {
+    return this.router.navigate(['/search/profiles', {skills: skill}]);
   }
 }

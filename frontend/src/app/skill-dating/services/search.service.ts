@@ -22,4 +22,14 @@ export class SearchService {
     const params = new HttpParams().append('query', query);
     return this.http.get<UserProfilesAndSkills>(`${this.backendUri}/search/top`, {params});
   }
+
+  userProfilesBySkills(skills: string[]): Observable<UserProfileTo[]> {
+    const params = new HttpParams().append('skills', skills?.join(',') || '');
+    return this.http.get<UserProfileTo[]>(`${this.backendUri}/search/user-profiles`, {params});
+  }
+
+  skills(query: string): Observable<string[]> {
+    const params = new HttpParams().append('query', query);
+    return this.http.get<string[]>(`${this.backendUri}/search/skills`, {params});
+  }
 }
