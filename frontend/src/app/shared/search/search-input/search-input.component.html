@@ -1,5 +1,5 @@
 <span (click)="notifyOnBackClick()">&lt;</span>
-<ui-input placeholder="Search for skill or person"
+<ui-input [placeholder]="placeholder"
           [value]="query"
           [autofocus]="true"
           (valueChange)="notifyOnQueryChange($event)"></ui-input>

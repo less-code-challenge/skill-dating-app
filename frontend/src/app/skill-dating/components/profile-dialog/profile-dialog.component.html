@@ -36,7 +36,7 @@
     <div class="col-12">
       <h4>Your skills</h4>
       <div class="section__field section__field__skills">
-        <span *ngIf="profile.skills?.length; else empty">
+        <span class="value skill-list" *ngIf="profile.skills?.length; else empty">
           <sd-chip
             *ngFor="let skillControl of profile.skills"
             disabled="true"
@@ -52,23 +52,24 @@
     <div class="col-12 section__text">
       <h4>Contact</h4>
       <div class="section__field">
-        <span>Phone number</span>
+        <span class="label">Phone number</span>
         <span *ngIf="profile.phoneNo; else empty">
-          <a class="phone-link" href="tel:{{ profile.phoneNo }}">{{
-            profile.phoneNo
-          }}</a></span
+          <a class="phone-link" href="tel:{{ profile.phoneNo }}">
+            {{ profile.phoneNo }}
+          </a></span
         >
       </div>
       <div class="section__field">
-        <span>Location</span>
-        <span *ngIf="profile.getOfficeLocation() as location; else empty"
+        <span class="label">Location</span>
+        <span class="value" *ngIf="profile.getOfficeLocation() as location; else empty"
           ><a
             class="location-link"
             href="https://www.google.com/maps/search/?api=1&query={{
               location
             }}"
-            >{{ location }}</a
-          ></span
+          >
+            {{ location }}
+          </a></span
         >
       </div>
     </div>
@@ -79,8 +80,8 @@
     <div class="col-12 section__text">
       <h4>About you</h4>
       <div class="section__field">
-        <span>Summary</span>
-        <span *ngIf="profile.description; else empty">
+        <span class="label">Summary</span>
+        <span  class="value" *ngIf="profile.description; else empty">
           {{ profile.description }}
         </span>
       </div>

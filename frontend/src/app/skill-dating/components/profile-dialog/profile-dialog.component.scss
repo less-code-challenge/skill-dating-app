@@ -1,11 +1,20 @@
 @import "variables";
 :host {
+  &.external-profile {
+    .profile-menu,
+    .section--heading {
+      background-color: $cg-deep-purple;
+    }
+    .profile-menu__edit {
+      display: none;
+    }
+  }
   .profile-menu {
     display: flex;
     height: $navigation-height;
     width: 100%;
     padding: 28px 20px;
-    background-color: #0070ad;
+    background-color: $cg-blue;
     .profile-menu__filler {
       flex-grow: 1;
     }
@@ -42,6 +51,10 @@
     letter-spacing: normal;
     span {
       display: block;
+
+      &.skill-list {
+        display: flex;
+      }
     }
     &.section__field__skills {
       display: flex;
@@ -51,7 +64,7 @@
     color: $cg-blue;
   }
   .teams-link {
-    color: white;
+    color: $cg-white;
   }
   .phone-link {
   }

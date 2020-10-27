@@ -1,0 +1,14 @@
+<ul>
+  <li *ngFor="let skill of skills">
+    <sd-profile-skill-item
+      [value]="skill"
+      (addButtonClick)="notifyOnSkillButtonClick($event)"
+    ></sd-profile-skill-item>
+  </li>
+  <li *ngIf="newSkillAllowed">
+    <sd-profile-new-skill-item
+      [value]="query"
+      (addButtonClick)="notifyOnNewSkillButtonClick($event)"
+    ></sd-profile-new-skill-item>
+  </li>
+</ul>

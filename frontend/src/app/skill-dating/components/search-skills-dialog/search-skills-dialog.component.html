@@ -1,4 +1,5 @@
 <sd-search-input class="dark-theme"
+                 placeholder="Search for skill"
                  [query]="query$ | async"
                  (queryChange)="updateUrlParam($event)"
                  (backClick)="goToPreviousDialog()"></sd-search-input>

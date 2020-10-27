@@ -1,0 +1,26 @@
+<div class="add-profile-skill-menu">
+  <sd-search-input
+    placeholder="Search for skill"
+    [query]="query$ | async"
+    (queryChange)="updateUrlParam($event)"
+    (backClick)="goToPreviousDialog()"
+  ></sd-search-input>
+  <div><a (click)="finish()" >Add</a></div>
+</div>
+<section class="selected-skills"> 
+  <sd-chip
+  *ngFor="let skill of currentSkills"
+  [value]="skill"
+  (closeClick)="removeSkill(skill)"
+  dark="true"
+></sd-chip>
+</section>
+<section class="results">
+  <sd-profile-result-list
+    [skills]="matchingSkills$ | async"
+    [query]="query$ | async"
+    [newSkillAllowed] = "newSkillAllowed$ |async"
+    (addSkillButtonClick)="addSkillToList($event)"
+    (addNewSkillButtonClick)="addNewSkillToList($event)"
+  ></sd-profile-result-list>
+</section>

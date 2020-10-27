@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Navigation, UrlTree } from '@angular/router';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { userMyProfileOf } from '../../model/user-profile.to';
 
 @Component({
@@ -10,15 +10,20 @@ import { userMyProfileOf } from '../../model/user-profile.to';
 })
 export class ProfileDialogComponent implements OnInit {
   profile: any;
+  @HostBinding('class.external-profile') externalProfile = false;
+
   constructor(
-    private readonly activatedRoute: ActivatedRoute,
+    activatedRoute: ActivatedRoute,
     private readonly location: Location
   ) {
+    this.externalProfile = activatedRoute.snapshot.data.externalProfile;
     const profile = activatedRoute.snapshot.data.profile;
     this.profile = userMyProfileOf(profile);
   }
-  goToPrevPage() {
+  goToPrevPage(): void {
     this.location.back();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log();
+  }
 }

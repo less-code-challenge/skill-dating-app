@@ -1,6 +1,8 @@
 @import "variables";
 :host {
-  .section{    display: flex;}
+  .section {
+    display: flex;
+  }
   .profile-menu {
     display: flex;
     height: $navigation-height;
@@ -45,11 +47,15 @@
     font-style: normal;
     line-height: 1.63;
     letter-spacing: normal;
+    margin: 8px 0;
     span {
       display: block;
     }
   }
   h4 {
     color: $cg-blue;
+  }
+  .skill-chips{
+    display: flex;
   }
 }

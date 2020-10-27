@@ -1,0 +1,18 @@
+@import "variables";
+
+:host {
+  display: block;
+
+  ul {
+    margin: 0;
+
+    li {
+      padding: .75rem 0;
+      cursor: pointer;
+
+      &:not(:last-child) {
+        border-bottom: $cg-light-grey solid 1px;
+      }
+    }
+  }
+}

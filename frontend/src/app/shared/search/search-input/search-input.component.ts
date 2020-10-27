@@ -11,6 +11,9 @@ export class SearchInputComponent implements OnDestroy {
   @Input()
   query: string;
 
+  @Input()
+  placeholder: string;
+
   @Output()
   queryChange = new EventEmitter<string>();
 

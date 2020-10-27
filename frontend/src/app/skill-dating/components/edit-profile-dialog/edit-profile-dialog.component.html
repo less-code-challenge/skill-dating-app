@@ -14,21 +14,35 @@
       ></ui-avatar>
     </div>
     <div class="col-12 text-center">
-      <span> <ui-input label="Name and surname" required="true" formControlName="username"></ui-input></span>
+      <span>
+        <ui-input
+          label="Name and surname"
+          required="true"
+          formControlName="username"
+        ></ui-input
+      ></span>
       <small>Use your real name, so people know who’s who.</small>
     </div>
   </div>
 </div>
-<hr>
-<div class="section"  [formGroup]="formGroup">
+<hr />
+<div class="section" [formGroup]="formGroup">
   <div class="row">
     <div class="col-12">
-      <h4>Your skills</h4>
+      <h4 class="skills-label">
+        Your skills
+        <button class="button" (click)="goToAddSkill()">+ Add</button>
+      </h4>
       <div class="section__field">
-        <section> 
-          <span *ngFor="let skill of profile.skills">{{ skill }}</span>
+        <section class="skill-chips">
+          <sd-chip
+            *ngFor="let skillElem of formGroup.get('skills')?.value"
+            [value]="skillElem"
+            (closeClick)="removeSkill(skillElem)"
+            dark="true"
+          ></sd-chip>
         </section>
-        <span *ngIf="!profile.skills?.length"> -</span>
+        <span *ngIf="!formGroup.get('skills')?.value?.length"> -</span>
       </div>
     </div>
   </div>
@@ -37,10 +51,18 @@
     <div class="col-12 section__text">
       <h4>Contact</h4>
       <div class="section__field">
-        <span> <ui-input label="Phone number" formControlName="phoneNo"></ui-input></span>
+        <span>
+          <ui-input label="Phone number" formControlName="phoneNo"></ui-input
+        ></span>
       </div>
       <div class="section__field">
-        <span> <ui-select label="Location"  [options]="locations" formControlName="officeLocation"></ui-select></span>
+        <span>
+          <ui-select
+            label="Location"
+            [options]="locations"
+            formControlName="officeLocation"
+          ></ui-select
+        ></span>
       </div>
     </div>
   </div>
@@ -50,7 +72,13 @@
     <div class="col-12 section__text">
       <h4>About you</h4>
       <div class="section__field">
-        <span> <ui-input label="Summary"  placeholder="Write a few sentences about you so that people can get to know you better."  formControlName="description"></ui-input></span>
+        <span>
+          <ui-input
+            label="Summary"
+            placeholder="Write a few sentences about you so that people can get to know you better."
+            formControlName="description"
+          ></ui-input
+        ></span>
       </div>
     </div>
   </div>
