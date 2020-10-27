@@ -39,7 +39,11 @@ p {
 }
 
 ///
-
+a{
+  align-items: center;
+  text-decoration: none;
+  color: #0070ad;
+}
 .row {
   display: flex;
   flex-wrap: wrap;

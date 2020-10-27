@@ -35,7 +35,7 @@ export class EditProfileDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-  save() {
+  save(): void {
     if (this.formGroup.valid) {
       const editedProfile = this.formGroup.value;
       this.userProfileClientService

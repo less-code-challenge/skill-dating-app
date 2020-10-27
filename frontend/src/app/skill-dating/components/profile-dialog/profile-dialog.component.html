@@ -19,7 +19,15 @@
   </div>
   <div class="row row--grow">
     <div class="col-12 section__text text-center">
-      <span>{{ profile.getEmail() }}</span>
+      <span
+        ><a
+          class="teams-link"
+          href="https://teams.microsoft.com/l/chat/0/0?users={{
+            profile.getEmail()
+          }}"
+          >{{ profile.getEmail() }}</a
+        ></span
+      >
     </div>
   </div>
 </div>
@@ -28,13 +36,14 @@
     <div class="col-12">
       <h4>Your skills</h4>
       <div class="section__field section__field__skills">
-        <sd-chip
-          *ngFor="let skillControl of profile.skills"
-          disabled="true"
-          [value]="skillControl"
-          dark="true"
-        ></sd-chip>
-        <span *ngIf="!profile.skills?.length"> -</span>
+        <span *ngIf="profile.skills?.length; else empty">
+          <sd-chip
+            *ngFor="let skillControl of profile.skills"
+            disabled="true"
+            [value]="skillControl"
+            dark="true"
+          ></sd-chip>
+        </span>
       </div>
     </div>
   </div>
@@ -44,11 +53,23 @@
       <h4>Contact</h4>
       <div class="section__field">
         <span>Phone number</span>
-        <span>{{ profile.phoneNo || "-" }}</span>
+        <span *ngIf="profile.phoneNo; else empty">
+          <a class="phone-link" href="tel:{{ profile.phoneNo }}">{{
+            profile.phoneNo
+          }}</a></span
+        >
       </div>
       <div class="section__field">
         <span>Location</span>
-        <span>{{ profile.getOfficeLocation() || "-" }}</span>
+        <span *ngIf="profile.getOfficeLocation() as location; else empty"
+          ><a
+            class="location-link"
+            href="https://www.google.com/maps/search/?api=1&query={{
+              location
+            }}"
+            >{{ location }}</a
+          ></span
+        >
       </div>
     </div>
   </div>
@@ -59,8 +80,12 @@
       <h4>About you</h4>
       <div class="section__field">
         <span>Summary</span>
-        <span>{{ profile.description || "-" }}</span>
+        <span *ngIf="profile.description; else empty">
+          {{ profile.description }}
+        </span>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #empty> - </ng-template>
