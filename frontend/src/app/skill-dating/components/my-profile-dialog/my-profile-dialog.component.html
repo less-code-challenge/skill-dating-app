@@ -1,5 +1,10 @@
-<div class="section section--heading">
-  <span class="profile-menu__close"><a (click)="goToPrevPage()"><</a></span>
+<div class="profile-menu">
+  <span class="profile-menu__close"><a (click)="goToPrevPage()">X</a></span
+  ><span class="profile-menu__filler"></span
+  ><span class="profile-menu__edit"><a routerLink="./edit"> Edit</a></span>
+</div>
+
+<div class="section section--heading log-in">
   <div class="row">
     <div class="col-12 text-center">
       <ui-avatar
@@ -14,14 +19,23 @@
   </div>
   <div class="row row--grow">
     <div class="col-12 section__text text-center">
-      <span> {{ profile.getOfficeLocation() }}</span>
+      <span
+        ><a
+          class="teams-link"
+          href="https://teams.microsoft.com/l/chat/0/0?users={{
+            profile.getEmail()
+          }}"
+        >
+          {{ profile.getEmail() }}
+        </a></span
+      >
     </div>
   </div>
 </div>
 <div class="section">
   <div class="row">
     <div class="col-12">
-      <h4>My skills</h4>
+      <h4>Your skills</h4>
       <div class="section__field section__field__skills">
         <span
           class="value skill-list"
@@ -39,58 +53,36 @@
   <hr />
   <div class="row">
     <div class="col-12 section__text">
-      <h4>Contact my</h4>
+      <h4>Contact</h4>
       <div class="section__field">
-        <span>
-          <span class="email-icon"></span>
-          <a class="email-link" href="mailto:{{ profile.email }}">
-            {{ profile.email }}
-          </a></span
-        >
-      </div>
-      <div class="section__field">
-        <span>
-          <span class="phone-icon"></span>
-          <a
-            *ngIf="profile.phoneNo; else empty"
-            class="phone-link"
-            href="tel:{{ profile.phoneNo }}"
-          >
+        <span class="label">Phone number</span>
+        <span *ngIf="profile.phoneNo; else empty">
+          <a class="phone-link" href="tel:{{ profile.phoneNo }}">
             {{ profile.phoneNo }}
           </a></span
         >
       </div>
       <div class="section__field">
-        <span>
-          <span class="skype-icon"></span>
-          <a
-            *ngIf="profile.phoneNo; else empty"
-            class="skype-link"
-            href="skype:{{ profile.phoneNo }}"
-          >
-            Skype
-          </a></span
-        >
-      </div>
-      <div class="section__field">
-        <span>
-          <span class="teams-icon"></span>
-          <a
-            class="teams-link"
-            href="https://teams.microsoft.com/l/chat/0/0?users={{
-              profile.getEmail()
+        <span class="label">Location</span>
+        <span
+          class="value"
+          *ngIf="profile.getOfficeLocation() as location; else empty"
+          ><a
+            class="location-link"
+            href="https://www.google.com/maps/search/?api=1&query={{
+              location
             }}"
           >
-            Teams
-          </a>
-        </span>
+            {{ location }}
+          </a></span
+        >
       </div>
     </div>
   </div>
   <hr />
   <div class="row">
     <div class="col-12 section__text">
-      <h4>About me</h4>
+      <h4>About you</h4>
       <div class="section__field">
         <span class="label">Summary</span>
         <span class="value" *ngIf="profile.description; else empty">
@@ -98,6 +90,14 @@
         </span>
       </div>
     </div>
+  </div> 
+   <hr />
+
+
+  <div class="row">
+    <div class="col-12 section__text">
+      <a (click)="logOut()">Log out</a>
+    </div>
   </div>
-  <ng-template #empty> - </ng-template>
 </div>
+<ng-template #empty> - </ng-template>

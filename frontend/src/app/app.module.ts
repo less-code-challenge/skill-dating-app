@@ -26,6 +26,7 @@ import {
 } from './shared/navigation/navigation.service';
 import { OfficeLocationsResolverService } from './skill-dating/components/edit-profile-dialog/office-locations.resolver';
 import { AddProfileSkillsDialogComponent } from './skill-dating/components/add-profile-skills-dialog/add-profile-skills-dialog.component';
+import { MyProfileDialogComponent } from './skill-dating/components/my-profile-dialog/my-profile-dialog.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -69,16 +70,13 @@ import { AddProfileSkillsDialogComponent } from './skill-dating/components/add-p
             },
             {
               path: 'my-profile',
-              component: ProfileDialogComponent,
+              component: MyProfileDialogComponent,
               resolve: { profile: MyProfileResolverService },
             },
             {
               path: 'profile/:username',
               component: ProfileDialogComponent,
               resolve: { profile: UserProfileResolverService },
-              data: {
-                externalProfile: true,
-              },
             },
             {
               path: paths.searchAll,

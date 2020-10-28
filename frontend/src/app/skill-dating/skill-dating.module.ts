@@ -18,11 +18,13 @@ import { AddProfileSkillResultListComponent } from './components/add-profile-ski
 import { ProfileSkillItemComponent } from './components/add-profile-skills-dialog/result-list/skill-item/skill-item.component';
 import { ProfileNewSkillItemComponent } from './components/add-profile-skills-dialog/result-list/new-skill-item/new-skill-item.component';
 import { SkillListComponent } from './components/add-profile-skills-dialog/result-list/skill-list/skill-list.component';
+import { MyProfileDialogComponent } from './components/my-profile-dialog/my-profile-dialog.component';
 
 const dialogs = [
   LandingPageComponent,
   HomeDialogComponent,
   ProfileDialogComponent,
+  MyProfileDialogComponent,
   EditProfileDialogComponent,
   SearchAllDialogComponent,
   SearchSkillsDialogComponent,

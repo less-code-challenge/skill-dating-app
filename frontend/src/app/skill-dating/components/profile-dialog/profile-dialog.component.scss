@@ -1,54 +1,28 @@
 @import "variables";
 :host {
-  &.external-profile {
-    .profile-menu,
-    .section--heading {
-      background-color: $cg-deep-purple;
-    }
-    .profile-menu__edit {
-      display: none;
-    }
-  }
-  .profile-menu {
-    display: flex;
-    height: $navigation-height;
-    width: 100%;
-    padding: 28px 20px;
-    background-color: $cg-blue;
-    .profile-menu__filler {
-      flex-grow: 1;
-    }
+  .section--heading {
+    background-color: $cg-deep-purple;
+    padding-top: 0;
     .profile-menu__close {
       width: 20px;
       height: 20px;
       font-size: 20px;
       line-height: 20px;
       font-family: cursive;
+      a {
+        color: #ffffff;
+        text-decoration: none;
+        cursor: pointer;
+      }
     }
-    .profile-menu__edit {
-      justify-content: flex-end;
-      font-size: 16px;
-      letter-spacing: normal;
-      align-content: flex-end;
-    }
-    a {
-      color: #ffffff;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  }
-  .section--heading {
-    background-color: $cg-blue;
-    padding-top: 0;
   }
   .section__field {
-    
     padding-top: 16px;
     :not(:last-child) {
       padding-bottom: 24px;
     }
     span {
-      display: block;
+      display: flex;
     }
   }
   .label {
@@ -60,13 +34,16 @@
     color: #666666;
   }
   h4 {
-    color: $cg-blue;
+    color: $cg-deep-purple;
   }
-  .teams-link {
-    color: $cg-white;
-  }
-  .phone-link {
-  }
-  .location-link {
+
+  .teams-icon,
+  .skype-icon,
+  .email-icon,
+  .phone-icon {
+    margin-right:4px; 
+    background-color: red;
+    height: 20px;
+    width: 20px;
   }
 }
