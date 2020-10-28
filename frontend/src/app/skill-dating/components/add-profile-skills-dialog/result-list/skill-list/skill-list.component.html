@@ -1,0 +1,7 @@
+<sd-chip
+*ngFor="let skill of skills"
+[value]="skill"
+(closeClick)="removeSkill(skill)"
+[dark]="dark"
+[disabled]="disabled"
+></sd-chip>

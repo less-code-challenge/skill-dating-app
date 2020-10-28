@@ -190,4 +190,9 @@ small {
     line-height: 48px;
     height: 52px;
   }
+  &.button--inverted{
+    color: $cg-white;
+    background-color: $cg-vibrant-blue;
+    border-color: $cg-vibrant-blue;
+  }
 }

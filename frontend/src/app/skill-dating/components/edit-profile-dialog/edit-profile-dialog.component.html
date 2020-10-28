@@ -30,18 +30,16 @@
   <div class="row">
     <div class="col-12">
       <h4 class="skills-label">
-        Your skills
+        <span>Your skills</span>
+        <span class="filler"></span>
         <button class="button" (click)="goToAddSkill()">+ Add</button>
       </h4>
       <div class="section__field">
-        <section class="skill-chips">
-          <sd-chip
-            *ngFor="let skillElem of formGroup.get('skills')?.value"
-            [value]="skillElem"
-            (closeClick)="removeSkill(skillElem)"
-            dark="true"
-          ></sd-chip>
-        </section>
+        <sd-skill-list
+          [skills]="formGroup.get('skills')?.value"
+          (removeSkillClick)="removeSkill($event)"
+          dark="true"
+        ></sd-skill-list>
         <span *ngIf="!formGroup.get('skills')?.value?.length"> -</span>
       </div>
     </div>

@@ -6,9 +6,7 @@
   >
   </object>
 
-  <div *ngIf="userInitial$ | async as initial" (click)="logOut()">
-    <span>Logout</span>
-  </div>
+
   <ui-avatar
     *ngIf="userInitial$ | async as initial"
     [initial]="initial"

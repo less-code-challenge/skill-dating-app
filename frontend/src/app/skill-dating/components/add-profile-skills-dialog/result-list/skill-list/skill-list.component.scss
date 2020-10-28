@@ -1,0 +1,10 @@
+@import "variables";
+
+:host {
+  display: flex;
+  padding-bottom: 0;
+  flex-wrap: wrap;
+  sd-chip {
+    margin-top: 10px;
+  }
+}

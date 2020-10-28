@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SecurityService } from 'src/app/shared/security/security.service';
 import { userMyProfileOf } from '../../model/user-profile.to';
 
 @Component({
@@ -14,7 +15,8 @@ export class ProfileDialogComponent implements OnInit {
 
   constructor(
     activatedRoute: ActivatedRoute,
-    private readonly location: Location
+    private readonly location: Location,
+    private readonly security: SecurityService,
   ) {
     this.externalProfile = activatedRoute.snapshot.data.externalProfile;
     const profile = activatedRoute.snapshot.data.profile;
@@ -26,4 +28,9 @@ export class ProfileDialogComponent implements OnInit {
   ngOnInit(): void {
     console.log();
   }
+  
+  logOut(): void {
+    this.security.signOut();
+  }
+
 }

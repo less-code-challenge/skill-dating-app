@@ -25,8 +25,9 @@
           href="https://teams.microsoft.com/l/chat/0/0?users={{
             profile.getEmail()
           }}"
-          >{{ profile.getEmail() }}</a
-        ></span
+        >
+          {{ profile.getEmail() }}
+        </a></span
       >
     </div>
   </div>
@@ -36,13 +37,15 @@
     <div class="col-12">
       <h4>Your skills</h4>
       <div class="section__field section__field__skills">
-        <span class="value skill-list" *ngIf="profile.skills?.length; else empty">
-          <sd-chip
-            *ngFor="let skillControl of profile.skills"
-            disabled="true"
-            [value]="skillControl"
+        <span
+          class="value skill-list"
+          *ngIf="profile.skills?.length; else empty"
+        >
+          <sd-skill-list
+            [skills]="profile.skills"
             dark="true"
-          ></sd-chip>
+            disabled="true"
+          ></sd-skill-list>
         </span>
       </div>
     </div>
@@ -61,7 +64,9 @@
       </div>
       <div class="section__field">
         <span class="label">Location</span>
-        <span class="value" *ngIf="profile.getOfficeLocation() as location; else empty"
+        <span
+          class="value"
+          *ngIf="profile.getOfficeLocation() as location; else empty"
           ><a
             class="location-link"
             href="https://www.google.com/maps/search/?api=1&query={{
@@ -74,19 +79,25 @@
       </div>
     </div>
   </div>
-
   <hr />
   <div class="row">
     <div class="col-12 section__text">
       <h4>About you</h4>
       <div class="section__field">
         <span class="label">Summary</span>
-        <span  class="value" *ngIf="profile.description; else empty">
+        <span class="value" *ngIf="profile.description; else empty">
           {{ profile.description }}
         </span>
       </div>
     </div>
+  </div> 
+   <hr />
+
+
+  <div class="row">
+    <div class="col-12 section__text">
+      <a (click)="logOut()">Log out</a>
+    </div>
   </div>
 </div>
-
 <ng-template #empty> - </ng-template>

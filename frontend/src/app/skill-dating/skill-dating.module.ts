@@ -17,6 +17,7 @@ import { AddProfileSkillsDialogComponent } from './components/add-profile-skills
 import { AddProfileSkillResultListComponent } from './components/add-profile-skills-dialog/result-list/result-list.component';
 import { ProfileSkillItemComponent } from './components/add-profile-skills-dialog/result-list/skill-item/skill-item.component';
 import { ProfileNewSkillItemComponent } from './components/add-profile-skills-dialog/result-list/new-skill-item/new-skill-item.component';
+import { SkillListComponent } from './components/add-profile-skills-dialog/result-list/skill-list/skill-list.component';
 
 const dialogs = [
   LandingPageComponent,
@@ -41,6 +42,7 @@ const dialogs = [
     AddProfileSkillResultListComponent,
     ProfileSkillItemComponent,
     ProfileNewSkillItemComponent,
+    SkillListComponent
   ],
   imports: [SharedModule],
   exports: [...dialogs],

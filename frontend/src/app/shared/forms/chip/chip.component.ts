@@ -1,5 +1,11 @@
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { Component, Output, EventEmitter, Input, HostBinding } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  Input,
+  HostBinding,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 // tslint:disable-next-line:no-any

@@ -24,10 +24,6 @@ export class AppHeaderComponent {
     private readonly router: Router
   ) {}
 
-  logOut(): void {
-    this.security.signOut();
-  }
-
   goToProfile(): void {
     this.router.navigate(['my-profile']);
   }

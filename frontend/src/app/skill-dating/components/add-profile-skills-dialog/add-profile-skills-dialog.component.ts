@@ -4,6 +4,7 @@ import { SearchService } from '../../services/search.service';
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, pluck, switchMap } from 'rxjs/operators';
 import { Location } from '@angular/common';
+import { SkillService } from '../../services/skill.service';
 
 const queryParam = 'query';
 const skippedSkillsParam = 'skippedSkills';
@@ -21,6 +22,7 @@ export class AddProfileSkillsDialogComponent {
 
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly skillService: SkillService,
     private readonly router: Router,
     search: SearchService,
     private readonly location: Location
@@ -30,7 +32,9 @@ export class AddProfileSkillsDialogComponent {
     this.matchingSkills$ = route.params.pipe(
       switchMap(({ skippedSkills: commaSeparatedSkippedSkills, query }) => {
         const skippedSkills = splitSkills(commaSeparatedSkippedSkills);
-        this.currentSkills = skippedSkills;
+
+        this.currentSkills.length = 0;
+        skippedSkills.forEach((elem) => this.currentSkills.push(elem));
         return query?.length > 2
           ? search
               .skills(query)
@@ -52,13 +56,15 @@ export class AddProfileSkillsDialogComponent {
     ).pipe(
       map(
         ([query, list]) =>
-          list.indexOf(query) === -1 && this.currentSkills.indexOf(query) === -1
+          !!query &&
+          list.indexOf(query) === -1 &&
+          this.currentSkills.indexOf(query) === -1
       )
     );
   }
 
   currentSkills: string[] = [];
-  finish(): void {
+  addSelectedSkills(): void {
     this.router.navigate(['../', { skills: this.currentSkills.join(',') }], {
       relativeTo: this.route,
     });
@@ -68,7 +74,9 @@ export class AddProfileSkillsDialogComponent {
     this.updateUrlParamSkills([...this.currentSkills, skill]);
   }
   addNewSkillToList(skill: string): void {
-    this.updateUrlParamSkills([...this.currentSkills, skill]);
+    this.skillService.createSkill({ name: skill }).subscribe((savedSkill) => {
+      this.updateUrlParamSkills([...this.currentSkills, savedSkill.name]);
+    });
   }
   removeSkill(skill: string): void {
     this.updateUrlParamSkills(

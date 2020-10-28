@@ -55,7 +55,11 @@
   h4 {
     color: $cg-blue;
   }
-  .skill-chips{
+  .skills-label {
     display: flex;
+    align-items: center;
+    .filler {
+      flex-grow: 1;
+    }
   }
 }

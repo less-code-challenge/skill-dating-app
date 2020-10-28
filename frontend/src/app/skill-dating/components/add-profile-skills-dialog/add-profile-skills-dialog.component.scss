@@ -1,25 +1,25 @@
 @import "variables";
 :host {
-  a {
-    color: #ffffff;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .add-profile-skill-menu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  sd-search-input {
     background-color: #0070ad;
     display: flex;
     align-items: center;
   }
-  section.selected-skills {
-    display: flex;
-    padding: 6px 20px;
-    padding-bottom: 0;
-    flex-wrap: wrap;
-    sd-chip {
-      margin-top: 10px;
-    }
+  sd-skill-list {
+    padding: 0 10px;
   }
+
   section.results {
     padding: 0.75rem 1rem;
+    flex-grow: 1;
+  }
+  section.add-skills {
+    button {
+      min-width: 280px;
+    }
+    padding: 10px 0;
   }
 }

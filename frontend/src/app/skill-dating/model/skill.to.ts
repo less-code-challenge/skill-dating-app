@@ -1,4 +1,4 @@
 export interface SkillTo {
-  id: string;
+  id?: string;
   name: string;
 }
