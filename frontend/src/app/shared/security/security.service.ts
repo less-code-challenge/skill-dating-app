@@ -6,6 +6,7 @@ import {Hub} from '@aws-amplify/core';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {createUserFrom, User} from './user';
 
 interface SecurityContext {
   username?: string;
@@ -15,12 +16,14 @@ interface SecurityContext {
 @Injectable()
 export class SecurityService {
   readonly username$: Observable<string>;
+  readonly user$: Observable<User | undefined>;
   readonly jwtAccessToken$: Observable<string>;
 
   constructor(public readonly router: Router) {
     Auth.configure(environment.authConfig);
     const userContext$ = createUserContextFromCurrentSession();
     this.username$ = userContext$.pipe(map(context => context.username || ''));
+    this.user$ = this.username$.pipe(map(email => createUserFrom(email)));
     this.jwtAccessToken$ = userContext$.pipe(map(context => context.jwtAccessToken || ''));
     this.navigateToBackUrlOnSignIn();
   }

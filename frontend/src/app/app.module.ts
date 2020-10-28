@@ -89,6 +89,9 @@ import { ProfileDialogComponent } from './skill-dating/components/profile-dialog
             {
               path: paths.searchSkills,
               component: SearchSkillsDialogComponent,
+              resolve: {
+                skillPopularity: PopularSkillsResolver
+              }
             },
           ],
         },

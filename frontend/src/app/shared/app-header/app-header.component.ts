@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { SecurityService } from '../security/security.service';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {SecurityService} from '../security/security.service';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'sd-app-header',
@@ -10,19 +10,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./app-header.component.scss'],
 })
 export class AppHeaderComponent {
-  token$: Observable<string> = this.security.username$;
-  userInitial$ = this.token$.pipe(
-    filter((email) => !!email),
-    map((email: string) => {
-      const [[firstInitial], [secondInitial]] = email.toUpperCase().split('.');
-      return firstInitial + secondInitial;
-    })
-  );
+  userInitial$: Observable<string | undefined>;
 
   constructor(
     private readonly security: SecurityService,
     private readonly router: Router
-  ) {}
+  ) {
+    this.userInitial$ = security.user$
+      .pipe(map(user => user?.initials));
+  }
 
   goToProfile(): void {
     this.router.navigate(['my-profile']);

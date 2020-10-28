@@ -4,6 +4,7 @@ import {SearchService} from '../../services/search.service';
 import {Observable, of} from 'rxjs';
 import {map, pluck, switchMap} from 'rxjs/operators';
 import {Location} from '@angular/common';
+import {PopularSkillsTo} from '../../model/popular-skills.to';
 
 const queryParam = 'query';
 const skippedSkillsParam = 'skippedSkills';
@@ -16,6 +17,7 @@ const skippedSkillsParam = 'skippedSkills';
 export class SearchSkillsDialogComponent {
   readonly query$: Observable<string>;
   readonly matchingSkills$: Observable<string[]>;
+  readonly skillPopularity: PopularSkillsTo;
 
   constructor(private readonly route: ActivatedRoute,
               private readonly router: Router,
@@ -34,6 +36,8 @@ export class SearchSkillsDialogComponent {
           : of([]);
       }),
     );
+
+    this.skillPopularity = route.snapshot.data?.skillPopularity;
   }
 
   updateUrlParam(newQuery: string): Promise<boolean> {

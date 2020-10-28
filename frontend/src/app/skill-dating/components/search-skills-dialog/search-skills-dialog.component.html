@@ -6,5 +6,6 @@
 <section class="results">
   <sd-result-list [skills]="matchingSkills$ | async"
                   [addSkillButton]="true"
-                  (addSkillButtonClick)="goToSearchProfilesDialog($event)"></sd-result-list>
+                  (addSkillButtonClick)="goToSearchProfilesDialog($event)"
+                  [popularSkills]="skillPopularity"></sd-result-list>
 </section>

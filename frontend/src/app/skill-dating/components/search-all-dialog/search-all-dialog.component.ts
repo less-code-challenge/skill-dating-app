@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
-import {map, pluck, switchMap, tap} from 'rxjs/operators';
+import {map, pluck, switchMap} from 'rxjs/operators';
 import {SearchService, UserProfilesAndSkills} from '../../services/search.service';
 import {UserProfileTo} from '../../model/user-profile.to';
 import {ResultViewType} from './result-view-types/result-view-types.component';

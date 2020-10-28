@@ -26,7 +26,7 @@ export class RecentAndPopularSkillsComponent {
           name: skillName,
           popularity: newPopularSkills[skillName]
         }))
-        .sort((skill1, skill2) => skill1.popularity - skill2.popularity)
+        .sort((skill1, skill2) => skill2.popularity - skill1.popularity)
         .filter(skill => skill.popularity > 1)
         .slice(0, 3)
         .map(skill => skill.name);
