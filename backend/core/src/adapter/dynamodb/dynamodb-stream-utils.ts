@@ -1,9 +1,44 @@
 import {AttributeValue, DynamoDBRecord} from 'aws-lambda/trigger/dynamodb-stream';
 import {AttributeMap, DocumentUpdates, HavingPrimaryKey, SerializableAsAttributeMap} from '../../domain-model/common';
+import {UserProfile} from '../../domain-model/user-profile';
+import {SkillPopularity} from '../../domain-model/skill';
 
 type DynamodbStreamImage = { [key: string]: AttributeValue };
 
 type DocumentFactoryFn<T extends HavingPrimaryKey & SerializableAsAttributeMap> = (attributes: AttributeMap | undefined) => T;
+
+export function createSkillPopularityUpdate(dynamodbStreamRecords: DynamoDBRecord[] | undefined,
+                                            userProfileFactoryFn: DocumentFactoryFn<UserProfile>): SkillPopularity | undefined {
+  if (dynamodbStreamRecords) {
+    return dynamodbStreamRecords.reduce((skillPopularity, dynamodbStreamRecord) => {
+      const oldSkillNames = getSkillNamesIfAny(dynamodbStreamRecord.dynamodb?.OldImage);
+      const newSkillNames = getSkillNamesIfAny(dynamodbStreamRecord.dynamodb?.NewImage);
+      oldSkillNames?.forEach(skillName => {
+        const skillRemoved = !(newSkillNames?.indexOf(skillName) !== -1);
+        if (skillRemoved) {
+          const currentSkillPopularity = skillPopularity[skillName] != null ? skillPopularity[skillName] : 0;
+          skillPopularity[skillName] = currentSkillPopularity - 1;
+        }
+      });
+      newSkillNames?.forEach(newSkillName => {
+        const skillAdded = !(oldSkillNames?.indexOf(newSkillName) !== -1);
+        if (skillAdded) {
+          const currentSkillPopularity = skillPopularity[newSkillName] != null ? skillPopularity[newSkillName] : 0;
+          skillPopularity[newSkillName] = currentSkillPopularity + 1;
+        }
+      });
+      return skillPopularity;
+    }, {} as SkillPopularity);
+  }
+
+  function getSkillNamesIfAny(attributeMap: DynamodbStreamImage | undefined): string[] | undefined {
+    const userProfileAttributes = flatDynamodbStreamAttributeValues(attributeMap);
+    if (userProfileAttributes) {
+      const userProfile = userProfileFactoryFn(userProfileAttributes);
+      return userProfile?.skills?.map(skill => skill.value);
+    }
+  }
+}
 
 export function createDocumentUpdatesFromDynamodbStreamRecords<T extends HavingPrimaryKey & SerializableAsAttributeMap>(
   dynamodbStreamRecords: DynamoDBRecord[] | undefined,
@@ -36,10 +71,12 @@ function flatDynamodbStreamAttributeValues(attributeMap: DynamodbStreamImage | u
     }, {});
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function flatDynamodbStreamAttributeValuesInArray(attributeValues: AttributeValue[] | undefined): any[] | undefined {
     return attributeValues?.map(mapDynamodbStreamValueToSimpleOne);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function mapDynamodbStreamValueToSimpleOne(dynamodbStreamAttributeValue: AttributeValue): any {
     let attributeValue;
     if (dynamodbStreamAttributeValue.S) {

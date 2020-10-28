@@ -128,4 +128,8 @@ export class UserProfile implements HavingPrimaryKey, SerializableAsAttributeMap
   }
 }
 
+export function userProfileFactory(attributes: AttributeMap | undefined): UserProfile {
+  const username = attributes?.[Username.attributeName];
+  return UserProfile.builder(username).attributes(attributes).build();
+}
 

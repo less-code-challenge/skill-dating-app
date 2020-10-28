@@ -1,6 +1,6 @@
 import {UserProfileSearchRepository} from '../../domain-model/user-profile-search.repository';
 import {SkillName} from '../../domain-model/skill';
-import {UserProfile} from '../../domain-model/user-profile';
+import {UserProfile, userProfileFactory} from '../../domain-model/user-profile';
 import {bulk, createClient} from './common';
 import {AttributeMap, DocumentUpdates} from '../../domain-model/common';
 import {appConfig} from '../../app-config';
@@ -51,8 +51,8 @@ export class UserProfileSearchElasticsearchRepository implements UserProfileSear
       .then(({body}) => {
           const matchingUserProfiles = body?.hits?.hits;
           if (matchingUserProfiles && matchingUserProfiles.length > 0) {
-            return matchingUserProfiles.map((matchingSkill: { _source: { username: string } & AttributeMap; }) =>
-              UserProfile.builder(matchingSkill._source.username).attributes(matchingSkill._source).build());
+            return matchingUserProfiles.map(
+              (matchingSkill: { _source: AttributeMap; }) => userProfileFactory(matchingSkill._source));
           }
           return [];
         }

@@ -1,9 +1,13 @@
-import {DynamoDBStreamHandler} from 'aws-lambda/trigger/dynamodb-stream';
+import {DynamoDBStreamEvent, DynamoDBStreamHandler} from 'aws-lambda/trigger/dynamodb-stream';
 import {skillSearchRepository} from './adapter/elasticsearch/skill-search.elasticsearch-repository';
 import {Skill, SkillId, SkillName} from './domain-model/skill';
-import {Username, UserProfile} from './domain-model/user-profile';
+import {UserProfile, userProfileFactory} from './domain-model/user-profile';
 import {userProfileSearchRepository} from './adapter/elasticsearch/user-profile-search.elasticsearch-repository';
-import {createDocumentUpdatesFromDynamodbStreamRecords} from './adapter/dynamodb/dynamodb-stream-utils';
+import {
+  createDocumentUpdatesFromDynamodbStreamRecords,
+  createSkillPopularityUpdate
+} from './adapter/dynamodb/dynamodb-stream-utils';
+import {skillPopularityRepository} from './adapter/elasticsearch/skill-popularity.elasticsearch-repository';
 
 export const handleSkills: DynamoDBStreamHandler = function (event) {
   console.log(JSON.stringify(event, null, 2));
@@ -22,12 +26,21 @@ export const handleSkills: DynamoDBStreamHandler = function (event) {
 export const handleUserProfiles: DynamoDBStreamHandler = function (event) {
   console.log(JSON.stringify(event, null, 2));
   try {
-    const updates = createDocumentUpdatesFromDynamodbStreamRecords<UserProfile>(event.Records, attributes => {
-      const username = attributes?.[Username.attributeName];
-      return UserProfile.builder(username).attributes(attributes).build();
-    });
-    return updates ? userProfileSearchRepository.onUserProfileUpdates(updates) : Promise.resolve();
+    return Promise.all([
+      updateUserProfiles(event),
+      updateSkillPopularity(event)
+    ]).then(() => undefined);
   } catch (e) {
     return Promise.reject(e);
   }
 };
+
+function updateUserProfiles(event: DynamoDBStreamEvent): Promise<void> {
+  const updates = createDocumentUpdatesFromDynamodbStreamRecords<UserProfile>(event.Records, userProfileFactory);
+  return updates ? userProfileSearchRepository.onUserProfileUpdates(updates) : Promise.resolve();
+}
+
+function updateSkillPopularity(event: DynamoDBStreamEvent): Promise<void> {
+  const newSkillPopularity = createSkillPopularityUpdate(event.Records, userProfileFactory);
+  return newSkillPopularity ? skillPopularityRepository.merge(newSkillPopularity) : Promise.resolve();
+}

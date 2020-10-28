@@ -85,6 +85,7 @@ export function createSkillIdsFromAttributes(attributes: AttributeMap): SkillId[
 
 interface SkillUpdateBuilder {
   idsOfOldSkills(skillIds?: SkillId[]): SkillUpdateBuilder;
+
   idsOfNewSkills(skillIds?: SkillId[]): SkillUpdateBuilder;
 
   build(): SkillUpdate;
@@ -97,7 +98,7 @@ export class SkillUpdate {
 
     return {
       idsOfOldSkills(skillIds: SkillId[]) {
-        oldSkillIds = skillIds && Array.isArray(skillIds)  ? [...skillIds] : [];
+        oldSkillIds = skillIds && Array.isArray(skillIds) ? [...skillIds] : [];
         return this;
       },
 
@@ -152,4 +153,23 @@ export class SkillUpdate {
     const noSkillsToDelete = !this.hasSkillsToDelete();
     return noSkillsToPut && noSkillsToDelete;
   }
+}
+
+export type SkillPopularity = { [skill: string]: number };
+
+export function mergeWith(newSkillPopularity: SkillPopularity): (oldSkillPopularity: SkillPopularity) => SkillPopularity {
+  return function (oldSkillPopularity: SkillPopularity) {
+    return Object.keys(newSkillPopularity).reduce((mergedSkillPopularity, skillName) => {
+      const newValue = newSkillPopularity[skillName];
+      const oldValue = mergedSkillPopularity[skillName];
+      let mergedValue = (oldValue != null) ? oldValue : 0;
+      mergedValue += (newValue != null) ? newValue : 0;
+      if (mergedValue > 0) {
+        mergedSkillPopularity[skillName] = mergedValue;
+      } else {
+        delete mergedSkillPopularity[skillName];
+      }
+      return mergedSkillPopularity;
+    }, {...oldSkillPopularity} as SkillPopularity);
+  };
 }

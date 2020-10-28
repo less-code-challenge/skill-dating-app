@@ -9,4 +9,5 @@ export const appConfig = {
   elasticsearchPassword: process.env.elasticsearchPassword || '',
   elasticsearchSkillIndex: process.env.elasticsearchSkillIndex || 'skills',
   elasticsearchUserProfileIndex: process.env.elasticsearchUserProfileIndex || 'profiles',
+  elasticsearchSkillPopularityIndex: process.env.elasticsearchSkillPopularityIndex || 'skill-popularity',
 };
