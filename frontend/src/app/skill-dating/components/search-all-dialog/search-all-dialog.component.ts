@@ -5,6 +5,7 @@ import {map, pluck, switchMap} from 'rxjs/operators';
 import {SearchService, UserProfilesAndSkills} from '../../services/search.service';
 import {UserProfileTo} from '../../model/user-profile.to';
 import {ResultViewType} from './result-view-types/result-view-types.component';
+import {PopularSkillsTo} from '../../model/popular-skills.to';
 
 const queryParam = 'query';
 
@@ -17,6 +18,7 @@ export class SearchAllDialogComponent {
   readonly query$: Observable<string>;
   readonly resultViewType$: Observable<ResultViewType>;
   readonly matchingResults$: Observable<UserProfilesAndSkills>;
+  readonly skillPopularity: PopularSkillsTo;
 
   constructor(private readonly route: ActivatedRoute,
               private readonly router: Router,
@@ -31,6 +33,7 @@ export class SearchAllDialogComponent {
       .pipe(map((resultViewType: string) => {
         return ResultViewType[resultViewType as keyof typeof ResultViewType] || ResultViewType.All;
       }));
+    this.skillPopularity = route.snapshot.data?.skillPopularity;
   }
 
   updateUrlParam(newQuery: string): Promise<boolean> {

@@ -10,6 +10,7 @@
                   [skills]="results.skills"
                   [userProfiles]="results.userProfiles"
                   [show]="resultViewType$ | async"
+                  [popularSkills]="skillPopularity"
                   (userProfileClick)="goToProfileDialogOf($event)"
                   (skillClick)="goToSearchProfilesDialog($event)"></sd-result-list>
 </section>

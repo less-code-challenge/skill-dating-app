@@ -80,6 +80,9 @@ import {UserResolver} from './shared/resolvers/user.resolver';
             {
               path: paths.searchAll,
               component: SearchAllDialogComponent,
+              resolve: {
+                skillPopularity: PopularSkillsResolver
+              }
             },
             {
               path: paths.searchProfiles,

@@ -7,11 +7,8 @@
 
   padding: 0.5rem 1rem;
 
-  span {
-    cursor: pointer;
-    padding-right: 1rem;
-    font-size: 2rem;
-    color: $cg-white;
+  sd-back-button {
+    margin-right: 1rem;
   }
 
   ui-input {

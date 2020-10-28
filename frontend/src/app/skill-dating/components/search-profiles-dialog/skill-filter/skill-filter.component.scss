@@ -15,16 +15,12 @@
     flex-direction: row;
     flex-wrap: wrap;
 
+    margin-left: .5rem;
+
     sd-chip {
       margin: .5rem;
     }
   }
-
-
-  //button.back {
-  //  padding-right: 1rem;
-  //  font-size: 2rem;
-  //}
 }
 
 :host(.dark-theme) {

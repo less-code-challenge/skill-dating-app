@@ -21,6 +21,7 @@ import {NavigationService} from './navigation/navigation.service';
 import {TextareaComponent} from './forms/textarea/textarea.component';
 import {EditedProfileStoreService} from '../skill-dating/components/edit-profile-dialog/edited-profile-store.service';
 import {UserResolver} from './resolvers/user.resolver';
+import {BackButtonComponent} from './buttons/back-button/back-button.component';
 
 const exportedComponents = [
   OverlayComponent,
@@ -32,6 +33,7 @@ const exportedComponents = [
   SearchInputComponent,
   TextareaComponent,
   ChipComponent,
+  BackButtonComponent
 ];
 
 const usedAndExportedModules = [
@@ -42,7 +44,7 @@ const usedAndExportedModules = [
 ];
 
 @NgModule({
-  declarations: [AfterSignInCallbackComponent, ...exportedComponents],
+  declarations: [AfterSignInCallbackComponent, ...exportedComponents, BackButtonComponent],
   imports: [...usedAndExportedModules],
   exports: [...exportedComponents, ...usedAndExportedModules],
 })
