@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, filter } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, filter, takeUntil } from 'rxjs/operators';
 import { userMyProfileOf, UserProfileTo } from '../../model/user-profile.to';
 import { UserProfileClientService } from '../../services/user-profile.client';
+import { EditedProfileStoreService } from './edited-profile-store.service';
 
 const skillsParam = 'skills';
 
@@ -13,20 +15,25 @@ const skillsParam = 'skills';
   templateUrl: './edit-profile-dialog.component.html',
   styleUrls: ['./edit-profile-dialog.component.scss'],
 })
-export class EditProfileDialogComponent {
+export class EditProfileDialogComponent implements OnDestroy {
   profile: any;
-
+  destroy$ = new Subject<void>();
   formGroup: FormGroup;
   locations = [];
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly location: Location,
     private readonly userProfileClientService: UserProfileClientService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly editedProfileStoreService: EditedProfileStoreService
   ) {
-    const profile = activatedRoute.snapshot.data.profile;
+    this.locations = activatedRoute.snapshot.data.oficeLocations;
+    const profile =
+      editedProfileStoreService.editedUserProfile.value ||
+      activatedRoute.snapshot.data.profile;
+
     this.profile = userMyProfileOf(profile);
+
     this.formGroup = this.fb.group({
       username: [{ value: this.profile.username, disabled: true }],
       description: [this.profile.description],
@@ -35,8 +42,6 @@ export class EditProfileDialogComponent {
       skills: [this.profile.skills],
     });
 
-    this.locations = activatedRoute.snapshot.data.oficeLocations;
-
     activatedRoute.paramMap
       .pipe(
         filter((paramMap) => paramMap.has(skillsParam)),
@@ -44,9 +49,18 @@ export class EditProfileDialogComponent {
         map(
           (commaSeparatedSkills) =>
             (commaSeparatedSkills && commaSeparatedSkills.split(',')) || []
-        )
+        ),
+        takeUntil(this.destroy$)
       )
       .subscribe((val) => this.formGroup.get('skills')?.setValue(val));
+    this.formGroup.valueChanges
+      .pipe(
+        map(() => this.formGroup.getRawValue()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((changes) =>
+        this.editedProfileStoreService.profileChanged(changes)
+      );
   }
 
   removeSkill(skill: string): void {
@@ -56,18 +70,27 @@ export class EditProfileDialogComponent {
 
   save(): void {
     if (this.formGroup.valid) {
-      const editedProfile = { ...this.profile, ...this.formGroup.value };
+      const editedProfile = {
+        username: this.profile.username,
+        ...this.formGroup.value,
+      };
       this.userProfileClientService
         .updateUserProfile(editedProfile)
-        .subscribe(() =>
-          this.router.navigate(['../'], { relativeTo: this.activatedRoute })
-        );
+        .subscribe(() => {
+          this.editedProfileStoreService.clear();
+          this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+        });
     }
   }
-  goToAddSkill() {
+  goToAddSkill(): Promise<boolean> {
     const skippedSkills = this.formGroup.get('skills')?.value || [];
     return this.router.navigate(['add-skill', { skippedSkills }], {
       relativeTo: this.activatedRoute,
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

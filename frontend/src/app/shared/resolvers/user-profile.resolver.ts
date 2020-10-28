@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { UserProfileTo } from '../skill-dating/model/user-profile.to';
+import { UserProfileTo } from 'src/app/skill-dating/model/user-profile.to';
+import { UserProfileClientService } from 'src/app/skill-dating/services/user-profile.client';
 
-import { UserProfileClientService } from '../skill-dating/services/user-profile.client';
 
 @Injectable({ providedIn: 'root' })
 export class UserProfileResolverService

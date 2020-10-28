@@ -15,11 +15,11 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { SearchInputComponent } from './search/search-input/search-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UserContextService } from './user-context.service';
 import { ChipComponent } from './forms/chip/chip.component';
 import { SelectComponent } from './forms/select/select.component';
 import { NavigationService } from './navigation/navigation.service';
 import { TextareaComponent } from './forms/textarea/textarea.component';
+import { EditedProfileStoreService } from '../skill-dating/components/edit-profile-dialog/edited-profile-store.service';
 
 const exportedComponents = [
   OverlayComponent,
@@ -56,7 +56,7 @@ export class SharedModule {
           useClass: AuthHttpInterceptor,
           multi: true,
         },
-        UserContextService,
+        EditedProfileStoreService,
         NavigationService,
         AuthGuard,
         RedirectToHomeGuard,

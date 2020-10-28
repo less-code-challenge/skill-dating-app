@@ -12,21 +12,21 @@ import { AuthGuard } from './shared/security/auth.guard';
 import { LandingPageComponent } from './skill-dating/components/landing-page/landing-page.component';
 import { RedirectToHomeGuard } from './shared/security/redirect-to-home.guard';
 import { PopularSkillsResolver } from './skill-dating/components/home-dialog/popular-skills.resolver';
-import { ProfileDialogComponent } from './skill-dating/components/profile-dialog/profile-dialog.component';
 import { EditProfileDialogComponent } from './skill-dating/components/edit-profile-dialog/edit-profile-dialog.component';
-import { UserProfileResolverService } from './shared/user-profile.resolver';
 import { EditProfileResolverService } from './skill-dating/components/edit-profile-dialog/edit-profile.resolver';
 import { SearchAllDialogComponent } from './skill-dating/components/search-all-dialog/search-all-dialog.component';
 import { SearchProfilesDialogComponent } from './skill-dating/components/search-profiles-dialog/search-profiles-dialog.component';
 import { SearchSkillsDialogComponent } from './skill-dating/components/search-skills-dialog/search-skills-dialog.component';
-import { MyProfileResolverService } from './shared/my-profile.resolver';
+import { MyProfileResolverService } from './shared/resolvers/my-profile.resolver';
 import {
   NavigationService,
   paths,
 } from './shared/navigation/navigation.service';
-import { OfficeLocationsResolverService } from './skill-dating/components/edit-profile-dialog/office-locations.resolver';
 import { AddProfileSkillsDialogComponent } from './skill-dating/components/add-profile-skills-dialog/add-profile-skills-dialog.component';
 import { MyProfileDialogComponent } from './skill-dating/components/my-profile-dialog/my-profile-dialog.component';
+import { OfficeLocationsResolverService } from './shared/resolvers/office-locations.resolver';
+import { UserProfileResolverService } from './shared/resolvers/user-profile.resolver';
+import { ProfileDialogComponent } from './skill-dating/components/profile-dialog/profile-dialog.component';
 
 @NgModule({
   declarations: [AppComponent],
