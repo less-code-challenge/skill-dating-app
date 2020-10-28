@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SkillService } from '../../services/skill.service';
 import { PopularSkillsTo } from '../../model/popular-skills.to';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SecurityService } from 'src/app/shared/security/security.service';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { UserProfileClientService } from '../../services/user-profile.client';
-import { initialUserProfileOf } from '../../model/user-profile.to';
+import {
+  initialUserProfileOf,
+  UserProfileTo,
+} from '../../model/user-profile.to';
 
 @Component({
   selector: 'sd-home-dialog',
@@ -43,15 +46,20 @@ export class HomeDialogComponent {
   }
 
   configureLater(): void {
-    this.security.username$.pipe().subscribe((email) => {
-      const initialProfile = initialUserProfileOf(email);
-      this.userProfileClientService
-        .createUserProfile(initialProfile)
-        .subscribe(() => (this.overlayShown = false));
-    });
+    this.createInitialProfile().subscribe(() => (this.overlayShown = false));
   }
 
   goToConfigureProfile(): void {
-    this.router.navigate(['profile']);
+    this.createInitialProfile().subscribe(() =>
+      this.router.navigate(['my-profile'])
+    );
+  }
+  private createInitialProfile(): Observable<UserProfileTo> {
+    return this.security.username$.pipe(
+      map((email) => initialUserProfileOf(email)),
+      switchMap((initialProfile) =>
+        this.userProfileClientService.createUserProfile(initialProfile)
+      )
+    );
   }
 }
