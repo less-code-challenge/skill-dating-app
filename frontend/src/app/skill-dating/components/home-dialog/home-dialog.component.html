@@ -2,7 +2,7 @@
 <div class="section section--heading hello">
   <div class="row">
     <div class="col-12">
-      <h1>Hi you!</h1>
+      <h1>Hi {{userFirstName}}!</h1>
     </div>
   </div>
   <div class="row row--grow">
@@ -21,7 +21,8 @@
         ></ui-input>
       </div>
     </div>
-    <sd-recent-and-popular-skills [popularSkills]="skills" (skillClick)="goToSearchProfilesDialog($event)"></sd-recent-and-popular-skills>
+    <sd-recent-and-popular-skills [popularSkills]="skills"
+                                  (skillClick)="goToSearchProfilesDialog($event)"></sd-recent-and-popular-skills>
   </div>
 </section>
 <ui-overlay

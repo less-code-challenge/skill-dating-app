@@ -7,6 +7,7 @@ import {SecurityService} from 'src/app/shared/security/security.service';
 import {map, switchMap} from 'rxjs/operators';
 import {UserProfileClientService} from '../../services/user-profile.client';
 import {initialUserProfileOf, UserProfileTo,} from '../../model/user-profile.to';
+import {User} from '../../../shared/security/user';
 
 @Component({
   selector: 'sd-home-dialog',
@@ -15,9 +16,10 @@ import {initialUserProfileOf, UserProfileTo,} from '../../model/user-profile.to'
 })
 export class HomeDialogComponent {
   overlayShown = false;
-
   skills: PopularSkillsTo;
   movingTop = false;
+
+  readonly userFirstName: string;
 
   constructor(
     activatedRoute: ActivatedRoute,
@@ -27,12 +29,12 @@ export class HomeDialogComponent {
     private readonly router: Router
   ) {
     this.skills = activatedRoute.snapshot.data.skills;
+    const user = activatedRoute.snapshot.data.user as User | undefined;
+    this.userFirstName = user?.firstName || '';
     const profile = activatedRoute.snapshot.data.profile;
     if (!profile) {
       this.overlayShown = true;
     }
-
-    skills.findAll().subscribe((allSkills) => console.log(allSkills));
   }
 
   goToTopSearch(): void {
