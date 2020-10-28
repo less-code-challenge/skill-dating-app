@@ -27,7 +27,7 @@ export class SkillPopularityElasticsearchRepository implements SkillPopularityRe
   }
 
   private update(newSkillPopularity: SkillPopularity): Promise<void> {
-    return createClient().update({
+    return createClient().index({
       index: skillPopularityIndex,
       id: skillPopularityId,
       body: newSkillPopularity
