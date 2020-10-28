@@ -3,8 +3,6 @@
 :host {
   position: relative;
 
-
-
   section {
     background-color: $cg-white;
     transition: margin-top .5s ease 0s;
@@ -13,6 +11,10 @@
     &.moving-top {
       margin-top: -225px;
       z-index: 100;
+    }
+
+    sd-recent-and-popular-skills {
+      margin-top: 2.5rem;
     }
   }
 }

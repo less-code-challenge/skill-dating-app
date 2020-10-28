@@ -21,8 +21,8 @@
         ></ui-input>
       </div>
     </div>
+    <sd-recent-and-popular-skills [popularSkills]="skills" (skillClick)="goToSearchProfilesDialog($event)"></sd-recent-and-popular-skills>
   </div>
-  <sd-popular-skills [value]="skills"></sd-popular-skills>
 </section>
 <ui-overlay
   *ngIf="overlayShown "

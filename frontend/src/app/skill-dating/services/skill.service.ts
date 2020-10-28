@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { PopularSkillsTo } from '../model/popular-skills.to';
-import { SkillTo } from '../model/skill.to';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {PopularSkillsTo} from '../model/popular-skills.to';
+import {SkillTo} from '../model/skill.to';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +11,13 @@ import { SkillTo } from '../model/skill.to';
 export class SkillService {
   private readonly backendUri = environment.backendUri;
 
-  constructor(private readonly http: HttpClient) {}
-  findAll2(): Observable<PopularSkillsTo> {
-    // return this.http.get<SkillTo[]>(`${this.backendUri}${SKILLS_PATH}`);
-    return of({ SQL: 100, 'Project Management': 643, Java: 564 });
+  constructor(private readonly http: HttpClient) {
   }
+
+  getPopularSkills(): Observable<PopularSkillsTo> {
+    return this.http.get<PopularSkillsTo>(`${this.backendUri}/skill-popularity`);
+  }
+
   findAll(): Observable<string[]> {
     return this.http.get<string[]>(`${this.backendUri}/search/skills`);
   }

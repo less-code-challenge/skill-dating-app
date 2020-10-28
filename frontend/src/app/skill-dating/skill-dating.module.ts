@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { HomeDialogComponent } from './components/home-dialog/home-dialog.component';
-import { PopularSkillsComponent } from './components/home-dialog/popular-skills/popular-skills.component';
 import { SharedModule } from '../shared/shared.module';
 import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
 import { ProfileDialogComponent } from './components/profile-dialog/profile-dialog.component';
@@ -19,6 +18,7 @@ import { ProfileSkillItemComponent } from './components/add-profile-skills-dialo
 import { ProfileNewSkillItemComponent } from './components/add-profile-skills-dialog/result-list/new-skill-item/new-skill-item.component';
 import { SkillListComponent } from './components/add-profile-skills-dialog/result-list/skill-list/skill-list.component';
 import { MyProfileDialogComponent } from './components/my-profile-dialog/my-profile-dialog.component';
+import { RecentAndPopularSkillsComponent } from './components/recent-and-popular-skills/recent-and-popular-skills.component';
 
 const dialogs = [
   LandingPageComponent,
@@ -35,7 +35,6 @@ const dialogs = [
 @NgModule({
   declarations: [
     ...dialogs,
-    PopularSkillsComponent,
     ResultViewTypesComponent,
     ResultListComponent,
     SkillItemComponent,
@@ -44,7 +43,8 @@ const dialogs = [
     AddProfileSkillResultListComponent,
     ProfileSkillItemComponent,
     ProfileNewSkillItemComponent,
-    SkillListComponent
+    SkillListComponent,
+    RecentAndPopularSkillsComponent
   ],
   imports: [SharedModule],
   exports: [...dialogs],

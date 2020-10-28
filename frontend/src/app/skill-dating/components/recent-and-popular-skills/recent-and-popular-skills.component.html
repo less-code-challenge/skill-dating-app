@@ -1,0 +1,10 @@
+<section class="recent" *ngIf="showRecentSkills()">
+  <h2 class="section-title">Your recent searches</h2>
+  <sd-result-list [skills]="recentSkills"
+                  [popularSkills]="skillPopularity"></sd-result-list>
+</section>
+<section class="popular" *ngIf="showPopularSkills()">
+  <h2 class="section-title">Most popular skills</h2>
+  <sd-result-list [skills]="mostPopularSkills"
+                  [popularSkills]="skillPopularity" (skillClick)="notifyOnSkillClick($event)"></sd-result-list>
+</section>

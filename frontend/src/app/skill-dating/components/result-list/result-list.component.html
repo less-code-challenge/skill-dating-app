@@ -3,7 +3,8 @@
     <li *ngFor="let skill of skills" (click)="notifyOnSkillClick(skill)">
       <sd-skill-item [value]="skill"
                      [addButton]="addSkillButton"
-                     (addButtonClick)="notifyOnSkillButtonClick($event)"></sd-skill-item>
+                     (addButtonClick)="notifyOnSkillButtonClick($event)"
+                     [skillPopularity]="popularSkills"></sd-skill-item>
     </li>
   </ng-container>
   <ng-container *ngIf="showUserProfiles()">

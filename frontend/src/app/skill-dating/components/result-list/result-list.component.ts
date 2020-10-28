@@ -19,7 +19,7 @@ export class ResultListComponent {
   skills: string[];
 
   @Input()
-  popularSkills: PopularSkillsTo[];
+  popularSkills: PopularSkillsTo;
 
   @Input()
   userProfiles: UserProfileTo[];
