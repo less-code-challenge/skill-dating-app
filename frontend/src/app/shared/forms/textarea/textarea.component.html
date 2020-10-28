@@ -1,0 +1,16 @@
+<div class="input-wrapper">
+  <span *ngIf="label" class="label" 
+    >{{ label }}<span *ngIf="required" class="label__required"> * </span></span
+  >
+  <textarea
+    class="input"
+    [disabled]="disabled"
+    autocomplete="off"
+    [value]="_value"
+    [placeholder]="placeholder"
+    [attr.aria-label]="placeholder"
+    (input)="onUserInput($event)"
+    (change)="onUserInput($event)"
+    (blur)="onTouched($event)"
+  ></textarea>
+</div>

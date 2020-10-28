@@ -34,7 +34,6 @@
     padding-top: 0;
   }
   .section__field {
-    
     padding-top: 16px;
     :not(:last-child) {
       padding-bottom: 24px;
@@ -53,12 +52,5 @@
   }
   h4 {
     color: $cg-blue;
-  }
-  .teams-link {
-    color: $cg-white;
-  }
-  .phone-link {
-  }
-  .location-link {
   }
 }
