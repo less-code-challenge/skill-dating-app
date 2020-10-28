@@ -28,8 +28,7 @@ export class SearchProfilesDialogComponent {
     this.matchingUserProfiles$ = this.skills$.pipe(
       switchMap(skills => {
         return skills?.length > 0 ? this.search.userProfilesBySkills(skills) : of([]);
-      }),
-      tap(prof => console.log(prof))
+      })
     );
   }
 

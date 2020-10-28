@@ -45,7 +45,6 @@ export class NavigationService implements OnDestroy {
       } else if (url?.startsWith(paths.searchAll, 1)) {
         this.lastPaths.searchAll = url;
       }
-      console.log(this.lastPaths);
     });
   }
 
