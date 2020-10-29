@@ -46,7 +46,7 @@ export class PhoneNo {
   static parse(value: string): PhoneNo {
     assert('user profile phone number').of(value)
       .isNotEmpty();
-    assert('user profile username').of(`${value.trim()}@example.com`)
+    assert('user profile phone number').of(value)
       .matches(PhoneNo.regExp);
 
     return new PhoneNo(value);
@@ -79,7 +79,7 @@ export class UserProfile implements HavingPrimaryKey, SerializableAsAttributeMap
           }
           const phoneNoAttrValue = attributes[PhoneNo.attributeName];
           if (phoneNoAttrValue) {
-            phoneNo = UserProfileDescription.parse(phoneNoAttrValue);
+            phoneNo = PhoneNo.parse(phoneNoAttrValue);
           }
           const officeLocationAttrValue = attributes[OfficeLocation.attributeName];
           if (officeLocationAttrValue) {
