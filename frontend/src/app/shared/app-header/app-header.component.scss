@@ -13,5 +13,15 @@
       width: 100px;
       height: $navigation-height;
     }
+
+    section {
+      display: flex;
+      flex-direction: row;
+
+      button {
+        margin-right: 2rem;
+        color: $cg-blue;
+      }
+    }
   }
 }

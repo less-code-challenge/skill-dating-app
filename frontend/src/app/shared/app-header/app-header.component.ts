@@ -23,4 +23,8 @@ export class AppHeaderComponent {
   goToProfile(): void {
     this.router.navigate(['my-profile']);
   }
+
+  logOut(): Promise<void> {
+    return this.security.signOut();
+  }
 }

@@ -6,9 +6,11 @@
   >
   </object>
 
-  <ui-avatar
-    *ngIf="userInitial$ | async as initial"
-    [initial]="initial"
-    (click)="goToProfile()"
-  ></ui-avatar>
+  <section *ngIf="userInitial$ | async as initial">
+    <button class="icon-btn item-title" (click)="logOut()">Log out</button>
+    <ui-avatar
+      [initial]="initial"
+      (click)="goToProfile()"
+    ></ui-avatar>
+  </section>
 </nav>
