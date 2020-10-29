@@ -1,1 +1,15 @@
-<span class="item-title">{{_value}}</span><button class="icon-btn" *ngIf="!disabled" (click)="close()">x</button>
+<span class="item-title">{{_value}}</span>
+<button class="icon-btn" *ngIf="!disabled" (click)="close()">
+  <svg viewBox="0 0 16 16">
+    <g fill="none" fill-rule="evenodd">
+      <g>
+        <g>
+          <g transform="translate(-93 -25) translate(44 20) translate(49 5)">
+            <circle cx="8" cy="8" r="7.5" stroke="#0070AD"/>
+            <path fill="#0070AD" d="M10.263 5.737c-.135-.135-.354-.135-.49 0L8 7.511 6.226 5.737c-.135-.135-.354-.135-.489 0s-.135.354 0 .49L7.511 8 5.737 9.774c-.135.135-.135.354 0 .489s.354.135.49 0L8 8.489l1.774 1.774c.135.135.354.135.489 0s.135-.354 0-.49L8.489 8l1.774-1.774c.135-.135.135-.354 0-.489z"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>
+</button>

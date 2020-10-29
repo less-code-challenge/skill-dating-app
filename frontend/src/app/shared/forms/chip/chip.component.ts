@@ -1,12 +1,5 @@
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import {
-  Component,
-  Output,
-  EventEmitter,
-  Input,
-  HostBinding,
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {Component, EventEmitter, HostBinding, Input, Output,} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 // tslint:disable-next-line:no-any
 type OnChangeFn = (newValue: any) => void;
@@ -23,6 +16,7 @@ type OnTouchedFn = () => void;
 export class ChipComponent implements ControlValueAccessor {
   @Output()
   closeClick = new EventEmitter<string>();
+
   @HostBinding('class.dark-theme') darkMode = false;
 
   _value: string;
@@ -31,8 +25,10 @@ export class ChipComponent implements ControlValueAccessor {
     this._value = val;
   }
 
+  @HostBinding('class.no-close-btn')
   @Input()
-  disabled: boolean;
+  disabled = false;
+
   @Input()
   set dark(dark: boolean) {
     this.darkMode = dark;
