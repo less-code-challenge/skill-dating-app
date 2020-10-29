@@ -28,6 +28,10 @@ body {
   font-family: $cg-font-family;
 }
 
+textarea,
+input {
+  font-family: $cg-font-family;
+}
 h1,
 h2,
 h3,
@@ -200,7 +204,6 @@ small {
     line-height: 48px;
     height: 52px;
   }
-
   &.button--inverted {
     color: $cg-white;
     background-color: $cg-vibrant-blue;

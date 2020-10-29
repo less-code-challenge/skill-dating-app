@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OfficeLocationTo } from 'src/app/skill-dating/model/office-location.to';
 
@@ -18,6 +24,9 @@ export class SelectComponent implements ControlValueAccessor {
   public disabled: boolean;
   public selected: OfficeLocationTo;
 
+  @ViewChild('input', { static: true, read: ElementRef })
+  inputElementRef: ElementRef;
+
   @Input()
   label: string;
 
@@ -28,37 +37,57 @@ export class SelectComponent implements ControlValueAccessor {
 
   opened = false;
   filteredList: OfficeLocationTo[] = [];
-  value: string = '';
+  value = '';
 
   onChanged: any = () => {};
   onTouched: any = () => {};
 
-  onUserInput(event: any) {
-    const newValue = event.target.value;
-    this.filteredList = this.options.filter((val) => {
-      const { region, country, office } = val;
-      return (
-        region.toLowerCase().indexOf(newValue.toLowerCase()) !== -1 ||
-        country.toLowerCase().indexOf(newValue.toLowerCase()) !== -1 ||
-        office.toLowerCase().indexOf(newValue.toLowerCase()) !== -1
-      );
-    });
+  constructor(private ref: ChangeDetectorRef) {}
+  onUserInput(event: any): void {
+    const newValue = event.target.value.trim();
+    this.filteredList = this.options
+      .filter((val) => {
+        const { region, country, office } = val;
+        const [valueCountry, valueOffice] = newValue.split(',');
+        if (valueOffice || valueOffice === '') {
+          return (
+            lowerCasedStartsWith(country, valueCountry) &&
+            lowerCasedStartsWith(office, valueOffice)
+          );
+        }
+        return (
+          lowerCasedStartsWith(region, newValue) ||
+          lowerCasedStartsWith(country, newValue) ||
+          lowerCasedStartsWith(office, newValue)
+        );
+      })
+      .splice(0, 15);
     this.opened = this.filteredList.length > 0;
   }
 
-  selectOption(option: any) {
+  getValue(): string {
+    return this.value;
+  }
+  blur(event: any): void {
+    event.preventDefault();
+  }
+  selectOption(option: OfficeLocationTo): void {
     this.selected = option;
     this.onChanged(option);
     this.opened = false;
-    this.value = `${option.country}, ${option.office}`;
+    this.inputElementRef.nativeElement.value = this.parseValue(option);
+    this.ref.detectChanges();
   }
   writeValue(option: OfficeLocationTo): void {
     this.selected = option;
-    this.value = `${option.country}, ${option.office}`;
+    this.inputElementRef.nativeElement.value = this.selected
+      ? this.parseValue(option)
+      : '';
     this.onChanged(option);
+    this.ref.detectChanges();
   }
 
-  onBlur(event: any) {
+  onBlur(event: any): void {
     this.opened = false;
     this.onTouched(event);
   }
@@ -72,4 +101,10 @@ export class SelectComponent implements ControlValueAccessor {
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
+  private parseValue(option: OfficeLocationTo): string {
+    return `${option.country}, ${option.office}`;
+  }
+}
+function lowerCasedStartsWith(val1: string, val2: string): boolean {
+  return val1.trim().toLowerCase().startsWith(val2.trim().toLowerCase());
 }

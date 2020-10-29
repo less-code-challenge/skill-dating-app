@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map, filter, takeUntil } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { EditedProfileStoreService } from './edited-profile-store.service';
 
 const skillsParam = 'skills';
 
+const regExp = /^\+[0-9]{1,3}[0-9 \-()]{6,20}$/;
 @Component({
   selector: 'sd-edit-profile-dialog',
   templateUrl: './edit-profile-dialog.component.html',
@@ -37,7 +38,7 @@ export class EditProfileDialogComponent implements OnDestroy {
     this.formGroup = this.fb.group({
       username: [{ value: this.profile.username, disabled: true }],
       description: [this.profile.description],
-      phoneNo: [this.profile.phoneNo],
+      phoneNo: [this.profile.phoneNo, Validators.pattern(regExp)],
       officeLocation: [this.profile.officeLocation],
       skills: [this.profile.skills],
     });
