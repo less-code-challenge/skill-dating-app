@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, tap } from 'rxjs/operators';
-import { UserProfileTo } from '../../skill-dating/model/user-profile.to';
+import { UserProfileTo } from '../model/user-profile.to';
 
-import { UserProfileClientService } from '../../skill-dating/services/user-profile.client';
-import { SecurityService } from '../security/security.service';
+import { UserProfileClientService } from '../services/user-profile.client';
+import { SecurityService } from '../../shared/security/security.service';
 
 @Injectable({ providedIn: 'root' })
 export class MyProfileResolverService

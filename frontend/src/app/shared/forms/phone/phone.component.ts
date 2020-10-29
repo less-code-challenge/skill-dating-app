@@ -9,18 +9,18 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'ui-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
+  selector: 'ui-phone',
+  templateUrl: './phone.component.html',
+  styleUrls: ['./phone.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: InputComponent,
+      useExisting: PhoneComponent,
       multi: true,
     },
   ],
 })
-export class InputComponent implements ControlValueAccessor {
+export class PhoneComponent implements ControlValueAccessor {
   public disabled: boolean;
   public _value = '';
 

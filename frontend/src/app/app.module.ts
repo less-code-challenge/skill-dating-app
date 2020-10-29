@@ -13,15 +13,14 @@ import {LandingPageComponent} from './skill-dating/components/landing-page/landi
 import {RedirectToHomeGuard} from './shared/security/redirect-to-home.guard';
 import {PopularSkillsResolver} from './skill-dating/components/home-dialog/popular-skills.resolver';
 import {EditProfileDialogComponent} from './skill-dating/components/edit-profile-dialog/edit-profile-dialog.component';
-import {EditProfileResolverService} from './skill-dating/components/edit-profile-dialog/edit-profile.resolver';
 import {SearchAllDialogComponent} from './skill-dating/components/search-all-dialog/search-all-dialog.component';
 import {SearchProfilesDialogComponent} from './skill-dating/components/search-profiles-dialog/search-profiles-dialog.component';
 import {SearchSkillsDialogComponent} from './skill-dating/components/search-skills-dialog/search-skills-dialog.component';
-import {MyProfileResolverService} from './shared/resolvers/my-profile.resolver';
+import {MyProfileResolverService} from './skill-dating/components/my-profile.resolver';
 import {NavigationService, paths,} from './shared/navigation/navigation.service';
 import {AddProfileSkillsDialogComponent} from './skill-dating/components/add-profile-skills-dialog/add-profile-skills-dialog.component';
 import {MyProfileDialogComponent} from './skill-dating/components/my-profile-dialog/my-profile-dialog.component';
-import {OfficeLocationsResolverService} from './shared/resolvers/office-locations.resolver';
+import {OfficeLocationsResolverService} from './skill-dating/components/edit-profile-dialog/office-locations.resolver';
 import {ProfileDialogComponent} from './skill-dating/components/profile-dialog/profile-dialog.component';
 import {UserResolver} from './shared/resolvers/user.resolver';
 import { UserProfileResolverService } from './skill-dating/components/profile-dialog/user-profile.resolver';
@@ -59,7 +58,7 @@ import { UserProfileResolverService } from './skill-dating/components/profile-di
               path: 'my-profile/edit',
               component: EditProfileDialogComponent,
               resolve: {
-                profile: EditProfileResolverService,
+                profile: MyProfileResolverService,
                 oficeLocations: OfficeLocationsResolverService,
               },
             },
