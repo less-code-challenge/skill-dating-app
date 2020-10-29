@@ -45,9 +45,8 @@ export class PhoneNo {
 
   static parse(value: string): PhoneNo {
     assert('user profile phone number').of(value)
-      .isNotEmpty();
-    // assert('user profile phone number').of(value)
-    //   .matches(PhoneNo.regExp);
+      .isNotEmpty()
+      .matches(PhoneNo.regExp);
 
     return new PhoneNo(value);
   }
