@@ -78,7 +78,10 @@
             label="Summary"
             placeholder="Write a few sentences about you so that people can get to know you better."
             formControlName="description"
-          ></ui-textarea
+          ></ui-textarea>
+          <ui-validation-feedback
+            [control]="formGroup.get('description')"
+          ></ui-validation-feedback
         ></span>
       </div>
     </div>

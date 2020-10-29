@@ -37,7 +37,7 @@ export class EditProfileDialogComponent implements OnDestroy {
 
     this.formGroup = this.fb.group({
       username: [{ value: this.profile.username, disabled: true }],
-      description: [this.profile.description],
+      description: [this.profile.description, Validators.maxLength(255)],
       phoneNo: [this.profile.phoneNo, Validators.pattern(regExp)],
       officeLocation: [this.profile.officeLocation],
       skills: [this.profile.skills],
