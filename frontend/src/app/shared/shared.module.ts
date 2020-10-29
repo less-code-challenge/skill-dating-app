@@ -23,6 +23,7 @@ import {EditedProfileStoreService} from '../skill-dating/components/edit-profile
 import {UserResolver} from './resolvers/user.resolver';
 import {BackButtonComponent} from './buttons/back-button/back-button.component';
 import { CloseButtonComponent } from './buttons/close-button/close-button.component';
+import { SafeUrlPipe } from './safe-url.pipe';
 
 const exportedComponents = [
   OverlayComponent,
@@ -35,7 +36,8 @@ const exportedComponents = [
   TextareaComponent,
   ChipComponent,
   BackButtonComponent,
-  CloseButtonComponent
+  CloseButtonComponent,
+  SafeUrlPipe
 ];
 
 const usedAndExportedModules = [

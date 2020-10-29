@@ -22,9 +22,9 @@ import {NavigationService, paths,} from './shared/navigation/navigation.service'
 import {AddProfileSkillsDialogComponent} from './skill-dating/components/add-profile-skills-dialog/add-profile-skills-dialog.component';
 import {MyProfileDialogComponent} from './skill-dating/components/my-profile-dialog/my-profile-dialog.component';
 import {OfficeLocationsResolverService} from './shared/resolvers/office-locations.resolver';
-import {UserProfileResolverService} from './shared/resolvers/user-profile.resolver';
 import {ProfileDialogComponent} from './skill-dating/components/profile-dialog/profile-dialog.component';
 import {UserResolver} from './shared/resolvers/user.resolver';
+import { UserProfileResolverService } from './skill-dating/components/profile-dialog/user-profile.resolver';
 
 @NgModule({
   declarations: [AppComponent],

@@ -12,14 +12,16 @@
 <section class="results">
   <sd-profile-result-list
     [skills]="matchingSkills$ | async"
-    [query]="query$ | async"
-    [newSkillAllowed]="newSkillAllowed$ | async"
+    [newSkill]="newSkill$ | async"
     (addSkillButtonClick)="addSkillToList($event)"
     (addNewSkillButtonClick)="addNewSkillToList($event)"
   ></sd-profile-result-list>
 </section>
 <section class="add-skills text-center">
-  <button class="button button--big button--inverted" (click)="addSelectedSkills()">
+  <button
+    class="button button--big button--inverted"
+    (click)="addSelectedSkills()"
+  >
     Add selected skills
   </button>
 </section>

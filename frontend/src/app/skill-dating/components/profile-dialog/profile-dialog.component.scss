@@ -10,9 +10,7 @@
   }
   .section__field {
     padding-top: 16px;
-    :not(:last-child) {
-      padding-bottom: 24px;
-    }
+
     span {
       display: flex;
     }
@@ -33,9 +31,9 @@
   .skype-icon,
   .email-icon,
   .phone-icon {
-    margin-right:4px;
-    background-color: red;
-    height: 20px;
+    align-items: center;
+    margin-right: 4px;
+    display: block;
     width: 20px;
   }
 }

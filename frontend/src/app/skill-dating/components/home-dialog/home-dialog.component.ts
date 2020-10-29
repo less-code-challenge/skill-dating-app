@@ -32,7 +32,7 @@ export class HomeDialogComponent {
     const user = activatedRoute.snapshot.data.user as User | undefined;
     this.userFirstName = user?.firstName || '';
     const profile = activatedRoute.snapshot.data.profile;
-    if (!profile) {
+    if (!profile || !profile.skills?.length) {
       this.overlayShown = true;
     }
   }

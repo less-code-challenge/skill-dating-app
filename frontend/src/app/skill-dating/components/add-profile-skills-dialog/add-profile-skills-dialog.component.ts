@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../../services/search.service';
-import { Observable, of, combineLatest } from 'rxjs';
-import { map, pluck, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import {
+  map,
+  pluck,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { SkillService } from '../../services/skill.service';
 
@@ -16,10 +21,9 @@ const skippedSkillsParam = 'skippedSkills';
 })
 export class AddProfileSkillsDialogComponent {
   readonly query$: Observable<string>;
-  readonly newSkillAllowed$: Observable<boolean>;
-
+  readonly newSkill$: Observable<string | null>;
   readonly matchingSkills$: Observable<string[]>;
-
+  readonly currentSkills: string[] = [];
   constructor(
     private readonly route: ActivatedRoute,
     private readonly skillService: SkillService,
@@ -35,6 +39,7 @@ export class AddProfileSkillsDialogComponent {
 
         this.currentSkills.length = 0;
         skippedSkills.forEach((elem) => this.currentSkills.push(elem));
+
         return query?.length > 2
           ? search
               .skills(query)
@@ -50,20 +55,18 @@ export class AddProfileSkillsDialogComponent {
           : of([]);
       })
     );
-    this.newSkillAllowed$ = combineLatest(
-      this.query$,
-      this.matchingSkills$
-    ).pipe(
-      map(
-        ([query, list]) =>
-          !!query &&
-          list.indexOf(query) === -1 &&
-          this.currentSkills.indexOf(query) === -1
+    this.newSkill$ = this.matchingSkills$.pipe(
+      withLatestFrom(this.query$),
+      map(([list, query]) =>
+        query?.length > 2 &&
+        notContainingLowercased(this.currentSkills, query) &&
+        notContainingLowercased(list, query)
+          ? query
+          : null
       )
     );
   }
 
-  currentSkills: string[] = [];
   addSelectedSkills(): void {
     this.router.navigate(['../', { skills: this.currentSkills.join(',') }], {
       relativeTo: this.route,
@@ -105,7 +108,10 @@ export class AddProfileSkillsDialogComponent {
     this.location.back();
   }
 }
-
+function notContainingLowercased(list: string[], elem: string): boolean {
+  const elemLowercase = elem.toLowerCase();
+  return list.filter((el) => el.toLowerCase() === elemLowercase).length === 0;
+}
 function splitSkills(
   commaSeparatedSkills: string | undefined | null
 ): string[] {

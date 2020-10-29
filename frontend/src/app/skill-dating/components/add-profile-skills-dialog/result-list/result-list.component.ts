@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'sd-profile-result-list',
@@ -7,9 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class AddProfileSkillResultListComponent {
   @Input()
-  query: string;
-  @Input()
-  newSkillAllowed: boolean;
+  newSkill: Observable<string | null>;
   @Input()
   skills: string[];
 
@@ -25,6 +24,4 @@ export class AddProfileSkillResultListComponent {
   notifyOnNewSkillButtonClick(skill: string): void {
     this.addNewSkillButtonClick.emit(skill);
   }
-
-
 }

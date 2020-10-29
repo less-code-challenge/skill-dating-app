@@ -5,9 +5,9 @@
       (addButtonClick)="notifyOnSkillButtonClick($event)"
     ></sd-profile-skill-item>
   </li>
-  <li *ngIf="newSkillAllowed">
+  <li *ngIf="newSkill">
     <sd-profile-new-skill-item
-      [value]="query"
+      [value]="newSkill"
       (addButtonClick)="notifyOnNewSkillButtonClick($event)"
     ></sd-profile-new-skill-item>
   </li>
