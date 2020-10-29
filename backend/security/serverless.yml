@@ -1,0 +1,16 @@
+service: skill-dating-app-backend-security
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: eu-central-1
+
+functions:
+  preSignUp:
+    handler: pre-sign-up.handler
+    events:
+      - cognitoUserPool:
+          pool: SkillDatingAppUserPool
+          trigger: PreSignUp
+          existing: true
