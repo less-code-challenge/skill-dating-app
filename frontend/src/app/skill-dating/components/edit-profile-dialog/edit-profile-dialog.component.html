@@ -50,7 +50,10 @@
       <h4>Contact</h4>
       <div class="section__field">
         <span>
-          <ui-input label="Phone number" formControlName="phoneNo"></ui-input
+          <ui-input label="Phone number" formControlName="phoneNo"></ui-input>
+          <ui-validation-feedback
+            [control]="formGroup.get('phoneNo')"
+          ></ui-validation-feedback
         ></span>
       </div>
       <div class="section__field">
@@ -59,8 +62,8 @@
             label="Location"
             [options]="locations"
             formControlName="officeLocation"
-          ></ui-select
-        ></span>
+          ></ui-select>
+        </span>
       </div>
     </div>
   </div>

@@ -24,6 +24,7 @@ import {UserResolver} from './resolvers/user.resolver';
 import {BackButtonComponent} from './buttons/back-button/back-button.component';
 import { CloseButtonComponent } from './buttons/close-button/close-button.component';
 import { SafeUrlPipe } from './safe-url.pipe';
+import { ValidationFeedbackComponent } from './forms/validation-error/validation-error.component';
 
 const exportedComponents = [
   OverlayComponent,
@@ -37,7 +38,8 @@ const exportedComponents = [
   ChipComponent,
   BackButtonComponent,
   CloseButtonComponent,
-  SafeUrlPipe
+  SafeUrlPipe,
+  ValidationFeedbackComponent
 ];
 
 const usedAndExportedModules = [

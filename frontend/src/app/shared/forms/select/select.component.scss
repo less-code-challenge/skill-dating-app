@@ -1,5 +1,7 @@
 @import "variables";
 :host {
+  padding: 10px 0;
+  display: block;
   .search {
     width: 100%;
     position: absolute;
@@ -41,9 +43,6 @@
     }
   }
 
-  /////////
-  padding: 10px 0;
-  display: block;
   &.ng-invalid.ng-touched {
     .input {
       border-bottom: 2px solid #ff304d !important;

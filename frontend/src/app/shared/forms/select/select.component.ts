@@ -2,6 +2,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
+  HostListener,
   Input,
   ViewChild,
 } from '@angular/core';
@@ -21,15 +23,17 @@ import { OfficeLocationTo } from 'src/app/skill-dating/model/office-location.to'
   ],
 })
 export class SelectComponent implements ControlValueAccessor {
+  constructor(private ref: ChangeDetectorRef) {}
   public disabled: boolean;
   public selected: OfficeLocationTo;
 
   @ViewChild('input', { static: true, read: ElementRef })
   inputElementRef: ElementRef;
+  @ViewChild('inputWrapper', { static: true, read: ElementRef })
+  inputWrapperElementRef: ElementRef;
 
   @Input()
   label: string;
-
   @Input()
   required: boolean;
   @Input()
@@ -39,10 +43,16 @@ export class SelectComponent implements ControlValueAccessor {
   filteredList: OfficeLocationTo[] = [];
   value = '';
 
+  @HostListener('window:click', ['$event.target'])
+  onClickBtn(target: ElementRef) {
+    if (!this.inputWrapperElementRef.nativeElement.contains(target)) {
+      this.onBlur();
+      this.updateInputValue();
+    }
+  }
+
   onChanged: any = () => {};
   onTouched: any = () => {};
-
-  constructor(private ref: ChangeDetectorRef) {}
   onUserInput(event: any): void {
     const newValue = event.target.value.trim();
     this.filteredList = this.options
@@ -65,31 +75,21 @@ export class SelectComponent implements ControlValueAccessor {
     this.opened = this.filteredList.length > 0;
   }
 
-  getValue(): string {
-    return this.value;
-  }
-  blur(event: any): void {
-    event.preventDefault();
-  }
   selectOption(option: OfficeLocationTo): void {
     this.selected = option;
     this.onChanged(option);
-    this.opened = false;
-    this.inputElementRef.nativeElement.value = this.parseValue(option);
-    this.ref.detectChanges();
+    this.onBlur();
+    this.updateInputValue();
   }
   writeValue(option: OfficeLocationTo): void {
     this.selected = option;
-    this.inputElementRef.nativeElement.value = this.selected
-      ? this.parseValue(option)
-      : '';
+    this.updateInputValue();
     this.onChanged(option);
     this.ref.detectChanges();
   }
-
-  onBlur(event: any): void {
+  onBlur(): void {
     this.opened = false;
-    this.onTouched(event);
+    this.onTouched();
   }
   registerOnChange(fn: any): void {
     this.onChanged = fn;
@@ -103,6 +103,11 @@ export class SelectComponent implements ControlValueAccessor {
   }
   private parseValue(option: OfficeLocationTo): string {
     return `${option.country}, ${option.office}`;
+  }
+  private updateInputValue(): void {
+    this.inputElementRef.nativeElement.value = this.selected
+      ? this.parseValue(this.selected)
+      : '';
   }
 }
 function lowerCasedStartsWith(val1: string, val2: string): boolean {

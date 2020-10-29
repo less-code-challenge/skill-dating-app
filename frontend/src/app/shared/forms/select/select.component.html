@@ -1,4 +1,4 @@
-<div class="input-wrapper">
+<div #inputWrapper class="input-wrapper">
   <span *ngIf="label" class="label"
     >{{ label }}<span *ngIf="required" class="label__required"> * </span>
   </span>
@@ -16,9 +16,10 @@
           *ngFor="let option of filteredList"
           (click)="selectOption(option)"
           (keyup.Enter)="selectOption(option)"
+          (keyup.Escape)="hide()"
           tabindex="0"
         >
-          {{ option.country }}, {{ option.office }}
+          {{ parseValue(option) }}
         </li>
       </ul>
     </div>
