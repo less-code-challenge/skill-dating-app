@@ -36,6 +36,34 @@ describe('dynamodb-stream-utils', () => {
     expect(update?.Java).toBe(1);
     expect(update?.React).toBe(-1);
   });
+
+  it('creates a skill popularity update when initially no skills', () => {
+    // given
+    const dynamodbStreamRecords = [
+      createUserProfileModifyRecord('john.example', undefined, ['Angular', 'Java'])
+    ];
+    // when
+    const update = createSkillPopularityUpdate(dynamodbStreamRecords, userProfileFactory);
+    // then
+    expect(update).toBeDefined();
+    expect(Object.keys(update || {}).length).toBe(2);
+    expect(update?.Java).toBe(1);
+    expect(update?.Angular).toBe(1);
+  });
+
+  it('creates a skill popularity update when skills removed', () => {
+    // given
+    const dynamodbStreamRecords = [
+      createUserProfileModifyRecord('john.example', ['Angular', 'Java'], undefined)
+    ];
+    // when
+    const update = createSkillPopularityUpdate(dynamodbStreamRecords, userProfileFactory);
+    // then
+    expect(update).toBeDefined();
+    expect(Object.keys(update || {}).length).toBe(2);
+    expect(update?.Java).toBe(-1);
+    expect(update?.Angular).toBe(-1);
+  });
 });
 
 function createUserProfileModifyRecord(username: string, oldSkills?: string[], newSkills?: string[]): DynamoDBRecord {

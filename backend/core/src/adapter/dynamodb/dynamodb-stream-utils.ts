@@ -14,14 +14,14 @@ export function createSkillPopularityUpdate(dynamodbStreamRecords: DynamoDBRecor
       const oldSkillNames = getSkillNamesIfAny(dynamodbStreamRecord.dynamodb?.OldImage);
       const newSkillNames = getSkillNamesIfAny(dynamodbStreamRecord.dynamodb?.NewImage);
       oldSkillNames?.forEach(skillName => {
-        const skillRemoved = !(newSkillNames?.indexOf(skillName) !== -1);
+        const skillRemoved = !(newSkillNames && newSkillNames.indexOf(skillName) !== -1);
         if (skillRemoved) {
           const currentSkillPopularity = skillPopularity[skillName] != null ? skillPopularity[skillName] : 0;
           skillPopularity[skillName] = currentSkillPopularity - 1;
         }
       });
       newSkillNames?.forEach(newSkillName => {
-        const skillAdded = !(oldSkillNames?.indexOf(newSkillName) !== -1);
+        const skillAdded = !(oldSkillNames && oldSkillNames.indexOf(newSkillName) !== -1);
         if (skillAdded) {
           const currentSkillPopularity = skillPopularity[newSkillName] != null ? skillPopularity[newSkillName] : 0;
           skillPopularity[newSkillName] = currentSkillPopularity + 1;
