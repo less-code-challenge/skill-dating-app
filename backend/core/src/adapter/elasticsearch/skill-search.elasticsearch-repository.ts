@@ -37,6 +37,28 @@ export class SkillSearchElasticsearchRepository implements SkillSearchRepository
         }
       );
   }
+
+  skillsExist(skills: SkillName[] | undefined): Promise<void> {
+    if (skills && skills.length > 0) {
+      return createClient().search({
+        index: skillElasticsearchIndex,
+        body: {
+          query: {
+            terms: {
+              'name.keyword': skills.map(skillName => skillName.value)
+            }
+          }
+        }
+      }).then(({body}) => {
+          const matchingSkills = body?.hits?.hits;
+          if (matchingSkills && matchingSkills.length !== skills.length) {
+            return Promise.reject(new Error('Some skills are not registered'));
+          }
+        }
+      );
+    }
+    return Promise.resolve();
+  }
 }
 
 export const skillSearchRepository: SkillSearchRepository = new SkillSearchElasticsearchRepository();

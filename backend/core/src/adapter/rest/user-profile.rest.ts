@@ -17,7 +17,8 @@ export function createNewOrUpdateExisting(req: Request, res: Response, next: Nex
 
   userProfileIsAboutToBeCreatedOrUpdatedByItsOwner(username, req)
     .then(
-      () => userProfileAppService.createNewUserProfileOrUpdateExistingOne(username, userProfileAttributes).then(userProfile => res.status(201).send(userProfile.toPlainAttributes())),
+      () => userProfileAppService.createNewUserProfileOrUpdateExistingOne(username, userProfileAttributes)
+        .then(userProfile => res.status(201).send(userProfile.toPlainAttributes())),
       () => res.sendStatus(401)
     )
     .catch(next); // handle globally
@@ -26,10 +27,6 @@ export function createNewOrUpdateExisting(req: Request, res: Response, next: Nex
     const securityContext = getSecurityContextFrom(req);
     return securityContext.currentUsername === username ? Promise.resolve() : Promise.reject();
   }
-
-  userProfileAppService.createNewUserProfileOrUpdateExistingOne(username, userProfileAttributes)
-    .then(userProfile => res.status(201).send(userProfile.toPlainAttributes()))
-    .catch(next); // handle globally
 }
 
 export function searchForUserProfilesBySkills(req: Request, res: Response, next: NextFunction): void {
@@ -41,5 +38,4 @@ export function searchForUserProfilesBySkills(req: Request, res: Response, next:
     .then(matchingUserProfiles => res.status(200).send(
       matchingUserProfiles.map(userProfile => userProfile.toPlainAttributes())))
     .catch(next); // handle globally
-
 }

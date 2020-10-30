@@ -3,6 +3,7 @@ import {userProfileRepository} from '../adapter/dynamodb/user-profile.dynamodb-r
 import {AttributeMap} from '../domain-model/common';
 import {userProfileSearchRepository} from '../adapter/elasticsearch/user-profile-search.elasticsearch-repository';
 import {SkillName} from '../domain-model/skill';
+import {skillSearchRepository} from '../adapter/elasticsearch/skill-search.elasticsearch-repository';
 
 class UserProfileAppService {
   loadUserProfile(username: string): Promise<UserProfile | null> {
@@ -12,6 +13,7 @@ class UserProfileAppService {
 
   createNewUserProfileOrUpdateExistingOne(username: string, userProfileAttributes: AttributeMap | undefined): Promise<UserProfile> {
     return buildUserProfile(username, userProfileAttributes)
+      .then(userProfileHasOnlyRegisteredSkills)
       .then(userProfile => userProfileRepository.createNewOrUpdate(userProfile));
   }
 
@@ -39,4 +41,9 @@ function buildUserProfile(username: string, userProfileAttributes: AttributeMap 
       .build()
     )
   );
+}
+
+function userProfileHasOnlyRegisteredSkills(userProfile: UserProfile): Promise<UserProfile> {
+  return skillSearchRepository.skillsExist(userProfile.skills)
+    .then(() => userProfile);
 }
