@@ -1,8 +1,7 @@
 import {SkillSearchRepository} from '../../domain-model/skill-search.repository';
 import {Skill, SkillName} from '../../domain-model/skill';
-import {RequestParams} from '@elastic/elasticsearch';
 import {DocumentUpdates} from '../../domain-model/common';
-import {bulk, createClient} from './common';
+import {bulk, createClient, createSearchParams} from './common';
 import {appConfig} from '../../app-config';
 
 const skillElasticsearchIndex = appConfig.elasticsearchSkillIndex;
@@ -14,20 +13,16 @@ export class SkillSearchElasticsearchRepository implements SkillSearchRepository
 
   search(query?: string): Promise<SkillName[]> {
     const trimmedQuery = query?.trim();
-    const searchParams: RequestParams.Search = {index: skillElasticsearchIndex};
-    if (trimmedQuery) {
-      searchParams.body = {
-        query: {
-          wildcard: {
-            name: {
-              value: `*${trimmedQuery}*`
-            }
+    const body = trimmedQuery ? {
+      query: {
+        wildcard: {
+          name: {
+            value: `*${trimmedQuery}*`
           }
         }
-      };
-    }
-
-    return createClient().search(searchParams)
+      }
+    } : null;
+    return createClient().search(createSearchParams(skillElasticsearchIndex, body))
       .then(({body}) => {
           const matchingSkills = body?.hits?.hits;
           if (matchingSkills && matchingSkills.length > 0) {
@@ -40,22 +35,21 @@ export class SkillSearchElasticsearchRepository implements SkillSearchRepository
 
   skillsExist(skills: SkillName[] | undefined): Promise<void> {
     if (skills && skills.length > 0) {
-      return createClient().search({
-        index: skillElasticsearchIndex,
-        body: {
-          query: {
-            terms: {
-              'name.keyword': skills.map(skillName => skillName.value)
+      const searchParams = createSearchParams(skillElasticsearchIndex, {
+        query: {
+          terms: {
+            'name.keyword': skills.map(skillName => skillName.value)
+          }
+        }
+      });
+      return createClient().search(searchParams)
+        .then(({body}) => {
+            const matchingSkills = body?.hits?.hits;
+            if (matchingSkills && matchingSkills.length !== skills.length) {
+              return Promise.reject(new Error('Some skills are not registered'));
             }
           }
-        }
-      }).then(({body}) => {
-          const matchingSkills = body?.hits?.hits;
-          if (matchingSkills && matchingSkills.length !== skills.length) {
-            return Promise.reject(new Error('Some skills are not registered'));
-          }
-        }
-      );
+        );
     }
     return Promise.resolve();
   }

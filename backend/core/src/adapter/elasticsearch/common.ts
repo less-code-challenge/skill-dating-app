@@ -1,6 +1,8 @@
-import {Client} from '@elastic/elasticsearch';
+import {Client, RequestParams} from '@elastic/elasticsearch';
 import {DocumentUpdates} from '../../domain-model/common';
 import {appConfig} from '../../app-config';
+
+const defaultSize = 100;
 
 export function createClient(): Client {
   return new Client({
@@ -40,4 +42,13 @@ export function bulk(documentUpdates: DocumentUpdates<any>, index: string): Prom
       });
   }
   return Promise.resolve();
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types
+export function createSearchParams(index: string, body?: any): RequestParams.Search {
+  const searchParams: RequestParams.Search = {index, size: defaultSize};
+  if (body) {
+    searchParams.body = body;
+  }
+  return searchParams;
 }

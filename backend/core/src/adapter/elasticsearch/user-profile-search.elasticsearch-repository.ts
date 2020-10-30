@@ -1,10 +1,9 @@
 import {UserProfileSearchRepository} from '../../domain-model/user-profile-search.repository';
 import {SkillName} from '../../domain-model/skill';
 import {UserProfile, userProfileFactory} from '../../domain-model/user-profile';
-import {bulk, createClient} from './common';
+import {bulk, createClient, createSearchParams} from './common';
 import {AttributeMap, DocumentUpdates} from '../../domain-model/common';
 import {appConfig} from '../../app-config';
-import {RequestParams} from '@elastic/elasticsearch';
 
 const userProfileElasticsearchIndex = appConfig.elasticsearchUserProfileIndex;
 
@@ -14,39 +13,35 @@ export class UserProfileSearchElasticsearchRepository implements UserProfileSear
   }
 
   searchBySkills(skillNames: SkillName[]): Promise<UserProfile[]> {
-    const searchParams: RequestParams.Search = {index: userProfileElasticsearchIndex};
-    if (skillNames && skillNames.length > 0) {
-      searchParams.body = {
-        query: {
-          bool: {
-            must: skillNames.map(skillName => ({term: {'skills.keyword': skillName.value}}))
-          }
+    const body = skillNames && skillNames.length > 0 ? {
+      query: {
+        bool: {
+          must: skillNames.map(skillName => ({term: {'skills.keyword': skillName.value}}))
         }
-      };
-    }
+      }
+    } : null;
 
-    return this.searchUsing(searchParams);
+    return this.searchUsing(body);
   }
 
   searchByUsername(usernameQuery?: string): Promise<UserProfile[]> {
     const trimmedQuery = usernameQuery?.trim();
-    const searchParams: RequestParams.Search = {index: userProfileElasticsearchIndex};
-    if (trimmedQuery) {
-      searchParams.body = {
-        query: {
-          wildcard: {
-            username: {
-              value: `*${trimmedQuery}*`
-            }
+    const body = trimmedQuery ? {
+      query: {
+        wildcard: {
+          username: {
+            value: `*${trimmedQuery}*`
           }
         }
-      };
-    }
+      }
+    } : null;
 
-    return this.searchUsing(searchParams);
+    return this.searchUsing(body);
   }
 
-  private searchUsing(searchParams: RequestParams.Search): Promise<UserProfile[]> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private searchUsing(queryBody?: any): Promise<UserProfile[]> {
+    const searchParams = createSearchParams(userProfileElasticsearchIndex, queryBody);
     return createClient().search(searchParams)
       .then(({body}) => {
           const matchingUserProfiles = body?.hits?.hits;
