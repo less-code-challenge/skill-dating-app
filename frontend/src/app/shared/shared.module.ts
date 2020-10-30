@@ -22,9 +22,10 @@ import {TextareaComponent} from './forms/textarea/textarea.component';
 import {EditedProfileStoreService} from '../skill-dating/components/edit-profile-dialog/edited-profile-store.service';
 import {UserResolver} from './resolvers/user.resolver';
 import {BackButtonComponent} from './buttons/back-button/back-button.component';
-import { CloseButtonComponent } from './buttons/close-button/close-button.component';
-import { SafeUrlPipe } from './safe-url.pipe';
-import { ValidationFeedbackComponent } from './forms/validation-error/validation-error.component';
+import {CloseButtonComponent} from './buttons/close-button/close-button.component';
+import {SafeUrlPipe} from './safe-url.pipe';
+import {ValidationFeedbackComponent} from './forms/validation-error/validation-error.component';
+import {AddButtonComponent} from './buttons/add-button/add-button.component';
 
 const exportedComponents = [
   OverlayComponent,
@@ -38,6 +39,7 @@ const exportedComponents = [
   ChipComponent,
   BackButtonComponent,
   CloseButtonComponent,
+  AddButtonComponent,
   SafeUrlPipe,
   ValidationFeedbackComponent
 ];

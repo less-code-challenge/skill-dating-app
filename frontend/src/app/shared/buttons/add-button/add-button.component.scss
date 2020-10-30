@@ -1,0 +1,10 @@
+@import "variables";
+
+:host {
+  display: inline-block;
+  cursor: pointer;
+
+  svg {
+    vertical-align: middle;
+  }
+}
