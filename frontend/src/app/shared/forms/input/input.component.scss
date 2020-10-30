@@ -40,12 +40,18 @@
     }
   }
   .input {
-    padding: 8px 24px 8px 16px;
+    padding: .5rem 1.5rem .5rem 1rem;
     width: 100%;
     transition: all 0.5s ease;
-    height: 59px;
+    height: 3rem;
     color: $cg-very-dark-grey;
     border-width: 1px;
     font-size: 16px;
+  }
+}
+
+:host(.dark-theme) {
+  .input-wrapper {
+    box-shadow: 5px 5px 0 0 #55217b;
   }
 }
