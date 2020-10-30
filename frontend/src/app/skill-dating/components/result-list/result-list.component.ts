@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, HostBinding, Input, Output} from '@angular/core';
 import {UserProfile, UserProfileTo} from '../../model/user-profile.to';
 import {PopularSkillsTo} from '../../model/popular-skills.to';
 import {ResultViewType} from '../search-all-dialog/result-view-types/result-view-types.component';
@@ -12,6 +12,7 @@ export class ResultListComponent {
   @Input()
   show: ResultViewType = ResultViewType.All;
 
+  @HostBinding('class.with-add-skill-btn')
   @Input()
   addSkillButton = false;
 

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {Component, EventEmitter, HostBinding, Input, OnDestroy, Output} from '@angular/core';
 import {Subject, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
@@ -8,6 +8,10 @@ import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
   styleUrls: ['./search-input.component.scss']
 })
 export class SearchInputComponent implements OnDestroy {
+  @Input()
+  @HostBinding('class.dark-theme')
+  darkTheme = false;
+
   @Input()
   query: string;
 

@@ -1,4 +1,4 @@
-<sd-search-input class="dark-theme"
+<sd-search-input [darkTheme]="true"
                  placeholder="Search for skill or person"
                  [query]="query$ | async"
                  (queryChange)="updateUrlParam($event)"

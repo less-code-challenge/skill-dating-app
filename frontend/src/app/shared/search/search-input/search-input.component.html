@@ -3,4 +3,4 @@
           [value]="query"
           [autofocus]="true"
           (valueChange)="notifyOnQueryChange($event)"
-          class="dark-theme"></ui-input>
+          [class.dark-theme]="darkTheme"></ui-input>
