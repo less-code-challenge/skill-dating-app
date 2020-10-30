@@ -7,7 +7,7 @@ import { SecurityService } from 'src/app/shared/security/security.service';
 import { map, switchMap } from 'rxjs/operators';
 import { UserProfileClientService } from '../../services/user-profile.client';
 import {
-  initialUserProfileOf,
+  initialUserProfileOf, UserProfile,
   UserProfileTo,
 } from '../../model/user-profile.to';
 import { User } from '../../../shared/security/user';
@@ -18,11 +18,10 @@ import { User } from '../../../shared/security/user';
   styleUrls: ['./home-dialog.component.scss'],
 })
 export class HomeDialogComponent {
+  readonly popularSkills: PopularSkillsTo;
+  readonly profile: UserProfile;
   overlayShown = false;
-  skills: PopularSkillsTo;
   movingTop = false;
-  profile:UserProfileTo;
-  readonly userFirstName: string;
 
   constructor(
     activatedRoute: ActivatedRoute,
@@ -31,9 +30,7 @@ export class HomeDialogComponent {
     private readonly userProfileClientService: UserProfileClientService,
     private readonly router: Router
   ) {
-    this.skills = activatedRoute.snapshot.data.skills;
-    const user = activatedRoute.snapshot.data.user as User | undefined;
-    this.userFirstName = user?.firstName || '';
+    this.popularSkills = activatedRoute.snapshot.data.skills;
     this.profile = activatedRoute.snapshot.data.profile;
     if (!this.profile || !this.profile.skills?.length) {
       this.overlayShown = true;

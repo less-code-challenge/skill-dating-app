@@ -9,18 +9,18 @@
     <div class="col-12 text-center">
       <ui-avatar
         class="text-center"
-        initial="{{ profile.getInitials() }}"
+        initial="{{ profile.initials }}"
         big="true"
       ></ui-avatar>
     </div>
     <div class="col-12 text-center">
-      <h3>{{ profile.getFullName() }}</h3>
+      <h3>{{profile.firstName}} {{profile.firstName}}</h3>
     </div>
   </div>
   <div class="row row--grow">
     <div class="col-12 section__text text-center">
       <span>
-        {{ profile.getEmail() }}
+        {{ profile.email }}
       </span>
     </div>
   </div>
@@ -57,9 +57,9 @@
         <span class="label">Location</span>
         <span
           class="value"
-          *ngIf="profile.getOfficeLocation() as location; else empty"
+          *ngIf="profile.officeLocation as location; else empty"
         >
-          {{ location }}
+          {{ location.country }}, {{ location.office }}
         </span>
       </div>
     </div>

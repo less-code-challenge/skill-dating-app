@@ -1,4 +1,5 @@
-import { OfficeLocationTo } from './office-location.to';
+import {OfficeLocationTo} from './office-location.to';
+import {User} from '../../shared/security/user';
 
 export interface UserProfileTo {
   username: string;
@@ -7,6 +8,8 @@ export interface UserProfileTo {
   officeLocation?: OfficeLocationTo;
   skills?: string[];
 }
+
+export type UserProfile = User & UserProfileTo;
 
 export interface UserProfileMethods {
   getInitials(): string;

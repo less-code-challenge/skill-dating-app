@@ -4,17 +4,17 @@
     <div class="col-12 text-center">
       <ui-avatar
         class="text-center"
-        initial="{{ profile.getInitials() }}"
+        initial="{{ profile.initials }}"
         big="true"
       ></ui-avatar>
     </div>
     <div class="col-12 text-center">
-      <h3>{{ profile.getFullName() }}</h3>
+      <h3>{{ profile.firstName }} {{ profile.lastName }}</h3>
     </div>
   </div>
   <div class="row row--grow">
     <div class="col-12 section__text text-center">
-      <span> {{ profile.getOfficeLocation() }}</span>
+      <span> {{ profile.officeLocation?.country }}, {{ profile.officeLocation?.office }}</span>
     </div>
   </div>
 </div>
@@ -57,8 +57,8 @@
             </g>
         </svg>
         </span>
-          <a class="email-link" href="mailto:{{ profile.getEmail() }}">
-            {{ profile.getEmail() }}
+          <a class="email-link" href="mailto:{{ profile.email }}">
+            {{ profile.email }}
           </a></span
         >
       </div>
@@ -100,9 +100,8 @@
           </svg>
           </span>
           <a
-            *ngIf="profile.phoneNo; else empty"
             class="skype-link"
-            [href]="'sip:' + profile.getEmail() + '?chat' | safeUrl"
+            [href]="'sip:' + profile.email | safeUrl"
           >
             Skype
           </a></span
@@ -127,7 +126,7 @@
           <a
             class="teams-link"
             href="https://teams.microsoft.com/l/chat/0/0?users={{
-              profile.getEmail()
+              profile.email
             }}"
           >
             Teams

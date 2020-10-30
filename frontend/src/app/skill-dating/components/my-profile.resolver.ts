@@ -1,27 +1,36 @@
-import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError, tap } from 'rxjs/operators';
-import { UserProfileTo } from '../model/user-profile.to';
+import {Injectable} from '@angular/core';
+import {Resolve} from '@angular/router';
+import {Observable, of, throwError} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {UserProfile} from '../model/user-profile.to';
 
-import { UserProfileClientService } from '../services/user-profile.client';
-import { SecurityService } from '../../shared/security/security.service';
+import {UserProfileClientService} from '../services/user-profile.client';
+import {SecurityService} from '../../shared/security/security.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class MyProfileResolverService
-  implements Resolve<Observable<UserProfileTo | undefined>> {
+  implements Resolve<Observable<UserProfile | undefined>> {
   constructor(
     private readonly userProfileClientService: UserProfileClientService,
     private readonly security: SecurityService
-  ) {}
+  ) {
+  }
 
-  resolve(): Observable<UserProfileTo | undefined> {
-    return this.security.username$.pipe(
-      map((username) => username.split('@')[0]),
-      switchMap((username) =>
-        this.userProfileClientService.getUserProfile(username)
-      ),
-      catchError(() => of(undefined))
-    );
+  resolve(): Observable<UserProfile | undefined> {
+    return this.security.user$
+      .pipe(
+        switchMap((user) => {
+            if (user) {
+              return this.userProfileClientService.getUserProfile(user.username)
+                .pipe(
+                  catchError(() => of({...user})),
+                  map(userProfile => ({...user, ...userProfile}))
+                );
+            } else {
+              return throwError('Session expired');
+            }
+          }
+        )
+      );
   }
 }

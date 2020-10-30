@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map, filter, takeUntil } from 'rxjs/operators';
-import { userMyProfileOf, UserProfileTo } from '../../model/user-profile.to';
+import {userMyProfileOf, UserProfile, UserProfileTo} from '../../model/user-profile.to';
 import { UserProfileClientService } from '../../services/user-profile.client';
 import { EditedProfileStoreService } from './edited-profile-store.service';
 
@@ -17,7 +17,7 @@ const regExp = /^\+[0-9]{1,3}[0-9 \-()]{6,20}$/;
   styleUrls: ['./edit-profile-dialog.component.scss'],
 })
 export class EditProfileDialogComponent implements OnDestroy {
-  profile: any;
+  profile: UserProfile;
   destroy$ = new Subject<void>();
   formGroup: FormGroup;
   locations = [];
@@ -29,18 +29,16 @@ export class EditProfileDialogComponent implements OnDestroy {
     private readonly editedProfileStoreService: EditedProfileStoreService
   ) {
     this.locations = activatedRoute.snapshot.data.oficeLocations;
-    const profile =
+    this.profile = activatedRoute.snapshot.data.profile;
+    const formModel =
       editedProfileStoreService.editedUserProfile.value ||
       activatedRoute.snapshot.data.profile;
 
-    this.profile = userMyProfileOf(profile);
-
     this.formGroup = this.fb.group({
-      username: [{ value: this.profile.getFullName(), disabled: true }],
-      description: [this.profile.description, Validators.maxLength(255)],
-      phoneNo: [this.profile.phoneNo, Validators.pattern(regExp)],
-      officeLocation: [this.profile.officeLocation],
-      skills: [this.profile.skills],
+      description: [formModel.description, Validators.maxLength(255)],
+      phoneNo: [formModel.phoneNo, Validators.pattern(regExp)],
+      officeLocation: [formModel.officeLocation],
+      skills: [formModel.skills],
     });
 
     activatedRoute.paramMap

@@ -22,8 +22,7 @@ import {AddProfileSkillsDialogComponent} from './skill-dating/components/add-pro
 import {MyProfileDialogComponent} from './skill-dating/components/my-profile-dialog/my-profile-dialog.component';
 import {OfficeLocationsResolverService} from './skill-dating/components/edit-profile-dialog/office-locations.resolver';
 import {ProfileDialogComponent} from './skill-dating/components/profile-dialog/profile-dialog.component';
-import {UserResolver} from './shared/resolvers/user.resolver';
-import { UserProfileResolverService } from './skill-dating/components/profile-dialog/user-profile.resolver';
+import {UserProfileResolverService} from './skill-dating/components/profile-dialog/user-profile.resolver';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,7 +39,6 @@ import { UserProfileResolverService } from './skill-dating/components/profile-di
         {
           path: '',
           canActivate: [AuthGuard],
-          resolve: {profile: MyProfileResolverService},
           children: [
             {
               path: 'after-sign-in-callback',
@@ -50,8 +48,8 @@ import { UserProfileResolverService } from './skill-dating/components/profile-di
               path: 'home',
               component: HomeDialogComponent,
               resolve: {
-                skills: PopularSkillsResolver,
-                user: UserResolver
+                profile: MyProfileResolverService,
+                skills: PopularSkillsResolver
               },
             },
             {

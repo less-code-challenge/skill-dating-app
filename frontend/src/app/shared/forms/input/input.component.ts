@@ -1,12 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {Component, ElementRef, EventEmitter, Input, Output,} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'ui-input',
@@ -21,7 +14,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class InputComponent implements ControlValueAccessor {
+  @Input()
   public disabled: boolean;
+
   public _value = '';
 
   @Input()
@@ -45,16 +40,21 @@ export class InputComponent implements ControlValueAccessor {
   @Output()
   valueChange = new EventEmitter<string>();
 
-  onChanged: any = () => {};
-  onTouched: any = () => {};
+  onChanged: any = () => {
+  };
+  onTouched: any = () => {
+  };
 
-  constructor(private element: ElementRef<HTMLInputElement>) {}
+  constructor(private element: ElementRef<HTMLInputElement>) {
+  }
+
   onUserInput(event: any) {
     const newValue = event.target.value;
     this._value = newValue;
     this.valueChange.emit(this._value);
     this.onChanged(this._value);
   }
+
   writeValue(val: string): void {
     this._value = val || '';
     this.valueChange.emit(this._value);
@@ -64,6 +64,7 @@ export class InputComponent implements ControlValueAccessor {
   registerOnChange(fn: any): void {
     this.onChanged = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
@@ -71,6 +72,7 @@ export class InputComponent implements ControlValueAccessor {
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
+
   ngAfterContentChecked(): void {
     if (this.autofocus) {
       this.element.nativeElement.querySelector('input')?.focus();

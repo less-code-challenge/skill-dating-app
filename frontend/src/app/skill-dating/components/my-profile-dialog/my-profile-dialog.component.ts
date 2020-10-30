@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SecurityService } from 'src/app/shared/security/security.service';
-import { userMyProfileOf } from '../../model/user-profile.to';
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SecurityService} from 'src/app/shared/security/security.service';
+import {UserProfile} from '../../model/user-profile.to';
 
 @Component({
   selector: 'sd-my-profile-dialog',
@@ -9,15 +9,16 @@ import { userMyProfileOf } from '../../model/user-profile.to';
   styleUrls: ['./my-profile-dialog.component.scss'],
 })
 export class MyProfileDialogComponent {
-  profile: any;
+  readonly profile: UserProfile;
+
   constructor(
     activatedRoute: ActivatedRoute,
     private readonly security: SecurityService,
     private readonly router: Router
   ) {
-    const profile = activatedRoute.snapshot.data.profile;
-    this.profile = userMyProfileOf(profile);
+    this.profile = activatedRoute.snapshot.data.profile;
   }
+
   goToPrevPage(): void {
     this.router.navigate(['/home']);
   }

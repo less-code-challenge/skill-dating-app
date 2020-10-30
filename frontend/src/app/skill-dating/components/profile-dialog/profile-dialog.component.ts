@@ -1,8 +1,8 @@
-import { Location } from '@angular/common';
-import { Component, HostBinding } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SecurityService } from 'src/app/shared/security/security.service';
-import { userMyProfileOf } from '../../model/user-profile.to';
+import {Location} from '@angular/common';
+import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {SecurityService} from 'src/app/shared/security/security.service';
+import {UserProfile} from '../../model/user-profile.to';
 
 @Component({
   selector: 'sd-profile-dialog',
@@ -10,7 +10,7 @@ import { userMyProfileOf } from '../../model/user-profile.to';
   styleUrls: ['./profile-dialog.component.scss'],
 })
 export class ProfileDialogComponent {
-  profile: any;
+  readonly profile: UserProfile;
 
   constructor(
     activatedRoute: ActivatedRoute,
@@ -19,6 +19,7 @@ export class ProfileDialogComponent {
   ) {
     this.profile = activatedRoute.snapshot.data.profile;
   }
+
   goToPrevPage(): void {
     this.location.back();
   }

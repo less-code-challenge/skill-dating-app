@@ -20,7 +20,6 @@ import {SelectComponent} from './forms/select/select.component';
 import {NavigationService} from './navigation/navigation.service';
 import {TextareaComponent} from './forms/textarea/textarea.component';
 import {EditedProfileStoreService} from '../skill-dating/components/edit-profile-dialog/edited-profile-store.service';
-import {UserResolver} from './resolvers/user.resolver';
 import {BackButtonComponent} from './buttons/back-button/back-button.component';
 import {CloseButtonComponent} from './buttons/close-button/close-button.component';
 import {SafeUrlPipe} from './safe-url.pipe';
@@ -69,7 +68,6 @@ export class SharedModule {
         },
         EditedProfileStoreService,
         NavigationService,
-        UserResolver,
         AuthGuard,
         RedirectToHomeGuard,
       ],

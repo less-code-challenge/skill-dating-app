@@ -2,6 +2,7 @@ export interface User {
   firstName: string;
   lastName: string;
   initials: string;
+  username: string;
   email: string;
 }
 
@@ -15,7 +16,7 @@ export function createUserFrom(email: string | undefined): User | undefined {
     const lastNameInitial = lastName?.length > 0 ? lastName[0] : '';
     const initials = firstNameInitial + lastNameInitial;
 
-    return {email, firstName, lastName, initials};
+    return {email, username, firstName, lastName, initials};
   }
   return;
 }
