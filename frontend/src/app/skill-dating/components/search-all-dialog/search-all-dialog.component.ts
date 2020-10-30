@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {map, pluck, switchMap} from 'rxjs/operators';
-import {SearchService, UserProfilesAndSkills} from '../../services/search.service';
-import {UserProfileTo} from '../../model/user-profile.to';
+import {SearchService} from '../../services/search.service';
+import {UserProfilesAndSkills, UserProfileTo} from '../../model/user-profile.to';
 import {ResultViewType} from './result-view-types/result-view-types.component';
 import {PopularSkillsTo} from '../../model/popular-skills.to';
 

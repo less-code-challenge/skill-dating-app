@@ -1,16 +1,16 @@
-import { Location } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { map, filter, takeUntil } from 'rxjs/operators';
-import {userMyProfileOf, UserProfile, UserProfileTo} from '../../model/user-profile.to';
-import { UserProfileClientService } from '../../services/user-profile.client';
-import { EditedProfileStoreService } from './edited-profile-store.service';
+import {Component, OnDestroy} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {filter, map, takeUntil} from 'rxjs/operators';
+import {UserProfile} from '../../model/user-profile.to';
+import {UserProfileClientService} from '../../services/user-profile.client';
+import {EditedProfileStoreService} from './edited-profile-store.service';
 
 const skillsParam = 'skills';
 
 const regExp = /^\+[0-9]{1,3}[0-9 \-()]{6,20}$/;
+
 @Component({
   selector: 'sd-edit-profile-dialog',
   templateUrl: './edit-profile-dialog.component.html',
@@ -21,6 +21,7 @@ export class EditProfileDialogComponent implements OnDestroy {
   destroy$ = new Subject<void>();
   formGroup: FormGroup;
   locations = [];
+
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
@@ -77,13 +78,14 @@ export class EditProfileDialogComponent implements OnDestroy {
         .updateUserProfile(editedProfile)
         .subscribe(() => {
           this.editedProfileStoreService.clear();
-          this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+          this.router.navigate(['../'], {relativeTo: this.activatedRoute});
         });
     }
   }
+
   goToAddSkill(): Promise<boolean> {
     const skippedSkills = this.formGroup.get('skills')?.value || [];
-    return this.router.navigate(['add-skill', { skippedSkills }], {
+    return this.router.navigate(['add-skill', {skippedSkills}], {
       relativeTo: this.activatedRoute,
     });
   }

@@ -11,8 +11,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     const url = state.url;
-    return this.security.username$.pipe(
-      map(username => !!username),
+    return this.security.userIsAuthenticated$.pipe(
       map(isAuthenticated => {
         if (!isAuthenticated) {
           setTimeout(() => this.security.navigateToSignIn(url));

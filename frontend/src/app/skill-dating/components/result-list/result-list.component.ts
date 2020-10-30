@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {UserProfileTo} from '../../model/user-profile.to';
+import {UserProfile, UserProfileTo} from '../../model/user-profile.to';
 import {PopularSkillsTo} from '../../model/popular-skills.to';
 import {ResultViewType} from '../search-all-dialog/result-view-types/result-view-types.component';
 
@@ -22,7 +22,7 @@ export class ResultListComponent {
   popularSkills: PopularSkillsTo;
 
   @Input()
-  userProfiles: UserProfileTo[];
+  userProfiles: UserProfile[];
 
   @Output()
   userProfileClick = new EventEmitter<UserProfileTo>();

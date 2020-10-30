@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {userProfileOf, UserProfileTo} from '../../../model/user-profile.to';
+import {toUserProfile, UserProfile} from '../../../model/user-profile.to';
 
 @Component({
   selector: 'sd-user-profile-item',
@@ -8,12 +8,13 @@ import {userProfileOf, UserProfileTo} from '../../../model/user-profile.to';
 })
 export class UserProfileItemComponent {
   @Input()
-  set value(newUserProfile: UserProfileTo) {
+  set value(newUserProfile: UserProfile) {
     if (newUserProfile) {
-      const userProfile = userProfileOf(newUserProfile);
-      this.initials = userProfile.getInitials();
-      this.name = userProfile.getFullName();
-      this.officeLocation = userProfile.getOfficeLocation();
+      const userProfile = toUserProfile(newUserProfile);
+      this.initials = userProfile.initials;
+      this.name = `${userProfile.firstName} ${userProfile.lastName}`;
+      const officeLocation = userProfile.officeLocation;
+      this.officeLocation = officeLocation ? `${officeLocation.country}, ${officeLocation.office}` : '';
     }
   }
 

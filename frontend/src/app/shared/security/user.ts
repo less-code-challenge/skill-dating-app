@@ -6,19 +6,19 @@ export interface User {
   email: string;
 }
 
-export function createUserFrom(email: string | undefined): User | undefined {
-  if (email) {
-    const [username] = email.split('@');
-    const nameParts = username?.split('.');
-    const firstName = nameParts?.length > 0 ? capitalize(nameParts[0]) : '';
-    const lastName = nameParts?.length > 1 ? capitalize(nameParts[nameParts?.length - 1]) : '';
-    const firstNameInitial = firstName?.length > 0 ? firstName[0] : '';
-    const lastNameInitial = lastName?.length > 0 ? lastName[0] : '';
-    const initials = firstNameInitial + lastNameInitial;
-
-    return {email, username, firstName, lastName, initials};
+export function createUserFrom(email: string): User {
+  if (!email) {
+    throw new Error('Wrong email');
   }
-  return;
+  const [username] = email.split('@');
+  const nameParts = username?.split('.');
+  const firstName = nameParts?.length > 0 ? capitalize(nameParts[0]) : '';
+  const lastName = nameParts?.length > 1 ? capitalize(nameParts[nameParts?.length - 1]) : '';
+  const firstNameInitial = firstName?.length > 0 ? firstName[0] : '';
+  const lastNameInitial = lastName?.length > 0 ? lastName[0] : '';
+  const initials = firstNameInitial + lastNameInitial;
+
+  return {email, username, firstName, lastName, initials};
 }
 
 function capitalize(text: string): string {

@@ -23,10 +23,7 @@ export class UserProfileResolverService implements Resolve<UserProfile> {
         map((profile) => {
           const email = `${profile.username}@capgemini.com`;
           const user = createUserFrom(email);
-          if (user) {
-            return {...user, ...profile};
-          }
-          throw new Error('Malformed profile returned');
+          return {...user, ...profile};
         }));
   }
 }

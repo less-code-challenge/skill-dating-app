@@ -9,21 +9,30 @@ import {environment} from '../../../environments/environment';
 import {createUserFrom, User} from './user';
 
 interface SecurityContext {
-  username?: string;
+  email?: string;
   jwtAccessToken?: string;
 }
 
 @Injectable()
 export class SecurityService {
-  readonly username$: Observable<string>;
-  readonly user$: Observable<User | undefined>;
+  readonly userIsAuthenticated$: Observable<boolean>;
+  readonly user$: Observable<User>;
   readonly jwtAccessToken$: Observable<string>;
 
   constructor(public readonly router: Router) {
     Auth.configure(environment.authConfig);
     const userContext$ = createUserContextFromCurrentSession();
-    this.username$ = userContext$.pipe(map(context => context.username || ''));
-    this.user$ = this.username$.pipe(map(email => createUserFrom(email)));
+    this.userIsAuthenticated$ = userContext$.pipe(map(context => !!context.email));
+    this.user$ = userContext$.pipe(
+      map(context => {
+          const email = context.email;
+          if (!email) {
+            throw new Error('User not authenticated');
+          }
+          return createUserFrom(email);
+        }
+      ),
+    );
     this.jwtAccessToken$ = userContext$.pipe(map(context => context.jwtAccessToken || ''));
     this.navigateToBackUrlOnSignIn();
   }
@@ -68,7 +77,7 @@ function createUserContextFromCurrentSession(): Observable<SecurityContext> {
   return fromPromise(Auth.currentSession()
     .then(currentSession => ({
         jwtAccessToken: currentSession.getIdToken().getJwtToken(),
-        username: currentSession.getIdToken().payload.email
+        email: currentSession.getIdToken().payload.email
       }),
       () => ({})));
 }

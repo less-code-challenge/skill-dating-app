@@ -12,8 +12,7 @@ export class RedirectToHomeGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.security.username$.pipe(
-      map((username) => !!username),
+    return this.security.userIsAuthenticated$.pipe(
       map((isAuthenticated) => {
         if (isAuthenticated) {
           setTimeout(() => this.router.navigate(['home']));

@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {map, pluck, switchMap, tap} from 'rxjs/operators';
+import {map, pluck, switchMap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {SearchService} from '../../services/search.service';
-import {UserProfileTo} from '../../model/user-profile.to';
-import {Location} from '@angular/common';
+import {UserProfile, UserProfileTo} from '../../model/user-profile.to';
 import {NavigationService} from '../../../shared/navigation/navigation.service';
 
 const skillsParam = 'skills';
@@ -16,7 +15,7 @@ const skillsParam = 'skills';
 })
 export class SearchProfilesDialogComponent {
   readonly skills$: Observable<string[]>;
-  readonly matchingUserProfiles$: Observable<UserProfileTo[]>;
+  readonly matchingUserProfiles$: Observable<UserProfile[]>;
 
   constructor(private readonly route: ActivatedRoute,
               private readonly router: Router,

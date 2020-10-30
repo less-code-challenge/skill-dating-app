@@ -1,5 +1,5 @@
 import {OfficeLocationTo} from './office-location.to';
-import {User} from '../../shared/security/user';
+import {createUserFrom, User} from '../../shared/security/user';
 
 export interface UserProfileTo {
   username: string;
@@ -11,68 +11,18 @@ export interface UserProfileTo {
 
 export type UserProfile = User & UserProfileTo;
 
-export interface UserProfileMethods {
-  getInitials(): string;
-
-  getFirstName(): string;
-
-  getFullName(): string;
-
-  getOfficeLocation(): string;
+export interface UserProfilesAndSkills {
+  skills: string[];
+  userProfiles: UserProfile[];
 }
 
-export function initialUserProfileOf(email: string): UserProfileTo {
-  const [username] = email.split('@');
-  return {
-    username
-  };
-}
-
-export function userMyProfileOf(userProfile: UserProfileTo) {
-  return {
-    ...userProfile,
-    ...userProfileOf(userProfile),
-
-    getEmail(): string {
-      return `${userProfile.username}@capgemini.com`;
-    },
-  };
-}
-
-export function userProfileOf(userProfile: UserProfileTo): UserProfileMethods {
-  const nameParts = userProfile?.username.split('.');
-  const firstName = nameParts?.length > 0 ? capitalize(nameParts[0]) : '';
-  const lastName =
-    nameParts?.length > 1 ? capitalize(nameParts[nameParts?.length - 1]) : '';
-
-  return {
-    getInitials(): string {
-      if (nameParts?.length > 0) {
-        const firstNameInitial = firstName?.length > 0 ? firstName[0] : '';
-        const lastNameInitial = lastName?.length > 0 ? lastName[0] : '';
-        return firstNameInitial + lastNameInitial;
-      }
-      return '';
-    },
-    getFullName(): string {
-      return `${firstName} ${lastName}`;
-    },
-    getFirstName(): string {
-      return firstName;
-    },
-    getOfficeLocation(): string {
-      const office = userProfile?.officeLocation?.office;
-      const country = userProfile?.officeLocation?.country;
-      if (office && country) {
-        return `${office}, ${country}`;
-      }
-      return '';
-    },
-  };
-}
-function capitalize(text: string): string {
-  if (text?.length > 0) {
-    return text[0].toUpperCase() + text.slice(1);
+export function toUserProfile(userProfileTo: UserProfileTo): UserProfile {
+  if (!userProfileTo) {
+    throw new Error('UserProfileTo not provided');
   }
-  return text;
+
+  const email = `${userProfileTo.username}@capgemini.com`;
+  const user = createUserFrom(email);
+
+  return {...user, ...userProfileTo};
 }
