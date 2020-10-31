@@ -13,6 +13,30 @@
   </script>
 </head>
 <body>
-  <sd-root></sd-root>
+  <sd-root>
+    <style>
+      body {margin: 0; height: 100vh}
+      *, *::before, *::after {box-sizing: border-box}
+      @keyframes spinner-border {to { transform: rotate(360deg)}}
+      .spinner-border { display: block;width: 5rem;height: 5rem;vertical-align: text-bottom;border: .5em solid #2b0a3b;border-right-color: transparent;border-radius: 50%;-webkit-animation: spinner-border .75s linear infinite;animation: spinner-border .75s linear infinite;}
+    </style>
+    <header style="height: 75px; padding: 0 16px; display: flex; align-items: center">
+      <svg width="100" height="78" viewBox="0 0 100 78">
+        <g fill="none" fill-rule="evenodd">
+          <path fill="#12B3DB" d="M16.442 15.39c2.5 0 4.529-2.004 4.538-4.483-.19-1.065-.564-3.034-3.347-3.034-3.037 0-4.047 4.218-6.523 6.926-.198 1.544-1.673 2.927-3.514 3.16.451.468 1.455.72 2.652.72 2.19 0 4.844-.655 6.24-2.013-1.852.023-3.044-1.155-3.163-2.792.733.972 1.893 1.536 3.117 1.516z" transform="translate(-15) translate(15) translate(0 20) translate(51)"/>
+          <path fill="#0070AD" d="M20.96 10.73c-.054-2.812-1.418-5.21-3.502-7.114-1.612-1.418-3.456-2.552-5.454-3.352l-.48-.194C9.091 2.964.656 5.132.656 11.186c.022 2.402 1.49 4.559 3.73 5.477 1.235.481 2.603.509 3.857.08 1.11-.385 2.1-1.052 2.867-1.935 2.476-2.717 3.486-6.935 6.523-6.935 2.78 0 3.154 1.969 3.333 3.026 0 .006 0-.067-.006-.169z" transform="translate(-15) translate(15) translate(0 20) translate(51)"/>
+        </g>
+      </svg>
+    </header>
+    <section style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100% - 185px); padding: 2rem">
+      <div class="spinner-border"></div>
+    </section>
+    <footer style="display: flex; flex-direction: column; align-items: center; justify-content: center;height: 110px; background-color: #f3f3f3; color: #2b0a3b; font-family: Ubuntu, Verdana, sans-serif; font-size: 14px;line-height: 1.43">
+      <div>
+        <div style="text-align: center">All rights reserved by skilldating.</div>
+        <div style="text-align: center">Copyright © 2020</div>
+      </div>
+    </footer>
+  </sd-root>
 </body>
 </html>
