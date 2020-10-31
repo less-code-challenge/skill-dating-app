@@ -3,7 +3,7 @@
                  [query]="query$ | async"
                  (queryChange)="updateUrlParam($event)"
                  (backClick)="goToHomeDialog()"></sd-search-input>
-<section class="results">
+<section class="results" *ngIf="showSearchResults$ | async; else popularSkills">
   <sd-result-view-types [selected]="resultViewType$ | async"
                         (selectedTypeChange)="updateUrlFragment($event)"></sd-result-view-types>
   <sd-result-list *ngIf="matchingResults$ | async as results"
@@ -14,3 +14,7 @@
                   (userProfileClick)="goToProfileDialogOf($event)"
                   (skillClick)="goToSearchProfilesDialog($event)"></sd-result-list>
 </section>
+<ng-template #popularSkills>
+  <sd-recent-and-popular-skills [popularSkills]="skillPopularity"
+                                (skillClick)="goToSearchProfilesDialog($event)"></sd-recent-and-popular-skills>
+</ng-template>

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
-import {map, pluck, switchMap} from 'rxjs/operators';
+import {first, map, pluck, startWith, switchMap} from 'rxjs/operators';
 import {SearchService} from '../../services/search.service';
 import {UserProfilesAndSkills, UserProfileTo} from '../../model/user-profile.to';
 import {ResultViewType} from './result-view-types/result-view-types.component';
@@ -19,12 +19,18 @@ export class SearchAllDialogComponent {
   readonly resultViewType$: Observable<ResultViewType>;
   readonly matchingResults$: Observable<UserProfilesAndSkills>;
   readonly skillPopularity: PopularSkillsTo;
+  readonly showSearchResults$: Observable<boolean>;
 
   constructor(private readonly route: ActivatedRoute,
               private readonly router: Router,
               private readonly search: SearchService) {
     this.query$ = route.params.pipe(
       pluck(queryParam)
+    );
+    this.showSearchResults$ = this.query$.pipe(
+      first(query => query?.length > 2), // after a user types in 3 characters close popular skills forever
+      map(() => true),
+      startWith(false) // initially do not show the result, but popular skills
     );
     this.matchingResults$ = this.query$.pipe(
       switchMap(query => query?.length > 2 ? search.all(query) : of({userProfiles: [], skills: []}))
