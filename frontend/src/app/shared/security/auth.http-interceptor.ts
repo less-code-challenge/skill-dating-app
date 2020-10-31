@@ -1,7 +1,7 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
 import {SecurityService} from './security.service';
-import {flatMap} from 'rxjs/operators';
+import {catchError, flatMap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 
 @Injectable()
@@ -15,7 +15,18 @@ export class AuthHttpInterceptor implements HttpInterceptor {
       flatMap(jwtAccessToken => {
         const request = jwtAccessToken ?
           req.clone({setHeaders: {Authorization: `Bearer ${jwtAccessToken}`}}) : req;
-        return next.handle(request);
+        return next.handle(request).pipe(
+          catchError(error => {
+            if (error instanceof HttpErrorResponse) {
+              const httpErrorResponse = error as HttpErrorResponse;
+              if (httpErrorResponse.status === 401) {
+                console.log('Token expired. Reloading page');
+                location.reload();
+              }
+            }
+            return throwError(error);
+          })
+        );
       })
     );
   }
