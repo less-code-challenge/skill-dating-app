@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {SecurityService} from '../security/security.service';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 @Component({
@@ -17,7 +17,10 @@ export class AppHeaderComponent {
     private readonly router: Router
   ) {
     this.userInitial$ = security.user$
-      .pipe(map(user => user?.initials));
+      .pipe(
+        catchError(() => of(null)),
+        map(user => user?.initials)
+      );
   }
 
   goToProfile(): void {
