@@ -23,6 +23,8 @@ import {MyProfileDialogComponent} from './skill-dating/components/my-profile-dia
 import {OfficeLocationsResolverService} from './skill-dating/components/edit-profile-dialog/office-locations.resolver';
 import {ProfileDialogComponent} from './skill-dating/components/profile-dialog/profile-dialog.component';
 import {UserProfileResolverService} from './skill-dating/components/profile-dialog/user-profile.resolver';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -99,6 +101,7 @@ import {UserProfileResolverService} from './skill-dating/components/profile-dial
     ),
     SharedModule.forRoot(),
     SkillDatingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
   providers: [],
   bootstrap: [AppComponent],
