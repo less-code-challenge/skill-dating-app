@@ -38,8 +38,11 @@ export class SkillItemComponent {
   private updatePopularity(): void {
     if (this.skillName) {
       const skillPopularity = this.allSkillsPopularity?.[this.skillName];
-      this.singleSkillPopularity = skillPopularity != null && skillPopularity > 1 ? `${skillPopularity} People`
-        : `Less than 2 people`;
+      if (skillPopularity && skillPopularity > 0) {
+        this.singleSkillPopularity = skillPopularity === 1 ? '1 person' : `${skillPopularity} people`;
+      } else {
+        this.singleSkillPopularity = 'No people';
+      }
     }
   }
 }
