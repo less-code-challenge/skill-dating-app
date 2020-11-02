@@ -3,6 +3,7 @@
                  (skillsChange)="updateUrlParam($event)"
                  (backClick)="goToSearchAllDialog()"
                  (skillAddClick)="goToSearchSkillsDialog()"></sd-skill-filter>
+<section class="tag no-of-results">{{getMessageOnPeopleFound()}}</section>
 <section class="results">
   <sd-result-list [userProfiles]="matchingUserProfiles$ | async"
                   (userProfileClick)="goToProfileDialogOf($event)"></sd-result-list>

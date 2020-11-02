@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {map, pluck, switchMap} from 'rxjs/operators';
+import {map, pluck, switchMap, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {SearchService} from '../../services/search.service';
 import {UserProfile, UserProfileTo} from '../../model/user-profile.to';
@@ -16,6 +16,7 @@ const skillsParam = 'skills';
 export class SearchProfilesDialogComponent {
   readonly skills$: Observable<string[]>;
   readonly matchingUserProfiles$: Observable<UserProfile[]>;
+  noOfMatchingUserProfiles = 0;
 
   constructor(private readonly route: ActivatedRoute,
               private readonly router: Router,
@@ -27,7 +28,8 @@ export class SearchProfilesDialogComponent {
     this.matchingUserProfiles$ = this.skills$.pipe(
       switchMap(skills => {
         return skills?.length > 0 ? this.search.userProfilesBySkills(skills) : of([]);
-      })
+      }),
+      tap(matchingUserProfiles => this.noOfMatchingUserProfiles = matchingUserProfiles?.length ?? 0)
     );
   }
 
@@ -49,5 +51,16 @@ export class SearchProfilesDialogComponent {
 
   goToProfileDialogOf(userProfile: UserProfileTo): Promise<boolean> {
     return this.router.navigate(['/profile', userProfile.username]);
+  }
+
+  getMessageOnPeopleFound(): string {
+    if (this.noOfMatchingUserProfiles === 0) {
+      return 'No People Found';
+    } else if (this.noOfMatchingUserProfiles === 1) {
+      return 'Found 1 Person';
+    } else if (this.noOfMatchingUserProfiles > 1) {
+      return `Found ${this.noOfMatchingUserProfiles} People`;
+    }
+    return '';
   }
 }

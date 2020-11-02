@@ -1,5 +1,15 @@
+@import "variables";
+
 :host {
-  section.results{
-    padding: .75rem 1rem;
+  section.results {
+    margin: 0 1rem 1rem;
+  }
+
+  section.no-of-results {
+    margin: 1rem 1rem .25rem;
+
+    text-transform: uppercase;
+    font-weight: 500;
+    color: $cg-very-dark-grey;
   }
 }
