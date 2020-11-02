@@ -39,5 +39,19 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": [
+        "https://ad65c4iw0c.execute-api.eu-central-1.amazonaws.com/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 20,
+        "maxAge": "1h",
+        "timeout": "5s"
+      }
+    }
   ]
 }
