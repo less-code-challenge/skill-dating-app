@@ -28,12 +28,12 @@ export class SearchAllDialogComponent {
       pluck(queryParam)
     );
     this.showSearchResults$ = this.query$.pipe(
-      first(query => query?.length > 2), // after a user types in 3 characters close popular skills forever
+      first(query => query?.trim().length > 0), // after a user types in a character close popular skills forever
       map(() => true),
       startWith(false) // initially do not show the result, but popular skills
     );
     this.matchingResults$ = this.query$.pipe(
-      switchMap(query => query?.length > 2 ? search.all(query) : of({userProfiles: [], skills: []}))
+      switchMap(query => query?.trim().length > 0 ? search.all(query) : of({userProfiles: [], skills: []}))
     );
     this.resultViewType$ = this.route.fragment
       .pipe(map((resultViewType: string) => {

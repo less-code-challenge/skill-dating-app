@@ -7,23 +7,23 @@ import {UserProfileTo} from '../model/user-profile.to';
 @Injectable({
   providedIn: 'root',
 })
-export class UserProfileClientService {
+export class UserProfileService {
   private readonly backendUri = environment.backendUri;
 
   constructor(private readonly http: HttpClient) {}
 
-  getUserProfile(username: string): Observable<UserProfileTo> {
+  get(username: string): Observable<UserProfileTo> {
     return this.http.get<UserProfileTo>(
       `${this.backendUri}/user-profiles/${username}`
     );
   }
-  createUserProfile(userProfile: UserProfileTo): Observable<UserProfileTo> {
+  create(userProfile: UserProfileTo): Observable<UserProfileTo> {
     return this.http.post<UserProfileTo>(
       `${this.backendUri}/user-profiles`,
       userProfile
     );
   }
-  updateUserProfile(userProfile: UserProfileTo): Observable<UserProfileTo> {
+  update(userProfile: UserProfileTo): Observable<UserProfileTo> {
     return this.http.put<UserProfileTo>(
       `${this.backendUri}/user-profiles/${userProfile.username}`,
       userProfile

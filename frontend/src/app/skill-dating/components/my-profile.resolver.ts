@@ -3,14 +3,13 @@ import {Resolve} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {UserProfile} from '../model/user-profile.to';
-
-import {UserProfileClientService} from '../services/user-profile.client';
 import {SecurityService} from '../../shared/security/security.service';
+import {UserProfileService} from '../services/user-profile.service';
 
 @Injectable({providedIn: 'root'})
 export class MyProfileResolverService implements Resolve<UserProfile> {
   constructor(
-    private readonly userProfileClientService: UserProfileClientService,
+    private readonly userProfiles: UserProfileService,
     private readonly security: SecurityService
   ) {
   }
@@ -18,7 +17,7 @@ export class MyProfileResolverService implements Resolve<UserProfile> {
   resolve(): Observable<UserProfile> {
     return this.security.user$
       .pipe(switchMap((user) => {
-          return this.userProfileClientService.getUserProfile(user.username)
+          return this.userProfiles.get(user.username)
             .pipe(
               catchError(() => of({...user})),
               map(userProfile => ({...user, ...userProfile}))

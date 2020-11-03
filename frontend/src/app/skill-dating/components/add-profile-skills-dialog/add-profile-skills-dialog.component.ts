@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SearchService } from '../../services/search.service';
-import { Observable, of } from 'rxjs';
-import {
-  map,
-  pluck,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { Location } from '@angular/common';
-import { SkillService } from '../../services/skill.service';
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SearchService} from '../../services/search.service';
+import {Observable, of, OperatorFunction} from 'rxjs';
+import {map, pluck, switchMap} from 'rxjs/operators';
+import {Location} from '@angular/common';
+import {SkillService} from '../../services/skill.service';
+import {EditedProfileStoreService} from '../edit-profile-dialog/edited-profile-store.service';
+import {splitSkills} from '../component-utils';
 
 const queryParam = 'query';
-const skippedSkillsParam = 'skippedSkills';
+const selectedSkillsParam = 'selectedSkills';
+
+interface MatchingSkillsAndNewSkill {
+  matchingSkills: string[];
+  newSkill?: string;
+}
 
 @Component({
   selector: 'sd-add-profile-skills-dialog',
@@ -21,83 +23,68 @@ const skippedSkillsParam = 'skippedSkills';
 })
 export class AddProfileSkillsDialogComponent {
   readonly query$: Observable<string>;
-  readonly newSkill$: Observable<string | null>;
-  readonly matchingSkills$: Observable<string[]>;
-  readonly currentSkills: string[] = [];
+  readonly selectedSkills$: Observable<string[]>;
+  readonly matchingSkillsAndNewSkill$: Observable<MatchingSkillsAndNewSkill>;
+
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly skillService: SkillService,
+    private readonly skills: SkillService,
     private readonly router: Router,
     search: SearchService,
-    private readonly location: Location
+    private readonly location: Location,
+    private readonly editedProfileStore: EditedProfileStoreService
   ) {
     this.query$ = route.params.pipe(pluck(queryParam));
 
-    this.matchingSkills$ = route.params.pipe(
-      switchMap(({ skippedSkills: commaSeparatedSkippedSkills, query }) => {
-        const skippedSkills = splitSkills(commaSeparatedSkippedSkills);
+    this.selectedSkills$ = route.params.pipe(
+      pluck(selectedSkillsParam),
+      map(commaSeparatedSelectedSkills => splitSkills(commaSeparatedSelectedSkills))
+    );
 
-        this.currentSkills.length = 0;
-        skippedSkills.forEach((elem) => this.currentSkills.push(elem));
+    this.matchingSkillsAndNewSkill$ = route.params.pipe(
+      switchMap(({selectedSkills: commaSeparatedSelectedSkills, query}) => {
+        const selectedSkills = splitSkills(commaSeparatedSelectedSkills);
+        const skillQuery = query?.trim();
+        if (skillQuery?.length > 0) {
+          return search.skills(skillQuery)
+            .pipe(filterOutSkillsAndCheckForNewSkillCandidate(selectedSkills, skillQuery));
+        } else {
+          return of({
+            matchingSkills: []
+          });
+        }
 
-        return query?.length > 2
-          ? search
-              .skills(query)
-              .pipe(
-                map((skills) =>
-                  skippedSkills
-                    ? skills.filter(
-                        (skill) => skippedSkills.indexOf(skill) === -1
-                      )
-                    : skills
-                )
-              )
-          : of([]);
+        function filterOutSkillsAndCheckForNewSkillCandidate(
+          skillsToFilter: string[], newSkillCandidate: string): OperatorFunction<string[], MatchingSkillsAndNewSkill> {
+          return map<string[], MatchingSkillsAndNewSkill>(matchingSkills => {
+            const filteredSkills = matchingSkills.filter(skill => skillsToFilter.indexOf(skill) === -1);
+            const skillCanBeAdded = listContainsNoElementIgnoringCase(matchingSkills, newSkillCandidate)
+              && listContainsNoElementIgnoringCase(skillsToFilter, newSkillCandidate);
+            return {
+              matchingSkills: filteredSkills,
+              newSkill: (skillCanBeAdded ? newSkillCandidate : undefined)
+            };
+
+            function listContainsNoElementIgnoringCase(list: string[], element: string): boolean {
+              const elementLowerCase = element.toLowerCase();
+              return list.filter((el) => el.toLowerCase() === elementLowerCase).length === 0;
+            }
+          });
+        }
       })
     );
-    this.newSkill$ = this.matchingSkills$.pipe(
-      withLatestFrom(this.query$),
-      map(([list, query]) =>
-        query?.length > 2 &&
-        notContainingLowercased(this.currentSkills, query) &&
-        notContainingLowercased(list, query)
-          ? query
-          : null
-      )
-    );
   }
 
-  addSelectedSkills(): void {
-    this.router.navigate(['../', { skills: this.currentSkills.join(',') }], {
+  addSelectedSkills(): Promise<boolean> {
+    this.editedProfileStore.updateProfileOnSkills(this.getSelectedSkills());
+    return this.router.navigate(['../'], {
       relativeTo: this.route,
     });
   }
 
-  addSkillToList(skill: string): void {
-    this.updateUrlParamSkills([...this.currentSkills, skill]);
-  }
-  addNewSkillToList(skill: string): void {
-    this.skillService.createSkill({ name: skill }).subscribe((savedSkill) => {
-      this.updateUrlParamSkills([...this.currentSkills, savedSkill.name]);
-    });
-  }
-  removeSkill(skill: string): void {
-    this.updateUrlParamSkills(
-      this.currentSkills.filter((val) => val !== skill)
-    );
-  }
-  updateUrlParam(newQuery: string): Promise<boolean> {
-    const params = { ...this.route.snapshot.params };
+  updateQueryUrlParamOnNewValue(newQuery: string): Promise<boolean> {
+    const params = {...this.route.snapshot.params};
     params[queryParam] = newQuery;
-    return this.router.navigate([params], {
-      relativeTo: this.route,
-      replaceUrl: true,
-    });
-  }
-
-  updateUrlParamSkills(newSkills: string[]): Promise<boolean> {
-    const params = { ...this.route.snapshot.params };
-    params[skippedSkillsParam] = newSkills.join(',');
     return this.router.navigate([params], {
       relativeTo: this.route,
       replaceUrl: true,
@@ -107,13 +94,36 @@ export class AddProfileSkillsDialogComponent {
   goToPreviousDialog(): void {
     this.location.back();
   }
-}
-function notContainingLowercased(list: string[], elem: string): boolean {
-  const elemLowercase = elem.toLowerCase();
-  return list.filter((el) => el.toLowerCase() === elemLowercase).length === 0;
-}
-function splitSkills(
-  commaSeparatedSkills: string | undefined | null
-): string[] {
-  return (commaSeparatedSkills && commaSeparatedSkills.split(',')) || [];
+
+  updateSelectedSkillsUrlParam(skillToBeAddedToSelectedOnes: string): Promise<boolean> {
+    return this.updateUrlParamOnNewSkills([...this.getSelectedSkills(), skillToBeAddedToSelectedOnes]);
+  }
+
+  createNewSkillAndUpdateSelectedSkillsUrlParam(skillToBeCreatedAndAddedToSelectedOnes: string): void {
+    this.skills.create({name: skillToBeCreatedAndAddedToSelectedOnes})
+      .subscribe((savedSkill) => {
+        return this.updateUrlParamOnNewSkills([...this.getSelectedSkills(), savedSkill.name]);
+      });
+  }
+
+  removeSkillAndUpdateSelectedSkillsUrlParam(skillToBeRemoved: string): Promise<boolean> {
+    const currentSkills = this.getSelectedSkills();
+    return this.updateUrlParamOnNewSkills(
+      currentSkills.filter(skill => skill !== skillToBeRemoved)
+    );
+  }
+
+  private updateUrlParamOnNewSkills(newSkills: string[]): Promise<boolean> {
+    const params = {...this.route.snapshot.params};
+    params[selectedSkillsParam] = newSkills.join(',');
+    return this.router.navigate([params], {
+      relativeTo: this.route,
+      replaceUrl: true,
+    });
+  }
+
+  private getSelectedSkills(): string[] {
+    const {selectedSkills: commaSeparatedSelectedSkills} = this.route.snapshot.params;
+    return splitSkills(commaSeparatedSelectedSkills);
+  }
 }

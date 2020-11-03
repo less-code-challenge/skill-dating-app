@@ -1,20 +1,20 @@
 <sd-search-input
   placeholder="Search for skill"
   [query]="query$ | async"
-  (queryChange)="updateUrlParam($event)"
+  (queryChange)="updateQueryUrlParamOnNewValue($event)"
   (backClick)="goToPreviousDialog()"
 ></sd-search-input>
 <sd-skill-list
-  [skills]="currentSkills"
-  (removeSkillClick)="removeSkill($event)"
+  [skills]="selectedSkills$ | async"
+  (removeSkillClick)="removeSkillAndUpdateSelectedSkillsUrlParam($event)"
   dark="true"
 ></sd-skill-list>
 <section class="results">
-  <sd-profile-result-list
-    [skills]="matchingSkills$ | async"
-    [newSkill]="newSkill$ | async"
-    (addSkillButtonClick)="addSkillToList($event)"
-    (addNewSkillButtonClick)="addNewSkillToList($event)"
+  <sd-profile-result-list *ngIf="matchingSkillsAndNewSkill$ | async as matchingSkillsAndNewSkill"
+    [skills]="matchingSkillsAndNewSkill.matchingSkills"
+    [newSkill]="matchingSkillsAndNewSkill.newSkill"
+    (addSkillButtonClick)="updateSelectedSkillsUrlParam($event)"
+    (addNewSkillButtonClick)="createNewSkillAndUpdateSelectedSkillsUrlParam($event)"
   ></sd-profile-result-list>
 </section>
 <section class="add-skills text-center">

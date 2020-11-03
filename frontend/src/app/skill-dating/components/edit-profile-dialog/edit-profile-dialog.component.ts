@@ -2,12 +2,10 @@ import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {filter, map, takeUntil} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {UserProfile} from '../../model/user-profile.to';
-import {UserProfileClientService} from '../../services/user-profile.client';
 import {EditedProfileStoreService} from './edited-profile-store.service';
-
-const skillsParam = 'skills';
+import {UserProfileService} from '../../services/user-profile.service';
 
 const regExp = /^\+[0-9]{1,3}[0-9 \-()]{6,20}$/;
 
@@ -25,34 +23,22 @@ export class EditProfileDialogComponent implements OnDestroy {
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly userProfileClientService: UserProfileClientService,
+    private readonly userProfiles: UserProfileService,
     private readonly fb: FormBuilder,
     private readonly editedProfileStoreService: EditedProfileStoreService
   ) {
     this.locations = activatedRoute.snapshot.data.oficeLocations;
     this.profile = activatedRoute.snapshot.data.profile;
-    const formModel =
-      editedProfileStoreService.editedUserProfile.value ||
-      activatedRoute.snapshot.data.profile;
+    editedProfileStoreService.init(this.profile);
+    const formModel = editedProfileStoreService.get();
 
     this.formGroup = this.fb.group({
-      description: [formModel.description, Validators.maxLength(255)],
-      phoneNo: [formModel.phoneNo, Validators.pattern(regExp)],
-      officeLocation: [formModel.officeLocation],
-      skills: [formModel.skills],
+      description: [formModel?.description, Validators.maxLength(255)],
+      phoneNo: [formModel?.phoneNo, Validators.pattern(regExp)],
+      officeLocation: [formModel?.officeLocation],
+      skills: [formModel?.skills],
     });
 
-    activatedRoute.paramMap
-      .pipe(
-        filter((paramMap) => paramMap.has(skillsParam)),
-        map((paramMap) => paramMap.get(skillsParam)),
-        map(
-          (commaSeparatedSkills) =>
-            (commaSeparatedSkills && commaSeparatedSkills.split(',')) || []
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((val) => this.formGroup.get('skills')?.setValue(val));
     this.formGroup.valueChanges
       .pipe(
         map(() => this.formGroup.getRawValue()),
@@ -74,8 +60,8 @@ export class EditProfileDialogComponent implements OnDestroy {
         username: this.profile.username,
         ...this.formGroup.value,
       };
-      this.userProfileClientService
-        .updateUserProfile(editedProfile)
+      this.userProfiles
+        .update(editedProfile)
         .subscribe(() => {
           this.editedProfileStoreService.clear();
           this.router.navigate(['../'], {relativeTo: this.activatedRoute});
@@ -84,8 +70,8 @@ export class EditProfileDialogComponent implements OnDestroy {
   }
 
   goToAddSkill(): Promise<boolean> {
-    const skippedSkills = this.formGroup.get('skills')?.value || [];
-    return this.router.navigate(['add-skill', {skippedSkills}], {
+    const selectedSkills = this.formGroup.get('skills')?.value || [];
+    return this.router.navigate(['add-skill', {selectedSkills}], {
       relativeTo: this.activatedRoute,
     });
   }
@@ -93,5 +79,11 @@ export class EditProfileDialogComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  goBack(): Promise<void> {
+    return this.router.navigate(['../'], {
+      relativeTo: this.activatedRoute,
+    }).then(() => this.editedProfileStoreService.clear());
   }
 }

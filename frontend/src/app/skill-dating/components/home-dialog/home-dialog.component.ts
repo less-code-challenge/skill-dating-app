@@ -5,8 +5,8 @@ import {PopularSkillsTo} from '../../model/popular-skills.to';
 import {Observable} from 'rxjs';
 import {SecurityService} from 'src/app/shared/security/security.service';
 import {switchMap} from 'rxjs/operators';
-import {UserProfileClientService} from '../../services/user-profile.client';
-import {UserProfile, UserProfileTo,} from '../../model/user-profile.to';
+import {UserProfile, UserProfileTo} from '../../model/user-profile.to';
+import {UserProfileService} from '../../services/user-profile.service';
 
 @Component({
   selector: 'sd-home-dialog',
@@ -23,7 +23,7 @@ export class HomeDialogComponent {
     activatedRoute: ActivatedRoute,
     skills: SkillService,
     private readonly security: SecurityService,
-    private readonly userProfileClientService: UserProfileClientService,
+    private readonly userProfiles: UserProfileService,
     private readonly router: Router
   ) {
     this.popularSkills = activatedRoute.snapshot.data.skills;
@@ -65,6 +65,6 @@ export class HomeDialogComponent {
   private createInitialProfile(): Observable<UserProfileTo> {
     return this.security.user$.pipe(
       switchMap((user) =>
-        this.userProfileClientService.createUserProfile({username: user.username})));
+        this.userProfiles.create({username: user.username})));
   }
 }

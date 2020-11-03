@@ -5,6 +5,7 @@ import {Observable, of} from 'rxjs';
 import {map, pluck, switchMap} from 'rxjs/operators';
 import {Location} from '@angular/common';
 import {PopularSkillsTo} from '../../model/popular-skills.to';
+import {splitSkills} from '../component-utils';
 
 const queryParam = 'query';
 const skippedSkillsParam = 'skippedSkills';
@@ -29,7 +30,7 @@ export class SearchSkillsDialogComponent {
     this.matchingSkills$ = route.params.pipe(
       switchMap(({skippedSkills: commaSeparatedSkippedSkills, query}) => {
         const skippedSkills = splitSkills(commaSeparatedSkippedSkills);
-        return query?.length > 2 ?
+        return query?.trim().length > 0 ?
           search.skills(query).pipe(
             map(skills => skippedSkills ? skills.filter(skill => skippedSkills.indexOf(skill) === -1) : skills)
           )
@@ -57,8 +58,4 @@ export class SearchSkillsDialogComponent {
     }
     return this.router.navigate(['/search/profiles', {skills: skillsAlreadyInSearch.join(',')}]);
   }
-}
-
-function splitSkills(commaSeparatedSkills: string | undefined | null): string[] {
-  return (commaSeparatedSkills && commaSeparatedSkills.split(',')) || [];
 }

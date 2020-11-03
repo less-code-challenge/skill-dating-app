@@ -35,7 +35,7 @@ export class SkillService {
     return this.http.get<string[]>(`${this.backendUri}/search/skills`);
   }
 
-  createSkill(newSkill: SkillTo): Observable<SkillTo> {
+  create(newSkill: SkillTo): Observable<SkillTo> {
     return this.http.post<SkillTo>(`${this.backendUri}/skills`, newSkill);
   }
 }

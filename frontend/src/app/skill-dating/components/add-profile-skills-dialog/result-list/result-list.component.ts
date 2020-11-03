@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AddProfileSkillResultListComponent {
   @Input()
-  newSkill: Observable<string | null>;
+  newSkill: string | null;
   @Input()
   skills: string[];
 

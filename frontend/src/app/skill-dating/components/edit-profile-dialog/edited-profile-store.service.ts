@@ -1,20 +1,33 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserProfileTo } from '../../model/user-profile.to';
+import {Injectable} from '@angular/core';
+import {UserProfileTo} from '../../model/user-profile.to';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EditedProfileStoreService {
-  public readonly editedUserProfile = new BehaviorSubject<
-    UserProfileTo | undefined
-  >(undefined);
+  private editedUserProfile: UserProfileTo | undefined;
 
-  constructor(public readonly router: Router) {}
+  get(): UserProfileTo | undefined {
+    return this.editedUserProfile;
+  }
 
   profileChanged(changedProfile: UserProfileTo): void {
-    this.editedUserProfile.next(changedProfile);
+    this.editedUserProfile = changedProfile;
   }
+
   clear(): void {
-    this.editedUserProfile.next(undefined);
+    this.editedUserProfile = undefined;
+  }
+
+  updateProfileOnSkills(newSkills: string[]): void {
+    if (this.editedUserProfile) {
+      this.editedUserProfile.skills = [...newSkills];
+    }
+  }
+
+  init(profile: UserProfileTo): void {
+    if (!this.editedUserProfile) {
+      this.editedUserProfile = profile;
+    }
   }
 }

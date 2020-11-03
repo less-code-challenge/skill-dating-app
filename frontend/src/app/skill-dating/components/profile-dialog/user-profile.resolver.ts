@@ -3,13 +3,13 @@ import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {UserProfile} from 'src/app/skill-dating/model/user-profile.to';
-import {UserProfileClientService} from 'src/app/skill-dating/services/user-profile.client';
 import {createUserFrom} from '../../../shared/security/user';
+import {UserProfileService} from '../../services/user-profile.service';
 
 @Injectable({providedIn: 'root'})
 export class UserProfileResolverService implements Resolve<UserProfile> {
   constructor(
-    private readonly userProfileClientService: UserProfileClientService
+    private readonly userProfiles: UserProfileService
   ) {
   }
 
@@ -17,8 +17,8 @@ export class UserProfileResolverService implements Resolve<UserProfile> {
     activatedRouteSnapshot: ActivatedRouteSnapshot
   ): Observable<UserProfile> {
     const username = activatedRouteSnapshot.paramMap.get('username') as string;
-    return this.userProfileClientService
-      .getUserProfile(username)
+    return this.userProfiles
+      .get(username)
       .pipe(
         map((profile) => {
           const email = `${profile.username}@capgemini.com`;
